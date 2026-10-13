@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modèle de données</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-dt@2.1.8/css/dataTables.dataTables.min.css">
+<style>
+  :root {
+    --bg: #f4f4f1; --surface: #ffffff; --surface-2: #f8f8f6; --ink: #1d1d1f; --muted: #6b6b70; --line: #dddcd7;
+    --accent: #2f5bea; --accent-soft: #e7edfd; --link: #b8bccb; --dict: #c9a227; --hl: #fff4c2; --pk: #b7791f;
+    --shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+    --raw: #2f5bea; --hubspot: #e8643c; --ref: #2f9e6e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121214; --surface: #1c1c1f; --surface-2: #232327; --ink: #ececef; --muted: #9a9aa2; --line: #303036;
+      --accent: #7c9cff; --accent-soft: #252d48; --link: #4a4e5c; --dict: #a8892b; --hl: #4a3f12; --pk: #d6a34c;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121214; --surface: #1c1c1f; --surface-2: #232327; --ink: #ececef; --muted: #9a9aa2; --line: #303036;
+    --accent: #7c9cff; --accent-soft: #252d48; --link: #4a4e5c; --dict: #a8892b; --hl: #4a3f12; --pk: #d6a34c;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
+  a { color: var(--accent); }
+
+  header.top { height: 52px; display: flex; align-items: center; gap: 12px; padding: 0 16px; border-bottom: 1px solid var(--line); background: var(--surface); }
+  header.top h1 { font-size: 16px; margin: 0; white-space: nowrap; }
+  header.top .sub { color: var(--muted); font-size: 13px; white-space: nowrap; }
+  header.top input { margin-left: auto; width: 240px; max-width: 40vw; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--ink); font: inherit; }
+  .btn { font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 5px 10px; cursor: pointer; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .legend { display: flex; gap: 10px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .legend span::before { content: ""; display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--link); vertical-align: middle; margin-right: 5px; }
+  .legend .l-dict::before { border-top: 2px dashed var(--dict); }
+  .legend .l-arr::before { border-top: 2px dotted var(--link); }
+
+  #viewport { position: absolute; top: 52px; left: 0; right: 0; bottom: 0; overflow: auto; }
+  #world { position: relative; transform-origin: 0 0; }
+  #links { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
+  #links path { fill: none; stroke: var(--link); stroke-width: 1.4; transition: stroke .15s, opacity .15s; }
+  #links path.dict { stroke: var(--dict); stroke-dasharray: 5 4; opacity: .55; }
+  #links path.array { stroke-dasharray: 2 4; }
+  #links path.on { stroke: var(--accent); stroke-width: 2.2; opacity: 1; }
+  #links.focus path:not(.on) { opacity: .12; }
+
+  .card { position: absolute; width: 320px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); user-select: none; }
+  .card.sel { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow); }
+  .card.flash { animation: flash 1.2s ease-out; }
+  @keyframes flash { 0%, 40% { box-shadow: 0 0 0 8px var(--accent-soft), var(--shadow); } 100% { box-shadow: var(--shadow); } }
+  .card.dim { opacity: .45; }
+  .card .head { padding: 10px 12px 8px; border-bottom: 1px solid var(--line); cursor: grab; border-radius: 12px 12px 0 0; }
+  .card .head:active { cursor: grabbing; }
+  .card .db { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .card .db.raw { color: var(--raw); } .card .db.hubspot { color: var(--hubspot); } .card .db.ref { color: var(--ref); }
+  .card .name { font-weight: 650; font-size: 15px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .card .rows { color: var(--muted); font-size: 12px; font-weight: 400; }
+  .slice { display: flex; align-items: center; gap: 6px; height: 24px; padding: 0 12px; cursor: pointer; border-top: 1px solid transparent; }
+  .slice:hover { background: var(--surface-2); }
+  .slice.sel { background: var(--accent-soft); }
+  .slice.match { background: var(--hl); }
+  .slice .ic { width: 14px; text-align: center; font-size: 11px; color: var(--muted); flex: none; }
+  .slice .ic.pk { color: var(--pk); }
+  .slice .ic.fk { color: var(--accent); }
+  .slice .ic.dictionary { color: var(--dict); }
+  .slice .cn { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .slice .ty { color: var(--muted); font-size: 11px; white-space: nowrap; max-width: 92px; overflow: hidden; text-overflow: ellipsis; }
+
+  aside { position: fixed; top: 52px; right: 0; bottom: 0; width: 380px; max-width: 92vw; background: var(--surface); border-left: 1px solid var(--line); box-shadow: var(--shadow); transform: translateX(100%); transition: transform .2s ease; overflow-y: auto; z-index: 20; padding: 18px 20px 120px; }
+  aside.open { transform: none; }
+  aside .close { position: absolute; top: 12px; right: 12px; }
+  aside .kicker { font-size: 12px; color: var(--muted); }
+  aside h2 { margin: 2px 0 12px; font-size: 18px; word-break: break-all; }
+  aside h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 6px; }
+  aside p { margin: 0 0 8px; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); font-size: 12px; margin: 0 4px 4px 0; }
+  .rel { display: block; padding: 4px 0; cursor: pointer; }
+  .rel:hover { text-decoration: underline; }
+  table.mini { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.mini td, table.mini th { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  table.mini tr.hit td { background: var(--hl); }
+  .muted { color: var(--muted); }
+
+  #drawer { position: fixed; left: 0; right: 0; bottom: 0; height: 40vh; background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -6px 24px rgba(0,0,0,.08); z-index: 30; display: none; flex-direction: column; }
+  #drawer.open { display: flex; }
+  #drawer.collapsed { height: 42px !important; }
+  #drawer .grip { height: 6px; cursor: ns-resize; flex: none; }
+  #drawer .bar { display: flex; align-items: center; gap: 10px; padding: 0 14px 6px; flex: none; }
+  #drawer .bar strong { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  #drawer .bar .spacer { flex: 1; }
+  #drawer .hlinfo { font-size: 12px; background: var(--hl); padding: 2px 8px; border-radius: 6px; display: none; }
+  #drawer .body { flex: 1; overflow: auto; padding: 0 14px 14px; }
+  #drawer.collapsed .body { display: none; }
+  #reopen { position: fixed; left: 16px; bottom: 16px; z-index: 25; display: none; }
+  table.dataTable { font-size: 12.5px; }
+  table.dataTable thead th { position: sticky; top: 0; background: var(--surface); z-index: 1; white-space: nowrap; }
+  table.dataTable td { white-space: nowrap; max-width: 340px; overflow: hidden; text-overflow: ellipsis; }
+  table.dataTable tbody tr.hl > * { background: var(--hl) !important; box-shadow: none !important; }
+  .dt-container, .dt-container .dt-search input, .dt-container .dt-length select, .dt-container .dt-info, .dt-container .dt-paging .dt-paging-button { color: var(--ink) !important; }
+  a.fk { cursor: pointer; text-decoration: underline dotted; }
+  span.dict { border-bottom: 1px dashed var(--dict); cursor: help; }
+  .nul { color: var(--muted); font-style: italic; }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Modèle de données</h1>
+  <span class="sub" id="sub"></span>
+  <span class="legend"><span>clé étrangère</span><span class="l-dict">référentiel</span><span class="l-arr">liste JSON</span></span>
+  <input id="search" type="search" placeholder="Chercher une table ou une colonne">
+  <button class="btn" id="zoom-out" title="Dézoomer">−</button>
+  <button class="btn" id="zoom-reset" title="Taille réelle">100 %</button>
+  <button class="btn" id="zoom-in" title="Zoomer">+</button>
+  <a class="btn" href="../cycle-de-vie.html" style="text-decoration:none">Cycle de vie</a>
+</header>
+
+<div id="viewport"><div id="world"><svg id="links"></svg></div></div>
+
+<aside id="side"><button class="btn close" id="side-close">✕</button><div id="side-body"></div></aside>
+
+<div id="drawer">
+  <div class="grip" id="grip"></div>
+  <div class="bar">
+    <strong id="dr-title"></strong><span class="muted" id="dr-count"></span>
+    <span class="hlinfo" id="dr-hl"></span>
+    <span class="spacer"></span>
+    <button class="btn" id="dr-toggle" title="Réduire / déplier">▾</button>
+    <button class="btn" id="dr-max" title="Agrandir">⤢</button>
+    <button class="btn" id="dr-close" title="Fermer">✕</button>
+  </div>
+  <div class="body" id="dr-body"></div>
+</div>
+<button class="btn" id="reopen">▴ Données</button>
+
+<script src="model.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/datatables.net@2.1.8/js/dataTables.min.js"></script>
+<script>
+const M = window.MODEL, D = window.MODEL_DATA;
+const T = Object.fromEntries(M.tables.map(t => [t.id, t]));
+const CARD_W = 320, HEAD_H = 52, ROW_H = 24, COL_GAP = 90, ROW_GAP = 36, PAD = 40;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const darkQuery = matchMedia("(prefers-color-scheme: dark)");
+const syncDark = () => document.documentElement.classList.toggle("dark", darkQuery.matches);
+syncDark(); darkQuery.addEventListener("change", syncDark);
+
+$("#sub").textContent = `${M.tables.length} tables · extraction du ${new Date(M.snapshot).toLocaleDateString("fr-FR")}`;
+
+// ---- dictionaries: latest French version, decoded --------------------------------------------
+const DICT = (() => {
+  const d = D["raw.dictionaries"], ci = n => d.columns.indexOf(n);
+  const fr = d.rows.filter(r => r[ci("meta.language")] === "fr").sort((a, b) => a[ci("meta.ts")] < b[ci("meta.ts")] ? 1 : -1)[0];
+  const out = {};
+  d.columns.filter(c => c.startsWith("setting.")).forEach(c => { try { out[c] = JSON.parse(fr[ci(c)]); } catch { out[c] = []; } });
+  return out;
+})();
+const dictLabel = (col, v) => (DICT[col] || []).find(e => String(e.id) === String(v))?.value;
+
+// ---- layout ---------------------------------------------------------------------------------
+const pos = {};
+const cols = {};
+M.tables.forEach(t => (cols[t.layout.col] ??= []).push(t));
+Object.entries(cols).forEach(([c, ts]) => {
+  let y = PAD;
+  ts.sort((a, b) => a.layout.order - b.layout.order).forEach(t => {
+    pos[t.id] = { x: PAD + c * (CARD_W + COL_GAP), y };
+    y += HEAD_H + t.columns.length * ROW_H + 8 + ROW_GAP;
+  });
+});
+
+const world = $("#world"), svg = $("#links");
+const cards = {};
+M.tables.forEach(t => {
+  const el = document.createElement("div");
+  el.className = "card"; el.id = "card-" + t.id;
+  el.innerHTML = `<div class="head"><div class="db ${t.database}">${t.database}</div>
+    <div class="name"><span>${t.name}</span><span class="rows">${t.rows.toLocaleString("fr-FR")} lignes</span></div></div>` +
+    t.columns.map(c => {
+      const kind = c.key === "pk" ? "pk" : c.references ? c.references.kind : "";
+      const icon = { pk: "🔑", fk: "↗", dictionary: "≡", array: "⋯" }[kind] || "";
+      return `<div class="slice" data-col="${esc(c.name)}" title="${esc(c.name)}"><span class="ic ${kind === "array" ? "fk" : kind}">${icon}</span>
+        <span class="cn">${esc(c.name)}</span><span class="ty">${esc(c.type.replace(/LowCardinality\(|Nullable\(|\)/g, "").replace("DateTime64(3", "DateTime64"))}</span></div>`;
+    }).join("");
+  world.appendChild(el);
+  cards[t.id] = el;
+  place(t.id);
+  makeDraggable(el, t.id);
+  el.querySelectorAll(".slice").forEach(s => s.addEventListener("click", e => { e.stopPropagation(); selectColumn(t.id, s.dataset.col); }));
+});
+
+function place(id) { const el = cards[id]; el.style.left = pos[id].x + "px"; el.style.top = pos[id].y + "px"; }
+
+function makeDraggable(el, id) {
+  const head = el.querySelector(".head");
+  head.addEventListener("mousedown", e => {
+    const sx = e.clientX, sy = e.clientY, ox = pos[id].x, oy = pos[id].y; let moved = false;
+    const mv = ev => {
+      const dx = (ev.clientX - sx) / zoom, dy = (ev.clientY - sy) / zoom;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+      pos[id] = { x: Math.max(0, ox + dx), y: Math.max(0, oy + dy) }; place(id); drawLinks();
+    };
+    const up = () => { removeEventListener("mousemove", mv); removeEventListener("mouseup", up); if (!moved) selectTable(id, true); };
+    addEventListener("mousemove", mv); addEventListener("mouseup", up);
+  });
+}
+
+// ---- links ----------------------------------------------------------------------------------
+const links = [];
+M.tables.forEach(t => t.columns.forEach(c => {
+  if (c.references && T[c.references.table]) links.push({ from: t.id, fromCol: c.name, to: c.references.table, toCol: c.references.column, kind: c.references.kind });
+}));
+
+function sliceY(tid, col) {
+  const i = T[tid].columns.findIndex(c => c.name === col);
+  return pos[tid].y + HEAD_H + (i < 0 ? -HEAD_H / 2 : i * ROW_H + ROW_H / 2);
+}
+function drawLinks() {
+  let maxX = 0, maxY = 0;
+  M.tables.forEach(t => { maxX = Math.max(maxX, pos[t.id].x + CARD_W); maxY = Math.max(maxY, pos[t.id].y + cards[t.id].offsetHeight); });
+  world.style.width = maxX + PAD + "px"; world.style.height = maxY + PAD + 260 + "px";
+  svg.setAttribute("width", maxX + PAD); svg.setAttribute("height", maxY + PAD + 260);
+  svg.innerHTML = links.map((l, i) => {
+    const a = pos[l.from], b = pos[l.to];
+    const y1 = sliceY(l.from, l.fromCol), y2 = sliceY(l.to, l.toCol);
+    let x1, x2, c1, c2;
+    if (Math.abs(a.x - b.x) < 10) { x1 = a.x; x2 = b.x; c1 = x1 - 60; c2 = x2 - 60; }
+    else if (a.x < b.x) { x1 = a.x + CARD_W; x2 = b.x; c1 = x1 + 50; c2 = x2 - 50; }
+    else { x1 = a.x; x2 = b.x + CARD_W; c1 = x1 - 50; c2 = x2 + 50; }
+    return `<path data-i="${i}" class="${l.kind}" d="M${x1},${y1} C${c1},${y1} ${c2},${y2} ${x2},${y2}"/>`;
+  }).join("");
+  applyFocus();
+}
+
+// ---- selection ------------------------------------------------------------------------------
+let sel = null; // {table, col}
+function applyFocus() {
+  document.querySelectorAll(".card").forEach(c => c.classList.remove("sel", "dim"));
+  document.querySelectorAll(".slice.sel").forEach(s => s.classList.remove("sel"));
+  svg.classList.toggle("focus", !!sel);
+  if (!sel) return;
+  const related = new Set([sel.table]);
+  svg.querySelectorAll("path").forEach(p => {
+    const l = links[p.dataset.i];
+    const on = sel.col ? (l.from === sel.table && l.fromCol === sel.col) || (l.to === sel.table && l.toCol === sel.col)
+                       : l.from === sel.table || l.to === sel.table;
+    p.classList.toggle("on", on);
+    if (on) { related.add(l.from); related.add(l.to); }
+  });
+  cards[sel.table].classList.add("sel");
+  if (sel.col) cards[sel.table].querySelector(`.slice[data-col="${CSS.escape(sel.col)}"]`)?.classList.add("sel");
+  M.tables.forEach(t => { if (!related.has(t.id)) cards[t.id].classList.add("dim"); });
+}
+
+function center(id) {
+  const vp = $("#viewport"), el = cards[id];
+  vp.scrollTo({ left: pos[id].x * zoom - vp.clientWidth / 2 + CARD_W * zoom / 2, top: pos[id].y * zoom - 80, behavior: "smooth" });
+  el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+}
+
+function relList(id, col) {
+  const out = links.filter(l => l.from === id && (!col || l.fromCol === col)).map(l =>
+    `<span class="rel" data-t="${l.to}" data-c="${esc(l.toCol)}">${col ? "" : `<code>${esc(l.fromCol)}</code> `}→ <code>${l.to}.${esc(l.toCol)}</code></span>`);
+  const inc = links.filter(l => l.to === id && (!col || l.toCol === col)).map(l =>
+    `<span class="rel" data-t="${l.from}" data-c="${esc(l.fromCol)}">← <code>${l.from}.${esc(l.fromCol)}</code></span>`);
+  return out.concat(inc).join("") || `<span class="muted">Aucune</span>`;
+}
+
+function openSide(html) {
+  $("#side-body").innerHTML = html; $("#side").classList.add("open");
+  $("#side-body").querySelectorAll(".rel").forEach(r => r.addEventListener("click", () => { selectColumn(r.dataset.t, r.dataset.c); center(r.dataset.t); }));
+  $("#side-body").querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => openDrawer(b.dataset.open)));
+}
+
+function selectTable(id, withData) {
+  sel = { table: id }; applyFocus();
+  const t = T[id];
+  openSide(`<div class="kicker">Table · ${t.database}</div><h2>${t.id}</h2>
+    <p>${esc(t.description)}</p>
+    <p><span class="pill">${esc(t.grain)}</span><span class="pill">${t.rows.toLocaleString("fr-FR")} lignes</span>
+    <span class="pill">${t.columns.length} colonnes</span>${t.versioned ? '<span class="pill">historisée</span>' : ""}</p>
+    <h3>Relations</h3>${relList(id)}
+    <p style="margin-top:16px"><button class="btn" data-open="${id}">Voir les données ▴</button></p>`);
+  history.replaceState(null, "", "#" + id);
+  if (withData) openDrawer(id);
+}
+
+function selectColumn(id, colName) {
+  sel = { table: id, col: colName }; applyFocus();
+  const t = T[id], c = t.columns.find(x => x.name === colName);
+  if (!c) return selectTable(id);
+  let extra = "";
+  const settingCol = c.references?.kind === "dictionary" ? c.references.column : (id === "raw.dictionaries" && DICT[colName] ? colName : null);
+  if (settingCol) {
+    const entries = DICT[settingCol] || [];
+    const flags = entries.some(e => "active" in e);
+    extra = `<h3>Valeurs du référentiel (version française la plus récente)</h3><table class="mini"><tr><th>id</th><th>libellé</th>${flags ? "<th>actif</th><th>activé</th>" : ""}</tr>` +
+      entries.map(e => `<tr data-id="${e.id}"><td>${e.id}</td><td>${esc(e.value)}</td>${flags ? `<td>${e.active ? "oui" : "non"}</td><td>${e.isEnabled ? "oui" : "non"}</td>` : ""}</tr>`).join("") + "</table>";
+  } else {
+    const d = D[id], ci = d.columns.indexOf(colName), seen = new Set();
+    for (const r of d.rows) { const v = r[ci]; if (v !== null && v !== "" && !seen.has(v)) seen.add(v); if (seen.size >= 6) break; }
+    if (seen.size) extra = `<h3>Exemples de valeurs</h3>` + [...seen].map(v => `<div class="mono" style="padding:2px 0;word-break:break-all">${esc(String(v).slice(0, 160))}</div>`).join("");
+  }
+  openSide(`<div class="kicker">Colonne · <span class="rel" style="display:inline" data-t="${id}" data-c="">${id}</span></div><h2>${esc(c.name)}</h2>
+    <p><span class="pill mono">${esc(c.type)}</span>${c.key === "pk" ? '<span class="pill">identifiant</span>' : ""}</p>
+    <h3>D'où ça vient</h3><p>${esc(c.source)}</p>
+    <h3>À quoi ça sert</h3><p>${esc(c.description)}</p>
+    <h3>Relations</h3>${relList(id, colName)}${extra}
+    <p style="margin-top:16px"><button class="btn" data-open="${id}">Voir les données ▴</button></p>`);
+  $("#side-body").querySelectorAll('.rel[data-c=""]').forEach(r => r.addEventListener("click", () => { selectTable(r.dataset.t); center(r.dataset.t); }));
+  history.replaceState(null, "", "#" + id + "." + colName);
+  return c;
+}
+$("#side-close").addEventListener("click", () => { $("#side").classList.remove("open"); sel = null; applyFocus(); });
+$("#viewport").addEventListener("click", e => { if (e.target.id === "viewport" || e.target.id === "world") { sel = null; applyFocus(); $("#side").classList.remove("open"); } });
+
+// ---- search ---------------------------------------------------------------------------------
+$("#search").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll(".slice.match").forEach(s => s.classList.remove("match"));
+  if (!q) return M.tables.forEach(t => cards[t.id].classList.remove("dim"));
+  let first = null;
+  M.tables.forEach(t => {
+    const tableHit = t.id.toLowerCase().includes(q) || t.description.toLowerCase().includes(q);
+    let colHit = false;
+    t.columns.forEach(c => {
+      if (c.name.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)) {
+        colHit = true; cards[t.id].querySelector(`.slice[data-col="${CSS.escape(c.name)}"]`).classList.add("match");
+      }
+    });
+    cards[t.id].classList.toggle("dim", !(tableHit || colHit));
+    if ((tableHit || colHit) && !first) first = t.id;
+  });
+  if (first) center(first);
+});
+
+// ---- zoom -----------------------------------------------------------------------------------
+let zoom = 1;
+function setZoom(z) { zoom = Math.min(1.6, Math.max(0.35, z)); world.style.transform = `scale(${zoom})`; $("#zoom-reset").textContent = Math.round(zoom * 100) + " %"; }
+$("#zoom-in").onclick = () => setZoom(zoom + 0.1);
+$("#zoom-out").onclick = () => setZoom(zoom - 0.1);
+$("#zoom-reset").onclick = () => setZoom(1);
+$("#viewport").addEventListener("wheel", e => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); setZoom(zoom - e.deltaY * 0.002); } }, { passive: false });
+
+// ---- data drawer ----------------------------------------------------------------------------
+let dt = null, drTable = null, hl = null;
+const drawer = $("#drawer");
+
+function cellRender(table, col) {
+  const c = T[table].columns.find(x => x.name === col);
+  const ref = c.references;
+  return (v, type) => {
+    if (type !== "display") return v === null ? "" : v;
+    if (v === null) return '<span class="nul">null</span>';
+    if (ref?.kind === "fk" && T[ref.table] && v !== "") return `<a class="fk" data-t="${ref.table}" data-c="${esc(ref.column)}" data-v="${esc(v)}">${esc(v)}</a>`;
+    if (ref?.kind === "dictionary" && v !== "") { const lab = dictLabel(ref.column, v); return `<span class="dict" title="${esc(lab ?? "absent du référentiel")}">${esc(v)}</span>`; }
+    if (ref?.kind === "array") { try { return JSON.parse(v).map(m => `<a class="fk" data-t="${ref.table}" data-c="id" data-v="${m.id}">${m.id}</a>`).join(", "); } catch { return esc(v); } }
+    const s = String(v);
+    return s.length > 70 ? `<span title="${esc(s.slice(0, 1500))}">${esc(s.slice(0, 70))}…</span>` : esc(s);
+  };
+}
+
+function openDrawer(id, keepState) {
+  drawer.classList.add("open"); $("#reopen").style.display = "none";
+  if (!keepState) drawer.classList.remove("collapsed");
+  if (drTable === id && dt) return dt;
+  drTable = id; hl = null; $("#dr-hl").style.display = "none";
+  const t = T[id], d = D[id];
+  $("#dr-title").textContent = id;
+  $("#dr-count").textContent = `${d.rows.length.toLocaleString("fr-FR")} lignes`;
+  const body = $("#dr-body");
+  if (dt) { dt.destroy(); dt = null; }
+  body.innerHTML = `<table class="display compact" id="grid" style="width:100%"><thead><tr>${d.columns.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead></table>`;
+  if (!window.DataTable) {
+    body.insertAdjacentHTML("afterbegin", '<p class="muted">Bibliothèque de tableau indisponible (hors ligne) : affichage des 300 premières lignes.</p>');
+    $("#grid").insertAdjacentHTML("beforeend", "<tbody>" + d.rows.slice(0, 300).map(r => "<tr>" + r.map((v, i) => `<td>${cellRender(id, d.columns[i])(v, "display")}</td>`).join("") + "</tr>").join("") + "</tbody>");
+    return null;
+  }
+  const idI = d.columns.indexOf("id"), tsI = d.columns.indexOf("meta.ts");
+  const order = idI >= 0 ? [[idI, "asc"]].concat(tsI >= 0 ? [[tsI, "asc"]] : []) : [];
+  dt = new DataTable("#grid", {
+    data: d.rows, deferRender: true, pageLength: 25, lengthMenu: [10, 25, 50, 100, 500], order,
+    columns: d.columns.map(c => ({ title: c, render: cellRender(id, c) })),
+    language: { search: "Filtrer :", lengthMenu: "_MENU_ lignes par page", info: "_START_ à _END_ sur _TOTAL_", infoFiltered: "(filtré sur _MAX_)", zeroRecords: "Aucune ligne", paginate: { previous: "‹", next: "›" } },
+    rowCallback: (row, data) => row.classList.toggle("hl", !!hl && String(data[hl.col]) === String(hl.value)),
+  });
+  return dt;
+}
+
+function goTo(table, col, value) {
+  openDrawer(table);
+  if (!dt) return;
+  const ci = D[table].columns.indexOf(col);
+  hl = { col: ci, value };
+  dt.search("").columns().search("");
+  const idx = dt.rows({ order: "current", search: "applied" }).indexes().toArray();
+  const data = D[table].rows;
+  const p = idx.findIndex(i => String(data[i][ci]) === String(value));
+  const matches = idx.filter(i => String(data[i][ci]) === String(value)).length;
+  $("#dr-hl").textContent = matches ? `${col} = ${value} · ${matches} ligne${matches > 1 ? "s" : ""} surlignée${matches > 1 ? "s" : ""}` : `${col} = ${value} · introuvable dans cette table`;
+  $("#dr-hl").style.display = "inline-block";
+  dt.page(p >= 0 ? Math.floor(p / dt.page.len()) : 0).draw("page");
+  requestAnimationFrame(() => document.querySelector("#grid tr.hl")?.scrollIntoView({ block: "center", behavior: "smooth" }));
+  selectColumn(table, col); center(table);
+}
+
+$("#dr-body").addEventListener("click", e => {
+  const a = e.target.closest("a.fk");
+  if (a) goTo(a.dataset.t, a.dataset.c, a.dataset.v);
+});
+$("#dr-close").onclick = () => { drawer.classList.remove("open"); $("#reopen").style.display = drTable ? "block" : "none"; };
+$("#reopen").onclick = () => openDrawer(drTable, true);
+$("#dr-toggle").onclick = () => { drawer.classList.toggle("collapsed"); $("#dr-toggle").textContent = drawer.classList.contains("collapsed") ? "▴" : "▾"; };
+$("#dr-max").onclick = () => { drawer.classList.remove("collapsed"); drawer.style.height = drawer.offsetHeight > innerHeight * 0.7 ? "40vh" : "85vh"; };
+$("#grip").addEventListener("mousedown", e => {
+  e.preventDefault(); drawer.classList.remove("collapsed");
+  const mv = ev => { drawer.style.height = Math.min(innerHeight - 60, Math.max(80, innerHeight - ev.clientY)) + "px"; };
+  const up = () => { removeEventListener("mousemove", mv); removeEventListener("mouseup", up); };
+  addEventListener("mousemove", mv); addEventListener("mouseup", up);
+});
+
+// ---- hash navigation --------------------------------------------------------------------------
+function fromHash() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (!h) return;
+  const parts = h.split("."), id = parts.slice(0, 2).join("."), col = parts.slice(2).join(".");
+  if (!T[id]) return;
+  if (col && T[id].columns.some(c => c.name === col)) selectColumn(id, col); else selectTable(id);
+  setTimeout(() => center(id), 50);
+}
+addEventListener("hashchange", fromHash);
+
+drawLinks();
+fromHash();
+</script>
+</body>
+</html>

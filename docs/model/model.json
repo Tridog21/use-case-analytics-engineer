@@ -1,0 +1,1492 @@
+{
+  "title": "Modèle de données — CRM commercial Boond",
+  "snapshot": "2026-09-30",
+  "tables": [
+    {
+      "id": "raw.opportunities",
+      "database": "raw",
+      "name": "opportunities",
+      "description": "Besoins commerciaux (opportunités) : un besoin suit un prospect de la première demande jusqu'à la signature ou la perte. C'est l'objet que les commerciaux font avancer d'étape en étape.",
+      "grain": "Une ligne par version d'un besoin.",
+      "versioned": true,
+      "rows": 7020,
+      "layout": {
+        "col": 2,
+        "order": 0
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "state",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Étape du besoin. Libellés et propriétés de chaque code dans le référentiel des étapes.",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.state.opportunity",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "typeOf",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Type de besoin : nouveau client, upsell, formation…",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.typeOf.project",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Intitulé libre du besoin."
+        },
+        {
+          "name": "reference",
+          "type": "String",
+          "source": "Boond · calculé",
+          "description": "Référence lisible générée par Boond à la création."
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création du besoin dans Boond."
+        },
+        {
+          "name": "updateDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de la dernière modification de la fiche."
+        },
+        {
+          "name": "startDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Date de démarrage souhaitée par le prospect."
+        },
+        {
+          "name": "answerDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Date limite de réponse au prospect."
+        },
+        {
+          "name": "closingDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Date de closing saisie par le commercial sur la fiche."
+        },
+        {
+          "name": "turnoverEstimatedExcludingTax",
+          "type": "Nullable(Float64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Montant estimé du besoin, hors taxes, saisi par le commercial."
+        },
+        {
+          "name": "weighting",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Pondération du besoin en pourcentage."
+        },
+        {
+          "name": "turnoverWeightedExcludingTax",
+          "type": "Nullable(Float64)",
+          "source": "Boond · calculé",
+          "description": "Montant pondéré : montant estimé × pondération."
+        },
+        {
+          "name": "exchangeRate",
+          "type": "Nullable(Float64)",
+          "source": "Boond · calculé",
+          "description": "Taux de change entre la devise du besoin et celle de l'agence."
+        },
+        {
+          "name": "origin.typeOf",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Origine du besoin (canal par lequel il est arrivé).",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.origin",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "origin.detail",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Précision libre sur l'origine."
+        },
+        {
+          "name": "relationships.mainManager.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Responsable de l'enregistrement : le collaborateur qui le porte.",
+          "references": {
+            "table": "raw.ressources",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.createdBy.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Collaborateur (ou robot) qui a créé l'enregistrement.",
+          "references": {
+            "table": "raw.ressources",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.company.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Société prospect ou cliente du besoin.",
+          "references": {
+            "table": "raw.companies",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.contact.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Contact principal du besoin.",
+          "references": {
+            "table": "raw.contacts",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.agency.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · calculé",
+          "description": "Agence Boond qui porte le besoin.",
+          "references": {
+            "table": "raw.agencies",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "attributes",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Attributs complémentaires en JSON, dont `stateReason` : la raison de perte choisie dans la liste de l'étape."
+        }
+      ]
+    },
+    {
+      "id": "raw.actions",
+      "database": "raw",
+      "name": "actions",
+      "description": "Actions du CRM : appels, demandes de démo, démos, rendez-vous, notes. Une action est rattachée à une fiche (le plus souvent un contact) et porte une date dans l'agenda.",
+      "grain": "Une ligne par version d'une action.",
+      "versioned": true,
+      "rows": 8980,
+      "layout": {
+        "col": 2,
+        "order": 1
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "typeOf",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Type d'action : appel, démo, demande de démo…",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.action.contact",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Intitulé de l'action."
+        },
+        {
+          "name": "startDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Début de l'action dans l'agenda."
+        },
+        {
+          "name": "endDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Fin de l'action dans l'agenda."
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création de l'action."
+        },
+        {
+          "name": "updateDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de la dernière modification."
+        },
+        {
+          "name": "relationships.mainManager.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Responsable de l'enregistrement : le collaborateur qui le porte.",
+          "references": {
+            "table": "raw.ressources",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.createdBy.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Collaborateur (ou robot) qui a créé l'enregistrement.",
+          "references": {
+            "table": "raw.ressources",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.company.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · calculé",
+          "description": "Société de la fiche à laquelle l'action est rattachée.",
+          "references": {
+            "table": "raw.companies",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.dependsOn.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Identifiant de la fiche à laquelle l'action est rattachée. Le type de fiche est dans la colonne suivante.",
+          "references": {
+            "table": "raw.contacts",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.dependsOn.data.type",
+          "type": "LowCardinality(String)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Type de la fiche rattachée : `contact`, `opportunity`, `company`…"
+        },
+        {
+          "name": "attributes",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Attributs en JSON, dont `text` : le contenu de l'action (HTML)."
+        }
+      ]
+    },
+    {
+      "id": "raw.companies",
+      "database": "raw",
+      "name": "companies",
+      "description": "Sociétés : prospects et clients.",
+      "grain": "Une ligne par version d'une société.",
+      "versioned": true,
+      "rows": 1464,
+      "layout": {
+        "col": 3,
+        "order": 0
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Raison sociale."
+        },
+        {
+          "name": "state",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "État de la société : prospect, client lancé, client en risque…",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.state.company",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "country",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Pays."
+        },
+        {
+          "name": "staff",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Effectif de la société."
+        },
+        {
+          "name": "origin.typeOf",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Origine de la société.",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.origin",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création de la fiche."
+        },
+        {
+          "name": "updateDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de la dernière modification."
+        },
+        {
+          "name": "relationships.pole.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Pôle de la société (profil client cible).",
+          "references": {
+            "table": "raw.poles",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.mainManager.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Responsable de l'enregistrement : le collaborateur qui le porte.",
+          "references": {
+            "table": "raw.ressources",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.agency.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · calculé",
+          "description": "Agence Boond de rattachement.",
+          "references": {
+            "table": "raw.agencies",
+            "column": "id",
+            "kind": "fk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "raw.contacts",
+      "database": "raw",
+      "name": "contacts",
+      "description": "Contacts : les personnes chez les prospects et les clients.",
+      "grain": "Une ligne par version d'un contact.",
+      "versioned": true,
+      "rows": 2391,
+      "layout": {
+        "col": 3,
+        "order": 1
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "firstName",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Prénom."
+        },
+        {
+          "name": "lastName",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Nom."
+        },
+        {
+          "name": "email1",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Adresse e-mail principale."
+        },
+        {
+          "name": "function",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Fonction du contact."
+        },
+        {
+          "name": "state",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "État du contact.",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.state.contact",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "origin.typeOf",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Origine du contact.",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.origin",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création de la fiche."
+        },
+        {
+          "name": "updateDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de la dernière modification."
+        },
+        {
+          "name": "relationships.company.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Société du contact.",
+          "references": {
+            "table": "raw.companies",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.mainManager.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Responsable de l'enregistrement : le collaborateur qui le porte.",
+          "references": {
+            "table": "raw.ressources",
+            "column": "id",
+            "kind": "fk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "raw.ressources",
+      "database": "raw",
+      "name": "ressources",
+      "description": "Collaborateurs de Boond : commerciaux, account managers, direction, administratif, ainsi que les comptes robots des automatisations.",
+      "grain": "Une ligne par version d'un collaborateur.",
+      "versioned": true,
+      "rows": 22,
+      "layout": {
+        "col": 1,
+        "order": 2
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "firstName",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Prénom."
+        },
+        {
+          "name": "lastName",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Nom."
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Intitulé de poste."
+        },
+        {
+          "name": "email1",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Adresse e-mail."
+        },
+        {
+          "name": "state",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "État du collaborateur (en poste, sorti).",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.state.resource",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création de la fiche."
+        },
+        {
+          "name": "updateDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de la dernière modification."
+        },
+        {
+          "name": "relationships.agency.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Agence du collaborateur.",
+          "references": {
+            "table": "raw.agencies",
+            "column": "id",
+            "kind": "fk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "raw.businessunits",
+      "database": "raw",
+      "name": "businessunits",
+      "description": "Business units : les équipes dans Boond, avec la liste de leurs membres.",
+      "grain": "Une ligne par version d'une business unit.",
+      "versioned": true,
+      "rows": 9,
+      "layout": {
+        "col": 1,
+        "order": 1
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "source": "Boond · paramétrage",
+          "description": "Nom de l'équipe."
+        },
+        {
+          "name": "relationships.includedManagers.data",
+          "type": "String",
+          "source": "Boond · paramétrage",
+          "description": "Membres de l'équipe, en JSON : liste de `{\"id\": …, \"type\": \"resource\"}`.",
+          "references": {
+            "table": "raw.ressources",
+            "column": "id",
+            "kind": "array"
+          }
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création."
+        },
+        {
+          "name": "updateDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de la dernière modification."
+        }
+      ]
+    },
+    {
+      "id": "raw.agencies",
+      "database": "raw",
+      "name": "agencies",
+      "description": "Agences Boond : les entités juridiques et commerciales (France, Espagne).",
+      "grain": "Une ligne par version d'une agence.",
+      "versioned": true,
+      "rows": 2,
+      "layout": {
+        "col": 1,
+        "order": 0
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "source": "Boond · paramétrage",
+          "description": "Nom de l'agence."
+        },
+        {
+          "name": "country",
+          "type": "String",
+          "source": "Boond · paramétrage",
+          "description": "Pays de l'agence."
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création."
+        }
+      ]
+    },
+    {
+      "id": "raw.poles",
+      "database": "raw",
+      "name": "poles",
+      "description": "Pôles : la segmentation des sociétés par profil de client cible.",
+      "grain": "Une ligne par version d'un pôle.",
+      "versioned": true,
+      "rows": 6,
+      "layout": {
+        "col": 3,
+        "order": 2
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "source": "Boond · paramétrage",
+          "description": "Nom du pôle."
+        },
+        {
+          "name": "state",
+          "type": "Bool",
+          "source": "Boond · paramétrage",
+          "description": "Pôle actif."
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création."
+        }
+      ]
+    },
+    {
+      "id": "raw.dictionaries",
+      "database": "raw",
+      "name": "dictionaries",
+      "description": "Référentiels de Boond : listes de valeurs paramétrées par le client (étapes, types d'action, origines…). Chaque colonne `setting.*` contient un tableau JSON d'entrées `{\"id\", \"value\", …}`.",
+      "grain": "Une ligne par version du référentiel et par langue.",
+      "versioned": true,
+      "rows": 6,
+      "layout": {
+        "col": 0,
+        "order": 0
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "meta.language",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Langue des libellés de la version."
+        },
+        {
+          "name": "setting.state.opportunity",
+          "type": "Nullable(String)",
+          "source": "Boond · paramétrage",
+          "description": "Étapes des besoins. Chaque entrée : `id`, `value` (libellé), `active` (le besoin est encore en cours), `isEnabled` (étape proposée dans l'interface), `weighting` (pondération), `reason` (raisons proposées quand on choisit cette étape)."
+        },
+        {
+          "name": "setting.typeOf.project",
+          "type": "LowCardinality(String)",
+          "source": "Boond · paramétrage",
+          "description": "Types de besoin et de projet."
+        },
+        {
+          "name": "setting.origin",
+          "type": "String",
+          "source": "Boond · paramétrage",
+          "description": "Origines : canaux d'arrivée des besoins, sociétés et contacts."
+        },
+        {
+          "name": "setting.action.contact",
+          "type": "String",
+          "source": "Boond · paramétrage",
+          "description": "Types d'action possibles sur un contact."
+        },
+        {
+          "name": "setting.state.company",
+          "type": "Nullable(String)",
+          "source": "Boond · paramétrage",
+          "description": "États des sociétés."
+        },
+        {
+          "name": "setting.state.contact",
+          "type": "Nullable(String)",
+          "source": "Boond · paramétrage",
+          "description": "États des contacts."
+        },
+        {
+          "name": "setting.state.resource",
+          "type": "Nullable(String)",
+          "source": "Boond · paramétrage",
+          "description": "États des collaborateurs."
+        },
+        {
+          "name": "setting.state.delivery",
+          "type": "Nullable(String)",
+          "source": "Boond · paramétrage",
+          "description": "États des livraisons."
+        }
+      ]
+    },
+    {
+      "id": "raw.projects",
+      "database": "raw",
+      "name": "projects",
+      "description": "Projets : quand un besoin est signé, le client est équipé dans Boond sous la forme d'un projet qui regroupe ses lignes d'abonnement.",
+      "grain": "Une ligne par version d'un projet.",
+      "versioned": true,
+      "rows": 171,
+      "layout": {
+        "col": 4,
+        "order": 0
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "reference",
+          "type": "String",
+          "source": "Boond · calculé",
+          "description": "Référence du projet."
+        },
+        {
+          "name": "typeOf",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Type de projet.",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.typeOf.project",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "startDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Début du projet."
+        },
+        {
+          "name": "endDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Fin du projet."
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création."
+        },
+        {
+          "name": "updateDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de la dernière modification."
+        },
+        {
+          "name": "relationships.opportunity.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Besoin d'origine du projet.",
+          "references": {
+            "table": "raw.opportunities",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.company.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Société cliente.",
+          "references": {
+            "table": "raw.companies",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "relationships.mainManager.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Responsable de l'enregistrement : le collaborateur qui le porte.",
+          "references": {
+            "table": "raw.ressources",
+            "column": "id",
+            "kind": "fk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "raw.deliveries",
+      "database": "raw",
+      "name": "deliveries",
+      "description": "Livraisons : les lignes d'un projet. Pour un client Boond, une ligne = un abonnement facturé chaque mois sur sa période.",
+      "grain": "Une ligne par version d'une livraison.",
+      "versioned": true,
+      "rows": 326,
+      "layout": {
+        "col": 4,
+        "order": 1
+      },
+      "columns": [
+        {
+          "name": "meta.customer",
+          "type": "String",
+          "source": "Flux CDC",
+          "description": "Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu."
+        },
+        {
+          "name": "id",
+          "type": "Int64",
+          "source": "Boond · paramétrage",
+          "description": "Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.",
+          "key": "pk"
+        },
+        {
+          "name": "meta.deleted",
+          "type": "Bool",
+          "source": "Flux CDC",
+          "description": "Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond."
+        },
+        {
+          "name": "meta.ts",
+          "type": "DateTime64(3)",
+          "source": "Flux CDC",
+          "description": "Horodatage de la version : moment où la modification a été publiée par le flux CDC."
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Intitulé de la ligne."
+        },
+        {
+          "name": "state",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "État de la livraison.",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.state.delivery",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "startDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Début de la période facturée."
+        },
+        {
+          "name": "endDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Fin de la période facturée."
+        },
+        {
+          "name": "averageDailyPriceExcludingTax",
+          "type": "Nullable(Float64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Tarif de vente journalier moyen HT. Pour une ligne d'abonnement, Boond y range le prix mensuel (quantité facturée × prix unitaire, détail dans `attributes`)."
+        },
+        {
+          "name": "creationDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de création."
+        },
+        {
+          "name": "updateDate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "Boond · calculé",
+          "description": "Date de la dernière modification."
+        },
+        {
+          "name": "relationships.project.data.id",
+          "type": "Nullable(Int64)",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Projet de la ligne.",
+          "references": {
+            "table": "raw.projects",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "attributes",
+          "type": "String",
+          "source": "Boond · saisi par un utilisateur",
+          "description": "Attributs en JSON : `subscriptionQuantityCharged` (licences facturées) et `subscriptionPriceExcludingTax` (prix unitaire mensuel)."
+        }
+      ]
+    },
+    {
+      "id": "hubspot.contacts",
+      "database": "hubspot",
+      "name": "contacts",
+      "description": "Contacts HubSpot (marketing). Copie du portail HubSpot reconstruite chaque nuit : une ligne par contact, dans son état du jour.",
+      "grain": "Une ligne par contact HubSpot.",
+      "versioned": false,
+      "rows": 2254,
+      "layout": {
+        "col": 4,
+        "order": 2
+      },
+      "columns": [
+        {
+          "name": "id",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Identifiant HubSpot du contact.",
+          "key": "pk"
+        },
+        {
+          "name": "properties_email",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Adresse e-mail."
+        },
+        {
+          "name": "properties_createdate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "HubSpot · natif",
+          "description": "Date de création du contact dans HubSpot."
+        },
+        {
+          "name": "properties_lifecyclestage",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Étape du cycle de vie HubSpot : subscriber, lead, opportunity, customer, other."
+        },
+        {
+          "name": "properties_hs_latest_source",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Dernière source de trafic connue (ORGANIC_SEARCH, PAID_SEARCH, PAID_SOCIAL, OFFLINE…)."
+        },
+        {
+          "name": "properties_utm_source",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Paramètre `utm_source` capté par le formulaire."
+        },
+        {
+          "name": "properties_utm_campaign",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Paramètre `utm_campaign` capté par le formulaire."
+        },
+        {
+          "name": "properties_first_conversion_event_name",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Nom du premier formulaire rempli."
+        },
+        {
+          "name": "properties_first_conversion_date",
+          "type": "Nullable(DateTime64(3))",
+          "source": "HubSpot · natif",
+          "description": "Date du premier formulaire rempli."
+        },
+        {
+          "name": "properties_boondid",
+          "type": "String",
+          "source": "HubSpot · recopié depuis Boond",
+          "description": "Identifiant du contact dans Boond.",
+          "references": {
+            "table": "raw.contacts",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "properties_statut_boond",
+          "type": "String",
+          "source": "HubSpot · recopié depuis Boond",
+          "description": "Code d'état du contact dans Boond."
+        },
+        {
+          "name": "properties_creation_boond",
+          "type": "Nullable(DateTime64(3))",
+          "source": "HubSpot · recopié depuis Boond",
+          "description": "Date de création du contact dans Boond."
+        },
+        {
+          "name": "properties_hubspot_owner_id",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Propriétaire HubSpot du contact."
+        },
+        {
+          "name": "archived",
+          "type": "Bool",
+          "source": "HubSpot · natif",
+          "description": "Contact archivé dans HubSpot."
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime64(3)",
+          "source": "HubSpot · natif",
+          "description": "Dernière modification dans HubSpot."
+        }
+      ]
+    },
+    {
+      "id": "hubspot.deals",
+      "database": "hubspot",
+      "name": "deals",
+      "description": "Deals HubSpot. Ils reflètent les besoins Boond pour le marketing : une ligne par deal, dans son état du jour.",
+      "grain": "Une ligne par deal HubSpot.",
+      "versioned": false,
+      "rows": 1190,
+      "layout": {
+        "col": 4,
+        "order": 3
+      },
+      "columns": [
+        {
+          "name": "id",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Identifiant HubSpot du deal.",
+          "key": "pk"
+        },
+        {
+          "name": "properties_dealname",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Nom du deal."
+        },
+        {
+          "name": "properties_pipeline",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Pipeline HubSpot du deal."
+        },
+        {
+          "name": "properties_dealstage",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Étape du deal dans son pipeline HubSpot."
+        },
+        {
+          "name": "properties_hs_is_closed",
+          "type": "Bool",
+          "source": "HubSpot · natif",
+          "description": "HubSpot considère le deal comme fermé."
+        },
+        {
+          "name": "properties_amount",
+          "type": "Nullable(Float64)",
+          "source": "HubSpot · natif",
+          "description": "Montant du deal."
+        },
+        {
+          "name": "properties_createdate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "HubSpot · natif",
+          "description": "Date de création du deal dans HubSpot."
+        },
+        {
+          "name": "properties_closedate",
+          "type": "Nullable(DateTime64(3))",
+          "source": "HubSpot · natif",
+          "description": "Date de fermeture du deal dans HubSpot."
+        },
+        {
+          "name": "properties_boond_id_num",
+          "type": "Nullable(Float64)",
+          "source": "HubSpot · recopié depuis Boond",
+          "description": "Identifiant du besoin dans Boond.",
+          "references": {
+            "table": "raw.opportunities",
+            "column": "id",
+            "kind": "fk"
+          }
+        },
+        {
+          "name": "properties_statut_boond",
+          "type": "String",
+          "source": "HubSpot · recopié depuis Boond",
+          "description": "Code d'étape du besoin dans Boond.",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.state.opportunity",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "properties_provenance_boond",
+          "type": "String",
+          "source": "HubSpot · recopié depuis Boond",
+          "description": "Code d'origine du besoin dans Boond."
+        },
+        {
+          "name": "properties_creation_dans_boond",
+          "type": "Nullable(DateTime64(3))",
+          "source": "HubSpot · recopié depuis Boond",
+          "description": "Date de création du besoin dans Boond."
+        },
+        {
+          "name": "properties_date_de_fermeture_boond",
+          "type": "Nullable(DateTime64(3))",
+          "source": "HubSpot · recopié depuis Boond",
+          "description": "Date de closing du besoin dans Boond."
+        },
+        {
+          "name": "properties_hubspot_owner_id",
+          "type": "String",
+          "source": "HubSpot · natif",
+          "description": "Propriétaire HubSpot du deal."
+        },
+        {
+          "name": "archived",
+          "type": "Bool",
+          "source": "HubSpot · natif",
+          "description": "Deal archivé dans HubSpot."
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime64(3)",
+          "source": "HubSpot · natif",
+          "description": "Dernière modification dans HubSpot."
+        }
+      ]
+    },
+    {
+      "id": "ref.sales_targets",
+      "database": "ref",
+      "name": "sales_targets",
+      "description": "Objectifs mensuels de l'équipe commerciale, repris du tableur de la VP Sales.",
+      "grain": "Une ligne par mois, segment et indicateur.",
+      "versioned": false,
+      "rows": 144,
+      "layout": {
+        "col": 0,
+        "order": 1
+      },
+      "columns": [
+        {
+          "name": "month",
+          "type": "Date",
+          "source": "Tableur de la VP Sales",
+          "description": "Premier jour du mois visé."
+        },
+        {
+          "name": "segment",
+          "type": "String",
+          "source": "Tableur de la VP Sales",
+          "description": "Équipe : SMB, LA (Large Accounts) ou ES (Espagne)."
+        },
+        {
+          "name": "indicator",
+          "type": "String",
+          "source": "Tableur de la VP Sales",
+          "description": "Indicateur visé : `mrr_signed`, `pipeline_generated`, `pipeline_weighted`, `demos`."
+        },
+        {
+          "name": "target",
+          "type": "Float64",
+          "source": "Tableur de la VP Sales",
+          "description": "Valeur cible du mois (euros pour les montants, nombre pour les démos)."
+        }
+      ]
+    },
+    {
+      "id": "ref.stage_probabilities",
+      "database": "ref",
+      "name": "stage_probabilities",
+      "description": "Probabilité de signature par étape du besoin et par équipe, proposée par le cabinet externe.",
+      "grain": "Une ligne par étape et par segment.",
+      "versioned": false,
+      "rows": 33,
+      "layout": {
+        "col": 0,
+        "order": 2
+      },
+      "columns": [
+        {
+          "name": "state_id",
+          "type": "Int64",
+          "source": "Cabinet externe",
+          "description": "Code de l'étape du besoin.",
+          "references": {
+            "table": "raw.dictionaries",
+            "column": "setting.state.opportunity",
+            "kind": "dictionary"
+          }
+        },
+        {
+          "name": "segment",
+          "type": "String",
+          "source": "Cabinet externe",
+          "description": "Équipe : SMB, LA ou ES."
+        },
+        {
+          "name": "probability",
+          "type": "Float64",
+          "source": "Cabinet externe",
+          "description": "Probabilité de signature, entre 0 et 1."
+        }
+      ]
+    }
+  ]
+}

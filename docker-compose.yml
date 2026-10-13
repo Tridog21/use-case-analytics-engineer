@@ -1,0 +1,22 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.11
+    container_name: use-case-clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    environment:
+      CLICKHOUSE_SKIP_USER_SETUP: "1"
+    volumes:
+      - ./docker/init:/docker-entrypoint-initdb.d:ro
+      - ./seed:/seed:ro
+      - clickhouse-data:/var/lib/clickhouse
+    ulimits:
+      nofile: { soft: 262144, hard: 262144 }
+    healthcheck:
+      test: ["CMD", "clickhouse", "client", "--query", "SELECT count() FROM ref.stage_probabilities"]
+      interval: 5s
+      retries: 30
+
+volumes:
+  clickhouse-data:

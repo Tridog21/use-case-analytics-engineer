@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cycle de vie d'un deal</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --surface: #ffffff; --ink: #1d1d1f; --muted: #6b6b70; --line: #dcdcd8;
+    --accent: #2f5bea; --accent-soft: #e6ecfd; --past: #9aa7c7; --future: #d8d8d4;
+    --chip: #f0f0ec; --chip-ink: #3a3a3e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141416; --surface: #1d1d20; --ink: #ececef; --muted: #9a9aa2; --line: #2e2e33;
+      --accent: #7c9cff; --accent-soft: #232b45; --past: #56607d; --future: #34343a;
+      --chip: #26262b; --chip-ink: #d6d6dc;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141416; --surface: #1d1d20; --ink: #ececef; --muted: #9a9aa2; --line: #2e2e33;
+    --accent: #7c9cff; --accent-soft: #232b45; --past: #56607d; --future: #34343a;
+    --chip: #26262b; --chip-ink: #d6d6dc;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1180px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: 26px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .lead { color: var(--muted); margin: 0 0 24px; max-width: 760px; }
+  .board { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow-x: auto; }
+  svg { display: block; }
+  .lane-label { font-weight: 600; font-size: 13px; fill: var(--ink); }
+  .lane-sub { font-size: 11px; fill: var(--muted); }
+  .lifeline { stroke: var(--line); stroke-width: 1; }
+  .col-hit { fill: transparent; cursor: pointer; }
+  .col-hit:hover { fill: var(--accent-soft); opacity: .5; }
+  .num { font-size: 12px; font-weight: 600; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .badge { cursor: pointer; }
+  .arrow { fill: none; stroke-width: 2.5; stroke-linecap: round; transition: stroke .25s, opacity .25s; }
+  .dot { transition: fill .25s, r .25s; }
+  .controls { display: flex; align-items: center; gap: 12px; margin: 20px 0 12px; }
+  button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  button:disabled { opacity: .4; cursor: default; }
+  .counter { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .hint { margin-left: auto; color: var(--muted); font-size: 13px; }
+  .detail { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 24px; min-height: 170px; }
+  .detail .step { color: var(--accent); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+  .detail h2 { margin: 4px 0 8px; font-size: 20px; }
+  .detail p { margin: 0 0 14px; max-width: 760px; }
+  .writes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .writes span.label { color: var(--muted); font-size: 13px; margin-right: 4px; }
+  code.chip { background: var(--chip); color: var(--chip-ink); border-radius: 6px; padding: 3px 8px; font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .note { color: var(--muted); font-size: 13px; margin-top: 20px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Cycle de vie d'un deal</h1>
+  <p class="lead">Du formulaire rempli par un prospect jusqu'à l'abonnement facturé. Avance étape par étape pour voir qui fait quoi et où l'information atterrit.</p>
+
+  <div class="board"><svg id="diagram" role="img" aria-label="Diagramme de séquence du cycle de vie d'un deal"></svg></div>
+
+  <div class="controls">
+    <button id="prev" type="button">← Précédent</button>
+    <button id="next" type="button">Suivant →</button>
+    <span class="counter" id="counter"></span>
+    <span class="hint">Flèches du clavier ou clic sur une colonne</span>
+  </div>
+
+  <section class="detail" aria-live="polite">
+    <div class="step" id="d-step"></div>
+    <h2 id="d-title"></h2>
+    <p id="d-text"></p>
+    <div class="writes" id="d-writes"></div>
+  </section>
+
+  <p class="note">Chaque création ou modification dans Boond produit une nouvelle version de la ligne dans la table <code class="chip">raw</code> correspondante. Le détail des tables et de leurs propriétés est dans <a href="model/index.html">le modèle de données</a>.</p>
+</main>
+
+<script>
+const LANES = [
+  { id: "prospect", label: "Prospect", sub: "futur client" },
+  { id: "sales", label: "Commercial", sub: "SMB · LA · Espagne" },
+  { id: "boond", label: "Boond", sub: "CRM et facturation" },
+  { id: "auto", label: "Automatisation", sub: "synchronisation" },
+  { id: "hubspot", label: "HubSpot", sub: "marketing" },
+];
+
+const STEPS = [
+  { from: "prospect", to: "hubspot", title: "Le prospect remplit un formulaire",
+    text: "Sur le site, sur LinkedIn ou sur Meta. HubSpot crée ou met à jour le contact avec le nom du formulaire et les paramètres de campagne (UTM).",
+    writes: ["hubspot.contacts"] },
+  { from: "hubspot", via: "auto", to: "boond", title: "La demande arrive dans Boond",
+    text: "Une automatisation recopie la demande dans Boond. Le contact est retrouvé ou créé et une action « Demande de démo » lui est ajoutée avec les paramètres de campagne dans son texte.",
+    writes: ["raw.contacts", "raw.companies", "raw.actions"] },
+  { from: "boond", to: "sales", title: "Un commercial la prend en main",
+    text: "La demande est confiée à un commercial. Un besoin est ouvert à l'étape « Lead à traiter ».",
+    writes: ["raw.opportunities", "raw.ressources", "raw.businessunits"] },
+  { from: "sales", to: "prospect", title: "Premier contact et qualification",
+    text: "Le commercial appelle et qualifie le besoin. Chaque appel est noté comme une action dans Boond (abouti, non abouti ou manqué). Le besoin passe en « Qualification ».",
+    writes: ["raw.actions", "raw.opportunities"] },
+  { from: "sales", to: "prospect", title: "Rendez-vous de découverte",
+    text: "Le commercial creuse le contexte du prospect. Le besoin passe en « RDV découverte ».",
+    writes: ["raw.opportunities"] },
+  { from: "sales", to: "prospect", title: "La démo",
+    text: "Le commercial montre Boond. La démo est notée dans l'agenda comme une action (« Démo 1 » puis « Démo complémentaire ») rattachée au contact. Le besoin passe en « Show Boond ».",
+    writes: ["raw.actions", "raw.opportunities"] },
+  { from: "sales", to: "boond", title: "La proposition",
+    text: "Le commercial chiffre l'offre et saisit le montant estimé et la date de signature prévue. Le besoin avance en « Proposition remise » puis « Projet validé » et « Closing ».",
+    writes: ["raw.opportunities"] },
+  { from: "sales", to: "boond", title: "L'issue du deal",
+    text: "Le besoin se ferme en « Signé », « Perdu » ou « Abandonné » avec une raison quand il est perdu. Un prospect pas encore prêt peut être mis en « Nurturing ».",
+    writes: ["raw.opportunities", "raw.dictionaries"] },
+  { from: "boond", via: "auto", to: "hubspot", title: "HubSpot suit le deal",
+    text: "L'état et les dates du besoin sont recopiés dans le pipeline des deals de HubSpot, où le marketing les lit.",
+    writes: ["hubspot.deals"] },
+  { from: "boond", to: "boond", title: "Le client démarre",
+    text: "Une fois le deal signé, un projet et ses lignes d'abonnement sont créés dans Boond. Chaque ligne porte un montant mensuel et une période : c'est ce qui est facturé.",
+    writes: ["raw.projects", "raw.deliveries"] },
+];
+
+const NS = "http://www.w3.org/2000/svg";
+const LABEL_W = 170, COL_W = 96, TOP = 56, LANE_H = 72, PAD_R = 24;
+const W = LABEL_W + STEPS.length * COL_W + PAD_R;
+const H = TOP + LANE_H * LANES.length + 16;
+const laneY = Object.fromEntries(LANES.map((l, i) => [l.id, TOP + LANE_H * i + LANE_H / 2]));
+const colX = i => LABEL_W + COL_W * i + COL_W / 2;
+
+const svg = document.getElementById("diagram");
+svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+svg.setAttribute("width", W);
+svg.setAttribute("height", H);
+
+const el = (name, attrs = {}, parent = svg) => {
+  const node = document.createElementNS(NS, name);
+  for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+  parent.appendChild(node);
+  return node;
+};
+
+const defs = el("defs");
+for (const key of ["current", "past", "future"]) {
+  const m = el("marker", { id: `head-${key}`, viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 6, markerHeight: 6, orient: "auto-start-reverse" }, defs);
+  el("path", { d: "M0,0 L10,5 L0,10 z", fill: `var(--${key === "current" ? "accent" : key})` }, m);
+}
+
+LANES.forEach(l => {
+  const y = laneY[l.id];
+  el("line", { x1: LABEL_W - 12, x2: W - PAD_R, y1: y, y2: y, class: "lifeline" });
+  const t = el("text", { x: 20, y: y - 3, class: "lane-label" }); t.textContent = l.label;
+  const s = el("text", { x: 20, y: y + 13, class: "lane-sub" }); s.textContent = l.sub;
+});
+
+const cols = STEPS.map((step, i) => {
+  const x = colX(i);
+  const g = el("g", { "data-i": i });
+  el("rect", { x: x - COL_W / 2 + 2, y: 8, width: COL_W - 4, height: H - 16, rx: 10, class: "col-hit" }, g);
+  const badge = el("circle", { cx: x, cy: 28, r: 13, class: "badge" }, g);
+  const num = el("text", { x, y: 28, class: "num" }, g); num.textContent = i + 1;
+
+  const y1 = laneY[step.from], y2 = laneY[step.to];
+  let d;
+  if (step.from === step.to) {
+    d = `M${x - 14},${y1 - 4} C${x - 14},${y1 - 40} ${x + 14},${y1 - 40} ${x + 14},${y1 - 6}`;
+  } else {
+    const dir = Math.sign(y2 - y1);
+    d = `M${x},${y1 + dir * 6} L${x},${y2 - dir * 9}`;
+  }
+  const arrow = el("path", { d, class: "arrow" }, g);
+  const len = arrow.getTotalLength();
+  arrow.style.strokeDasharray = len;
+  const dots = [el("circle", { cx: x, cy: y1, r: 5, class: "dot" }, g)];
+  if (step.via) dots.push(el("circle", { cx: x, cy: laneY[step.via], r: 4, class: "dot" }, g));
+  g.addEventListener("click", () => go(i));
+  return { badge, num, arrow, dots, len };
+});
+
+let current = 0;
+function render() {
+  cols.forEach((c, i) => {
+    const state = i === current ? "current" : i < current ? "past" : "future";
+    const color = state === "current" ? "var(--accent)" : `var(--${state})`;
+    c.arrow.style.stroke = color;
+    c.arrow.setAttribute("marker-end", `url(#head-${state})`);
+    c.arrow.style.transition = "none";
+    c.arrow.style.strokeDashoffset = state === "current" ? c.len : 0;
+    if (state === "future") c.arrow.style.strokeDasharray = "4 6";
+    else c.arrow.style.strokeDasharray = c.len;
+    c.dots.forEach(d => { d.style.fill = color; d.setAttribute("r", state === "current" ? 6 : 4); });
+    c.badge.style.fill = state === "current" ? "var(--accent)" : "var(--surface)";
+    c.badge.style.stroke = color;
+    c.badge.style.strokeWidth = 1.5;
+    c.num.style.fill = state === "current" ? "var(--surface)" : "var(--muted)";
+    if (state === "current") requestAnimationFrame(() => requestAnimationFrame(() => {
+      c.arrow.style.transition = "stroke-dashoffset .6s ease-out";
+      c.arrow.style.strokeDashoffset = 0;
+    }));
+  });
+
+  const step = STEPS[current];
+  const lane = id => LANES.find(l => l.id === id).label;
+  const path = [step.from, step.via, step.to].filter(Boolean).map(lane);
+  document.getElementById("d-step").textContent = `Étape ${current + 1} · ${step.from === step.to ? lane(step.from) : path.join(" → ")}`;
+  document.getElementById("d-title").textContent = step.title;
+  document.getElementById("d-text").textContent = step.text;
+  const writes = document.getElementById("d-writes");
+  writes.replaceChildren();
+  const label = document.createElement("span"); label.className = "label"; label.textContent = "Tables";
+  writes.appendChild(label);
+  step.writes.forEach(t => { const a = document.createElement("a"); a.href = `model/index.html#${t}`; a.style.textDecoration = "none"; const c = document.createElement("code"); c.className = "chip"; c.textContent = t; a.appendChild(c); writes.appendChild(a); });
+
+  document.getElementById("counter").textContent = `${current + 1} / ${STEPS.length}`;
+  document.getElementById("prev").disabled = current === 0;
+  document.getElementById("next").disabled = current === STEPS.length - 1;
+}
+
+function go(i) { current = Math.max(0, Math.min(STEPS.length - 1, i)); render(); }
+document.getElementById("prev").addEventListener("click", () => go(current - 1));
+document.getElementById("next").addEventListener("click", () => go(current + 1));
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") go(current + 1);
+  if (e.key === "ArrowLeft") go(current - 1);
+});
+render();
+</script>
+</body>
+</html>
