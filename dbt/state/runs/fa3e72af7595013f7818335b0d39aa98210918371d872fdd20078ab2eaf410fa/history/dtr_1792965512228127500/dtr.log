@@ -1,0 +1,31 @@
+[0m21:58:24  Running with dbt=1.11.12
+[0m21:58:25  Registered adapter: clickhouse=1.10.1
+[0m21:58:26  Found 73 models, 10 analyses, 296 data tests, 15 sources, 544 macros, 12 unit tests
+[0m21:58:26  
+[0m21:58:26  Concurrency: 1 threads (target='dev')
+[0m21:58:26  
+[0m21:58:28  1 of 2 START sql incremental model `dtr_sales`.`dtr_opportunity_timeline` ...... [RUN]
+[0m21:58:30  1 of 2 ERROR creating sql incremental model `dtr_sales`.`dtr_opportunity_timeline`  [[31mERROR[0m in 1.93s]
+[0m21:58:30  2 of 2 START sql incremental model `dtr_sales`.`dtr_sales_actions` ............. [RUN]
+[0m21:58:31  2 of 2 ERROR creating sql incremental model `dtr_sales`.`dtr_sales_actions` .... [[31mERROR[0m in 0.92s]
+[0m21:58:31  
+[0m21:58:31  Finished running 2 incremental models in 0 hours 0 minutes and 4.66 seconds (4.66s).
+[0m21:58:31  
+[0m21:58:31  [31mCompleted with 2 errors, 0 partial successes, and 0 warnings:[0m
+[0m21:58:31  
+[0m21:58:31  [31mFailure in model dtr_opportunity_timeline (models\reporting\dtr\dtr_opportunity_timeline.sql)[0m
+[0m21:58:31    Database Error in model dtr_opportunity_timeline (models\reporting\dtr\dtr_opportunity_timeline.sql)
+  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.72 GiB (attempt to allocate chunk of 5.26 MiB), current RSS: 1.44 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker: while executing 'FUNCTION toJSONString(materialize(tuple('dtr_opportunity_timeline:row_v1'_String, tuple('tenant_id'_String, 'String'_Strin... :: 66) -> toJSONString(materialize(tuple('dtr_opportunity_timeline:row_v1'_String, tuple('tenant_id'_String, '... String : 136'. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+  compiled code at target\run\use_case\models\reporting\dtr\dtr_opportunity_timeline.sql
+[0m21:58:31  
+[0m21:58:31    compiled code at target\compiled\use_case\models\reporting\dtr\dtr_opportunity_timeline.sql
+[0m21:58:31  
+[0m21:58:31  [31mFailure in model dtr_sales_actions (models\reporting\dtr\dtr_sales_actions.sql)[0m
+[0m21:58:31    Database Error in model dtr_sales_actions (models\reporting\dtr\dtr_sales_actions.sql)
+  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.71 GiB (attempt to allocate chunk of 4.00 MiB), current RSS: 1.60 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker: (avg_value_size_hint = 72, avg_chars_size = 76.8, limit = 64): (while reading column employee_key): (while reading from part /var/lib/clickhouse/store/828/828bbf49-ff1e-4612-ae29-2c05364bbf02/all_8_47_3/ in table dwh_pipeline.int_actions_prepared (828bbf49-ff1e-4612-ae29-2c05364bbf02) located on disk default of type local, from mark 0 with max_rows_to_read = 64, offset = 0): While reading part all_8_47_3: While executing MergeTreeSelect(pool: ReadPoolInOrder, algorithm: InOrder). (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+  compiled code at target\run\use_case\models\reporting\dtr\dtr_sales_actions.sql
+[0m21:58:31  
+[0m21:58:31    compiled code at target\compiled\use_case\models\reporting\dtr\dtr_sales_actions.sql
+[0m21:58:31  
+[0m21:58:31  Done. PASS=0 WARN=0 ERROR=2 SKIP=0 NO-OP=0 TOTAL=2
+

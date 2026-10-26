@@ -1,0 +1,61 @@
+{
+  "model_run_id": "8dc77da1cff3bfd498c1477c796f5c7b768c50bfa7fcce3b85b67a70c6cbf6fa",
+  "status": "failed",
+  "start": "2026-10-25T22:50:18.001Z",
+  "phase": "publish",
+  "commands": [
+    {
+      "command": [
+        "run",
+        "--select",
+        "int_publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T22:50:59.734Z",
+      "end": "2026-10-25T22:51:07.404Z",
+      "exit_code": 0,
+      "elapsed_seconds": 7.671999999998661
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "tag:dataset",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T22:51:07.516Z",
+      "end": "2026-10-25T22:51:15.861Z",
+      "exit_code": 0,
+      "elapsed_seconds": 8.343000000000757
+    }
+  ],
+  "code_hash": "16fcbbbfb5c76a2d113cacb3c151a556a60a2ab63948029f54f443a906d1e4f2",
+  "rule_version": "9a4959fdc3a421eddf06b2667182588d6648793334f2a6b212ef982c50048468",
+  "vars_hash": "deffbf2154d617ea88093b95afabc0df179eaab94458a7dcaaeadb900592e2b2",
+  "input_cutoff_at": "2026-10-25T22:39:26.119Z",
+  "source_capture_keys": {
+    "hubspot.contacts": [
+      "2026-10-25T212226410Z_eab3f87bca",
+      "2026-10-25T215505768Z_15b0be88a0"
+    ],
+    "hubspot.deals": [
+      "2026-10-25T212244007Z_e3e0997104",
+      "2026-10-25T215529103Z_13205891e0"
+    ],
+    "case_reference.sales_targets": [
+      "2026-10-25T212301870Z_8b72bc74c8",
+      "2026-10-25T215550309Z_e4bfe66e4e"
+    ],
+    "case_reference.stage_probabilities": [
+      "2026-10-25T212321865Z_7a3700e5e2",
+      "2026-10-25T215611097Z_452d38a5b6"
+    ]
+  },
+  "observed_publication_after_failure": [],
+  "end": "2026-10-25T22:51:31.518Z",
+  "error": "\u001b[0m22:51:27  Running with dbt=1.11.12\n\u001b[0m22:51:27  Registered adapter: clickhouse=1.10.1\n\u001b[0m22:51:28  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests\n\u001b[0m22:51:28  \n\u001b[0m22:51:28  Concurrency: 1 threads (target='dev')\n\u001b[0m22:51:28  \n\u001b[0m22:51:30  \n\u001b[0m22:51:30  Finished running  in 0 hours 0 minutes and 1.44 seconds (1.44s).\n\u001b[0m22:51:30  Encountered an error:\nDatabase Error\n  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.72 GiB (attempt to allocate chunk of 0.00 B), current RSS: 1.52 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker: While executing AggregatingTransform. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)\n"
+}

@@ -1,0 +1,29 @@
+[0m21:36:01  Running with dbt=1.11.12
+[0m21:36:01  Registered adapter: clickhouse=1.10.1
+[0m21:36:03  Found 73 models, 5 analyses, 182 data tests, 15 sources, 544 macros, 6 unit tests
+[0m21:36:03  
+[0m21:36:03  Concurrency: 1 threads (target='dev')
+[0m21:36:03  
+[0m21:36:04  1 of 6 START unit_test dim_channel::T56_inbound_outbound_other_no_marketing_fallback  [RUN]
+[0m21:36:05  1 of 6 PASS dim_channel::T56_inbound_outbound_other_no_marketing_fallback ...... [[32mPASS[0m in 0.97s]
+[0m21:36:05  2 of 6 START unit_test dim_sale_type::T54_commercial_scope_training_preserved .. [RUN]
+[0m21:36:05  2 of 6 PASS dim_sale_type::T54_commercial_scope_training_preserved ............. [[32mPASS[0m in 0.50s]
+[0m21:36:05  3 of 6 START unit_test dim_stage::T43_T57_old_states_never_infer_modern_stage .. [RUN]
+[0m21:36:06  3 of 6 PASS dim_stage::T43_T57_old_states_never_infer_modern_stage ............. [[32mPASS[0m in 0.68s]
+[0m21:36:06  4 of 6 START unit_test dim_team::T55_KAM_never_ES .............................. [RUN]
+[0m21:36:06  4 of 6 ERROR dim_team::T55_KAM_never_ES ........................................ [[31mERROR[0m in 0.08s]
+[0m21:36:06  5 of 6 START unit_test int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr .. [RUN]
+[0m21:36:07  5 of 6 PASS int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr ............. [[32mPASS[0m in 1.18s]
+[0m21:36:07  6 of 6 START unit_test int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [RUN]
+[0m21:36:10  6 of 6 PASS int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [[32mPASS[0m in 2.74s]
+[0m21:36:10  
+[0m21:36:10  Finished running 6 unit tests in 0 hours 0 minutes and 7.60 seconds (7.60s).
+[0m21:36:10  
+[0m21:36:10  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m21:36:10  
+[0m21:36:10  [31mFailure in unit_test T55_KAM_never_ES (models\_unit_tests.yml)[0m
+[0m21:36:10    Compilation Error in unit_test T55_KAM_never_ES (models\_unit_tests.yml)
+  Unit_Test 'unit_test.use_case.dim_team.T55_KAM_never_ES' (models\_unit_tests.yml) depends on a node named 'stg_ref_sales_targets' which was not found
+[0m21:36:10  
+[0m21:36:10  Done. PASS=5 WARN=0 ERROR=1 SKIP=0 NO-OP=0 TOTAL=6
+

@@ -1,0 +1,54 @@
+# Use alongside docker-compose.yml; scripts/start-superset.ps1 handles this.
+x-superset: &superset
+  image: use-case-superset:6.1.0
+  build:
+    context: ./docker/superset
+  env_file: .env.superset
+  environment:
+    SUPERSET_CONFIG_PATH: /app/case/superset_config.py
+  volumes:
+    - ./docker/superset:/app/case:ro
+    - ./superset:/app/case-assets
+
+services:
+  superset-db:
+    image: postgres:16-alpine@sha256:f4610795587492cd4fb887c2dc3de301b813278bb6f616992061141b5f15ac36
+    env_file: .env.superset
+    environment:
+      POSTGRES_DB: superset
+      POSTGRES_USER: superset
+    volumes:
+      - superset-metadata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U superset -d superset"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  superset-init:
+    <<: *superset
+    command: ["/bin/sh", "/app/case/init.sh"]
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+      superset-db:
+        condition: service_healthy
+    restart: "no"
+
+  superset:
+    <<: *superset
+    command: ["gunicorn", "--bind", "0.0.0.0:8088", "--workers", "2", "--threads", "4", "--timeout", "120", "superset.app:create_app()"]
+    ports:
+      - "127.0.0.1:8088:8088"
+    depends_on:
+      superset-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8088/health', timeout=5)"]
+      interval: 10s
+      timeout: 10s
+      start_period: 60s
+      retries: 30
+
+volumes:
+  superset-metadata:

@@ -1,0 +1,1 @@
+select arrayJoin(['Désactivé','7 jours','14 jours','21 jours','30 jours','45 jours','60 jours']) as seuil

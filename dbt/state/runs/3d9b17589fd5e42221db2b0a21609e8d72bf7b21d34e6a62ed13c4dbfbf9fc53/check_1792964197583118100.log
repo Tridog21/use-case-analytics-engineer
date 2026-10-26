@@ -1,0 +1,29 @@
+[0m21:36:40  Running with dbt=1.11.12
+[0m21:36:40  Registered adapter: clickhouse=1.10.1
+[0m21:36:41  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m21:36:41  Unable to do partial parsing because profile has changed
+[0m21:36:45  Found 73 models, 5 analyses, 182 data tests, 15 sources, 544 macros, 7 unit tests
+[0m21:36:45  
+[0m21:36:45  Concurrency: 1 threads (target='dev')
+[0m21:36:45  
+[0m21:36:47  1 of 7 START unit_test dim_channel::T56_inbound_outbound_other_no_marketing_fallback  [RUN]
+[0m21:36:48  1 of 7 PASS dim_channel::T56_inbound_outbound_other_no_marketing_fallback ...... [[32mPASS[0m in 0.87s]
+[0m21:36:48  2 of 7 START unit_test dim_sale_type::T54_commercial_scope_training_preserved .. [RUN]
+[0m21:36:48  2 of 7 PASS dim_sale_type::T54_commercial_scope_training_preserved ............. [[32mPASS[0m in 0.51s]
+[0m21:36:48  3 of 7 START unit_test dim_stage::T43_T57_old_states_never_infer_modern_stage .. [RUN]
+[0m21:36:49  3 of 7 PASS dim_stage::T43_T57_old_states_never_infer_modern_stage ............. [[32mPASS[0m in 0.68s]
+[0m21:36:49  4 of 7 START unit_test dim_team::T55_KAM_never_ES .............................. [RUN]
+[0m21:36:49  4 of 7 PASS dim_team::T55_KAM_never_ES ......................................... [[32mPASS[0m in 0.53s]
+[0m21:36:49  5 of 7 START unit_test int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr .. [RUN]
+[0m21:36:50  5 of 7 PASS int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr ............. [[32mPASS[0m in 1.15s]
+[0m21:36:50  6 of 7 START unit_test int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [RUN]
+[0m21:36:53  6 of 7 PASS int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [[32mPASS[0m in 2.71s]
+[0m21:36:53  7 of 7 START unit_test int_subscription_month_end::T13_T28_T30_T51_zero_inclusive_end_birth_and_2099  [RUN]
+[0m21:36:55  7 of 7 PASS int_subscription_month_end::T13_T28_T30_T51_zero_inclusive_end_birth_and_2099  [[32mPASS[0m in 2.22s]
+[0m21:36:55  
+[0m21:36:55  Finished running 7 unit tests in 0 hours 0 minutes and 10.10 seconds (10.10s).
+[0m21:36:56  
+[0m21:36:56  [32mCompleted successfully[0m
+[0m21:36:56  
+[0m21:36:56  Done. PASS=7 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=7
+

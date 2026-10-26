@@ -1,0 +1,2211 @@
+{
+  "at": "2026-10-25T22:39:24.402Z",
+  "status": "success",
+  "checks": [
+    {
+      "id": "T01",
+      "status": "pass",
+      "detail": "73 model SQL files, closed catalogue"
+    },
+    {
+      "id": "T01_source_columns",
+      "status": "pass",
+      "detail": "15 one-to-one staging / 179 source columns"
+    },
+    {
+      "id": "T01_schema_stg_boond_opportunities",
+      "status": "pass",
+      "detail": "stg_boond_opportunities explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_opportunities",
+      "status": "pass",
+      "detail": "stg_boond_opportunities explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_opportunities",
+      "status": "pass",
+      "detail": "stg_boond_opportunities all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_opportunities",
+      "status": "pass",
+      "detail": "stg_boond_opportunities SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_opportunities",
+      "status": "pass",
+      "detail": "stg_boond_opportunities publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_actions",
+      "status": "pass",
+      "detail": "stg_boond_actions explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_actions",
+      "status": "pass",
+      "detail": "stg_boond_actions explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_actions",
+      "status": "pass",
+      "detail": "stg_boond_actions all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_actions",
+      "status": "pass",
+      "detail": "stg_boond_actions SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_actions",
+      "status": "pass",
+      "detail": "stg_boond_actions publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_companies",
+      "status": "pass",
+      "detail": "stg_boond_companies explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_companies",
+      "status": "pass",
+      "detail": "stg_boond_companies explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_companies",
+      "status": "pass",
+      "detail": "stg_boond_companies all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_companies",
+      "status": "pass",
+      "detail": "stg_boond_companies SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_companies",
+      "status": "pass",
+      "detail": "stg_boond_companies publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_contacts",
+      "status": "pass",
+      "detail": "stg_boond_contacts explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_contacts",
+      "status": "pass",
+      "detail": "stg_boond_contacts explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_contacts",
+      "status": "pass",
+      "detail": "stg_boond_contacts all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_contacts",
+      "status": "pass",
+      "detail": "stg_boond_contacts SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_contacts",
+      "status": "pass",
+      "detail": "stg_boond_contacts publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_resources",
+      "status": "pass",
+      "detail": "stg_boond_resources explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_resources",
+      "status": "pass",
+      "detail": "stg_boond_resources explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_resources",
+      "status": "pass",
+      "detail": "stg_boond_resources all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_resources",
+      "status": "pass",
+      "detail": "stg_boond_resources SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_resources",
+      "status": "pass",
+      "detail": "stg_boond_resources publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_businessunits",
+      "status": "pass",
+      "detail": "stg_boond_businessunits explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_businessunits",
+      "status": "pass",
+      "detail": "stg_boond_businessunits explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_businessunits",
+      "status": "pass",
+      "detail": "stg_boond_businessunits all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_businessunits",
+      "status": "pass",
+      "detail": "stg_boond_businessunits SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_businessunits",
+      "status": "pass",
+      "detail": "stg_boond_businessunits publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_agencies",
+      "status": "pass",
+      "detail": "stg_boond_agencies explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_agencies",
+      "status": "pass",
+      "detail": "stg_boond_agencies explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_agencies",
+      "status": "pass",
+      "detail": "stg_boond_agencies all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_agencies",
+      "status": "pass",
+      "detail": "stg_boond_agencies SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_agencies",
+      "status": "pass",
+      "detail": "stg_boond_agencies publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_poles",
+      "status": "pass",
+      "detail": "stg_boond_poles explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_poles",
+      "status": "pass",
+      "detail": "stg_boond_poles explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_poles",
+      "status": "pass",
+      "detail": "stg_boond_poles all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_poles",
+      "status": "pass",
+      "detail": "stg_boond_poles SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_poles",
+      "status": "pass",
+      "detail": "stg_boond_poles publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_dictionaries",
+      "status": "pass",
+      "detail": "stg_boond_dictionaries explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_dictionaries",
+      "status": "pass",
+      "detail": "stg_boond_dictionaries explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_dictionaries",
+      "status": "pass",
+      "detail": "stg_boond_dictionaries all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_dictionaries",
+      "status": "pass",
+      "detail": "stg_boond_dictionaries SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_dictionaries",
+      "status": "pass",
+      "detail": "stg_boond_dictionaries publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_projects",
+      "status": "pass",
+      "detail": "stg_boond_projects explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_projects",
+      "status": "pass",
+      "detail": "stg_boond_projects explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_projects",
+      "status": "pass",
+      "detail": "stg_boond_projects all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_projects",
+      "status": "pass",
+      "detail": "stg_boond_projects SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_projects",
+      "status": "pass",
+      "detail": "stg_boond_projects publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_boond_deliveries",
+      "status": "pass",
+      "detail": "stg_boond_deliveries explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_boond_deliveries",
+      "status": "pass",
+      "detail": "stg_boond_deliveries explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_boond_deliveries",
+      "status": "pass",
+      "detail": "stg_boond_deliveries all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_boond_deliveries",
+      "status": "pass",
+      "detail": "stg_boond_deliveries SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_boond_deliveries",
+      "status": "pass",
+      "detail": "stg_boond_deliveries publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_hubspot_contacts",
+      "status": "pass",
+      "detail": "stg_hubspot_contacts explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_hubspot_contacts",
+      "status": "pass",
+      "detail": "stg_hubspot_contacts explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_hubspot_contacts",
+      "status": "pass",
+      "detail": "stg_hubspot_contacts all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_hubspot_contacts",
+      "status": "pass",
+      "detail": "stg_hubspot_contacts SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_hubspot_contacts",
+      "status": "pass",
+      "detail": "stg_hubspot_contacts publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_hubspot_deals",
+      "status": "pass",
+      "detail": "stg_hubspot_deals explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_hubspot_deals",
+      "status": "pass",
+      "detail": "stg_hubspot_deals explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_hubspot_deals",
+      "status": "pass",
+      "detail": "stg_hubspot_deals all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_hubspot_deals",
+      "status": "pass",
+      "detail": "stg_hubspot_deals SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_hubspot_deals",
+      "status": "pass",
+      "detail": "stg_hubspot_deals publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_ref_sales_targets",
+      "status": "pass",
+      "detail": "stg_ref_sales_targets explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_ref_sales_targets",
+      "status": "pass",
+      "detail": "stg_ref_sales_targets explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_ref_sales_targets",
+      "status": "pass",
+      "detail": "stg_ref_sales_targets all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_ref_sales_targets",
+      "status": "pass",
+      "detail": "stg_ref_sales_targets SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_ref_sales_targets",
+      "status": "pass",
+      "detail": "stg_ref_sales_targets publication isolated"
+    },
+    {
+      "id": "T01_schema_stg_ref_stage_probabilities",
+      "status": "pass",
+      "detail": "stg_ref_stage_probabilities explicit analytical destination"
+    },
+    {
+      "id": "T08_stg_ref_stage_probabilities",
+      "status": "pass",
+      "detail": "stg_ref_stage_probabilities explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_stg_ref_stage_probabilities",
+      "status": "pass",
+      "detail": "stg_ref_stage_probabilities all table/column descriptions"
+    },
+    {
+      "id": "T65_stg_ref_stage_probabilities",
+      "status": "pass",
+      "detail": "stg_ref_stage_probabilities SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_stg_ref_stage_probabilities",
+      "status": "pass",
+      "detail": "stg_ref_stage_probabilities publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_date",
+      "status": "pass",
+      "detail": "dim_date explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_date",
+      "status": "pass",
+      "detail": "dim_date explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_date",
+      "status": "pass",
+      "detail": "dim_date all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_date",
+      "status": "pass",
+      "detail": "dim_date SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_date",
+      "status": "pass",
+      "detail": "dim_date publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_country",
+      "status": "pass",
+      "detail": "dim_country explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_country",
+      "status": "pass",
+      "detail": "dim_country explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_country",
+      "status": "pass",
+      "detail": "dim_country all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_country",
+      "status": "pass",
+      "detail": "dim_country SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_country",
+      "status": "pass",
+      "detail": "dim_country publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_company",
+      "status": "pass",
+      "detail": "dim_company explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_company",
+      "status": "pass",
+      "detail": "dim_company explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_company",
+      "status": "pass",
+      "detail": "dim_company all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_company",
+      "status": "pass",
+      "detail": "dim_company SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_company",
+      "status": "pass",
+      "detail": "dim_company publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_employee",
+      "status": "pass",
+      "detail": "dim_employee explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_employee",
+      "status": "pass",
+      "detail": "dim_employee explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_employee",
+      "status": "pass",
+      "detail": "dim_employee all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_employee",
+      "status": "pass",
+      "detail": "dim_employee SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_employee",
+      "status": "pass",
+      "detail": "dim_employee publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_team",
+      "status": "pass",
+      "detail": "dim_team explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_team",
+      "status": "pass",
+      "detail": "dim_team explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_team",
+      "status": "pass",
+      "detail": "dim_team all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_team",
+      "status": "pass",
+      "detail": "dim_team SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_team",
+      "status": "pass",
+      "detail": "dim_team publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_stage",
+      "status": "pass",
+      "detail": "dim_stage explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_stage",
+      "status": "pass",
+      "detail": "dim_stage explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_stage",
+      "status": "pass",
+      "detail": "dim_stage all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_stage",
+      "status": "pass",
+      "detail": "dim_stage SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_stage",
+      "status": "pass",
+      "detail": "dim_stage publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_sale_type",
+      "status": "pass",
+      "detail": "dim_sale_type explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_sale_type",
+      "status": "pass",
+      "detail": "dim_sale_type explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_sale_type",
+      "status": "pass",
+      "detail": "dim_sale_type all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_sale_type",
+      "status": "pass",
+      "detail": "dim_sale_type SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_sale_type",
+      "status": "pass",
+      "detail": "dim_sale_type publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_channel",
+      "status": "pass",
+      "detail": "dim_channel explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_channel",
+      "status": "pass",
+      "detail": "dim_channel explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_channel",
+      "status": "pass",
+      "detail": "dim_channel all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_channel",
+      "status": "pass",
+      "detail": "dim_channel SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_channel",
+      "status": "pass",
+      "detail": "dim_channel publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_action_type",
+      "status": "pass",
+      "detail": "dim_action_type explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_action_type",
+      "status": "pass",
+      "detail": "dim_action_type explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_action_type",
+      "status": "pass",
+      "detail": "dim_action_type all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_action_type",
+      "status": "pass",
+      "detail": "dim_action_type SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_action_type",
+      "status": "pass",
+      "detail": "dim_action_type publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_followup_definition",
+      "status": "pass",
+      "detail": "dim_followup_definition explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_followup_definition",
+      "status": "pass",
+      "detail": "dim_followup_definition explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_followup_definition",
+      "status": "pass",
+      "detail": "dim_followup_definition all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_followup_definition",
+      "status": "pass",
+      "detail": "dim_followup_definition SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_followup_definition",
+      "status": "pass",
+      "detail": "dim_followup_definition publication isolated"
+    },
+    {
+      "id": "T01_schema_dim_metric",
+      "status": "pass",
+      "detail": "dim_metric explicit analytical destination"
+    },
+    {
+      "id": "T08_dim_metric",
+      "status": "pass",
+      "detail": "dim_metric explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dim_metric",
+      "status": "pass",
+      "detail": "dim_metric all table/column descriptions"
+    },
+    {
+      "id": "T65_dim_metric",
+      "status": "pass",
+      "detail": "dim_metric SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dim_metric",
+      "status": "pass",
+      "detail": "dim_metric publication isolated"
+    },
+    {
+      "id": "T01_schema_int_crm_identity_links",
+      "status": "pass",
+      "detail": "int_crm_identity_links explicit analytical destination"
+    },
+    {
+      "id": "T08_int_crm_identity_links",
+      "status": "pass",
+      "detail": "int_crm_identity_links explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_crm_identity_links",
+      "status": "pass",
+      "detail": "int_crm_identity_links all table/column descriptions"
+    },
+    {
+      "id": "T65_int_crm_identity_links",
+      "status": "pass",
+      "detail": "int_crm_identity_links SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_crm_identity_links",
+      "status": "pass",
+      "detail": "int_crm_identity_links publication isolated"
+    },
+    {
+      "id": "T01_schema_int_team_membership_periods",
+      "status": "pass",
+      "detail": "int_team_membership_periods explicit analytical destination"
+    },
+    {
+      "id": "T08_int_team_membership_periods",
+      "status": "pass",
+      "detail": "int_team_membership_periods explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_team_membership_periods",
+      "status": "pass",
+      "detail": "int_team_membership_periods all table/column descriptions"
+    },
+    {
+      "id": "T65_int_team_membership_periods",
+      "status": "pass",
+      "detail": "int_team_membership_periods SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_team_membership_periods",
+      "status": "pass",
+      "detail": "int_team_membership_periods publication isolated"
+    },
+    {
+      "id": "T01_schema_int_signature_probabilities",
+      "status": "pass",
+      "detail": "int_signature_probabilities explicit analytical destination"
+    },
+    {
+      "id": "T08_int_signature_probabilities",
+      "status": "pass",
+      "detail": "int_signature_probabilities explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_signature_probabilities",
+      "status": "pass",
+      "detail": "int_signature_probabilities all table/column descriptions"
+    },
+    {
+      "id": "T65_int_signature_probabilities",
+      "status": "pass",
+      "detail": "int_signature_probabilities SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_signature_probabilities",
+      "status": "pass",
+      "detail": "int_signature_probabilities publication isolated"
+    },
+    {
+      "id": "T01_schema_int_opportunity_stage_visits",
+      "status": "pass",
+      "detail": "int_opportunity_stage_visits explicit analytical destination"
+    },
+    {
+      "id": "T08_int_opportunity_stage_visits",
+      "status": "pass",
+      "detail": "int_opportunity_stage_visits explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_opportunity_stage_visits",
+      "status": "pass",
+      "detail": "int_opportunity_stage_visits all table/column descriptions"
+    },
+    {
+      "id": "T65_int_opportunity_stage_visits",
+      "status": "pass",
+      "detail": "int_opportunity_stage_visits SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_opportunity_stage_visits",
+      "status": "pass",
+      "detail": "int_opportunity_stage_visits publication isolated"
+    },
+    {
+      "id": "T01_schema_int_opportunity_periods",
+      "status": "pass",
+      "detail": "int_opportunity_periods explicit analytical destination"
+    },
+    {
+      "id": "T08_int_opportunity_periods",
+      "status": "pass",
+      "detail": "int_opportunity_periods explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_opportunity_periods",
+      "status": "pass",
+      "detail": "int_opportunity_periods all table/column descriptions"
+    },
+    {
+      "id": "T65_int_opportunity_periods",
+      "status": "pass",
+      "detail": "int_opportunity_periods SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_opportunity_periods",
+      "status": "pass",
+      "detail": "int_opportunity_periods publication isolated"
+    },
+    {
+      "id": "T01_schema_int_opportunity_events",
+      "status": "pass",
+      "detail": "int_opportunity_events explicit analytical destination"
+    },
+    {
+      "id": "T08_int_opportunity_events",
+      "status": "pass",
+      "detail": "int_opportunity_events explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_opportunity_events",
+      "status": "pass",
+      "detail": "int_opportunity_events all table/column descriptions"
+    },
+    {
+      "id": "T65_int_opportunity_events",
+      "status": "pass",
+      "detail": "int_opportunity_events SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_opportunity_events",
+      "status": "pass",
+      "detail": "int_opportunity_events publication isolated"
+    },
+    {
+      "id": "T01_schema_int_opportunity_followup",
+      "status": "pass",
+      "detail": "int_opportunity_followup explicit analytical destination"
+    },
+    {
+      "id": "T08_int_opportunity_followup",
+      "status": "pass",
+      "detail": "int_opportunity_followup explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_opportunity_followup",
+      "status": "pass",
+      "detail": "int_opportunity_followup all table/column descriptions"
+    },
+    {
+      "id": "T65_int_opportunity_followup",
+      "status": "pass",
+      "detail": "int_opportunity_followup SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_opportunity_followup",
+      "status": "pass",
+      "detail": "int_opportunity_followup publication isolated"
+    },
+    {
+      "id": "T01_schema_int_actions_prepared",
+      "status": "pass",
+      "detail": "int_actions_prepared explicit analytical destination"
+    },
+    {
+      "id": "T08_int_actions_prepared",
+      "status": "pass",
+      "detail": "int_actions_prepared explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_actions_prepared",
+      "status": "pass",
+      "detail": "int_actions_prepared all table/column descriptions"
+    },
+    {
+      "id": "T65_int_actions_prepared",
+      "status": "pass",
+      "detail": "int_actions_prepared SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_actions_prepared",
+      "status": "pass",
+      "detail": "int_actions_prepared publication isolated"
+    },
+    {
+      "id": "T01_schema_int_demo_intervals",
+      "status": "pass",
+      "detail": "int_demo_intervals explicit analytical destination"
+    },
+    {
+      "id": "T08_int_demo_intervals",
+      "status": "pass",
+      "detail": "int_demo_intervals explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_demo_intervals",
+      "status": "pass",
+      "detail": "int_demo_intervals all table/column descriptions"
+    },
+    {
+      "id": "T65_int_demo_intervals",
+      "status": "pass",
+      "detail": "int_demo_intervals SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_demo_intervals",
+      "status": "pass",
+      "detail": "int_demo_intervals publication isolated"
+    },
+    {
+      "id": "T01_schema_int_visit_responsibility",
+      "status": "pass",
+      "detail": "int_visit_responsibility explicit analytical destination"
+    },
+    {
+      "id": "T08_int_visit_responsibility",
+      "status": "pass",
+      "detail": "int_visit_responsibility explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_visit_responsibility",
+      "status": "pass",
+      "detail": "int_visit_responsibility all table/column descriptions"
+    },
+    {
+      "id": "T65_int_visit_responsibility",
+      "status": "pass",
+      "detail": "int_visit_responsibility SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_visit_responsibility",
+      "status": "pass",
+      "detail": "int_visit_responsibility publication isolated"
+    },
+    {
+      "id": "T01_schema_int_subscription_periods",
+      "status": "pass",
+      "detail": "int_subscription_periods explicit analytical destination"
+    },
+    {
+      "id": "T08_int_subscription_periods",
+      "status": "pass",
+      "detail": "int_subscription_periods explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_subscription_periods",
+      "status": "pass",
+      "detail": "int_subscription_periods all table/column descriptions"
+    },
+    {
+      "id": "T65_int_subscription_periods",
+      "status": "pass",
+      "detail": "int_subscription_periods SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_subscription_periods",
+      "status": "pass",
+      "detail": "int_subscription_periods publication isolated"
+    },
+    {
+      "id": "T01_schema_int_subscription_changes",
+      "status": "pass",
+      "detail": "int_subscription_changes explicit analytical destination"
+    },
+    {
+      "id": "T08_int_subscription_changes",
+      "status": "pass",
+      "detail": "int_subscription_changes explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_subscription_changes",
+      "status": "pass",
+      "detail": "int_subscription_changes all table/column descriptions"
+    },
+    {
+      "id": "T65_int_subscription_changes",
+      "status": "pass",
+      "detail": "int_subscription_changes SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_subscription_changes",
+      "status": "pass",
+      "detail": "int_subscription_changes publication isolated"
+    },
+    {
+      "id": "T01_schema_int_subscription_month_end",
+      "status": "pass",
+      "detail": "int_subscription_month_end explicit analytical destination"
+    },
+    {
+      "id": "T08_int_subscription_month_end",
+      "status": "pass",
+      "detail": "int_subscription_month_end explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_subscription_month_end",
+      "status": "pass",
+      "detail": "int_subscription_month_end all table/column descriptions"
+    },
+    {
+      "id": "T65_int_subscription_month_end",
+      "status": "pass",
+      "detail": "int_subscription_month_end SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_subscription_month_end",
+      "status": "pass",
+      "detail": "int_subscription_month_end publication isolated"
+    },
+    {
+      "id": "T01_schema_int_client_activity_context",
+      "status": "pass",
+      "detail": "int_client_activity_context explicit analytical destination"
+    },
+    {
+      "id": "T08_int_client_activity_context",
+      "status": "pass",
+      "detail": "int_client_activity_context explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_client_activity_context",
+      "status": "pass",
+      "detail": "int_client_activity_context all table/column descriptions"
+    },
+    {
+      "id": "T65_int_client_activity_context",
+      "status": "pass",
+      "detail": "int_client_activity_context SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_client_activity_context",
+      "status": "pass",
+      "detail": "int_client_activity_context publication isolated"
+    },
+    {
+      "id": "T01_schema_int_mrr_movements",
+      "status": "pass",
+      "detail": "int_mrr_movements explicit analytical destination"
+    },
+    {
+      "id": "T08_int_mrr_movements",
+      "status": "pass",
+      "detail": "int_mrr_movements explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_mrr_movements",
+      "status": "pass",
+      "detail": "int_mrr_movements all table/column descriptions"
+    },
+    {
+      "id": "T65_int_mrr_movements",
+      "status": "pass",
+      "detail": "int_mrr_movements SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_mrr_movements",
+      "status": "pass",
+      "detail": "int_mrr_movements publication isolated"
+    },
+    {
+      "id": "T01_schema_int_sales_objectives_month",
+      "status": "pass",
+      "detail": "int_sales_objectives_month explicit analytical destination"
+    },
+    {
+      "id": "T08_int_sales_objectives_month",
+      "status": "pass",
+      "detail": "int_sales_objectives_month explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_sales_objectives_month",
+      "status": "pass",
+      "detail": "int_sales_objectives_month all table/column descriptions"
+    },
+    {
+      "id": "T65_int_sales_objectives_month",
+      "status": "pass",
+      "detail": "int_sales_objectives_month SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_int_sales_objectives_month",
+      "status": "pass",
+      "detail": "int_sales_objectives_month publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_opportunity_period",
+      "status": "pass",
+      "detail": "fct_opportunity_period explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_opportunity_period",
+      "status": "pass",
+      "detail": "fct_opportunity_period explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_opportunity_period",
+      "status": "pass",
+      "detail": "fct_opportunity_period all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_opportunity_period",
+      "status": "pass",
+      "detail": "fct_opportunity_period SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_opportunity_period",
+      "status": "pass",
+      "detail": "fct_opportunity_period publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_stage_visit",
+      "status": "pass",
+      "detail": "fct_stage_visit explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_stage_visit",
+      "status": "pass",
+      "detail": "fct_stage_visit explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_stage_visit",
+      "status": "pass",
+      "detail": "fct_stage_visit all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_stage_visit",
+      "status": "pass",
+      "detail": "fct_stage_visit SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_stage_visit",
+      "status": "pass",
+      "detail": "fct_stage_visit publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_opportunity_event",
+      "status": "pass",
+      "detail": "fct_opportunity_event explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_opportunity_event",
+      "status": "pass",
+      "detail": "fct_opportunity_event explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_opportunity_event",
+      "status": "pass",
+      "detail": "fct_opportunity_event all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_opportunity_event",
+      "status": "pass",
+      "detail": "fct_opportunity_event SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_opportunity_event",
+      "status": "pass",
+      "detail": "fct_opportunity_event publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_opportunity_followup",
+      "status": "pass",
+      "detail": "fct_opportunity_followup explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_opportunity_followup",
+      "status": "pass",
+      "detail": "fct_opportunity_followup explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_opportunity_followup",
+      "status": "pass",
+      "detail": "fct_opportunity_followup all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_opportunity_followup",
+      "status": "pass",
+      "detail": "fct_opportunity_followup SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_opportunity_followup",
+      "status": "pass",
+      "detail": "fct_opportunity_followup publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_action",
+      "status": "pass",
+      "detail": "fct_action explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_action",
+      "status": "pass",
+      "detail": "fct_action explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_action",
+      "status": "pass",
+      "detail": "fct_action all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_action",
+      "status": "pass",
+      "detail": "fct_action SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_action",
+      "status": "pass",
+      "detail": "fct_action publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_demo_interval",
+      "status": "pass",
+      "detail": "fct_demo_interval explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_demo_interval",
+      "status": "pass",
+      "detail": "fct_demo_interval explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_demo_interval",
+      "status": "pass",
+      "detail": "fct_demo_interval all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_demo_interval",
+      "status": "pass",
+      "detail": "fct_demo_interval SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_demo_interval",
+      "status": "pass",
+      "detail": "fct_demo_interval publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_mrr_movement",
+      "status": "pass",
+      "detail": "fct_mrr_movement explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_mrr_movement",
+      "status": "pass",
+      "detail": "fct_mrr_movement explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_mrr_movement",
+      "status": "pass",
+      "detail": "fct_mrr_movement all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_mrr_movement",
+      "status": "pass",
+      "detail": "fct_mrr_movement SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_mrr_movement",
+      "status": "pass",
+      "detail": "fct_mrr_movement publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_subscription_month_end",
+      "status": "pass",
+      "detail": "fct_subscription_month_end explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_subscription_month_end",
+      "status": "pass",
+      "detail": "fct_subscription_month_end explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_subscription_month_end",
+      "status": "pass",
+      "detail": "fct_subscription_month_end all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_subscription_month_end",
+      "status": "pass",
+      "detail": "fct_subscription_month_end SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_subscription_month_end",
+      "status": "pass",
+      "detail": "fct_subscription_month_end publication isolated"
+    },
+    {
+      "id": "T01_schema_fct_sales_objectives_month",
+      "status": "pass",
+      "detail": "fct_sales_objectives_month explicit analytical destination"
+    },
+    {
+      "id": "T08_fct_sales_objectives_month",
+      "status": "pass",
+      "detail": "fct_sales_objectives_month explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_fct_sales_objectives_month",
+      "status": "pass",
+      "detail": "fct_sales_objectives_month all table/column descriptions"
+    },
+    {
+      "id": "T65_fct_sales_objectives_month",
+      "status": "pass",
+      "detail": "fct_sales_objectives_month SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_fct_sales_objectives_month",
+      "status": "pass",
+      "detail": "fct_sales_objectives_month publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_sales_objectives_month",
+      "status": "pass",
+      "detail": "dtr_sales_objectives_month explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_sales_objectives_month",
+      "status": "pass",
+      "detail": "dtr_sales_objectives_month explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_sales_objectives_month",
+      "status": "pass",
+      "detail": "dtr_sales_objectives_month all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_sales_objectives_month",
+      "status": "pass",
+      "detail": "dtr_sales_objectives_month SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_sales_objectives_month",
+      "status": "pass",
+      "detail": "dtr_sales_objectives_month publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_sales_objectives_month",
+      "status": "pass",
+      "detail": "dataset_sales_objectives_month explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_sales_objectives_month",
+      "status": "pass",
+      "detail": "dataset_sales_objectives_month explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_sales_objectives_month",
+      "status": "pass",
+      "detail": "dataset_sales_objectives_month all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_sales_objectives_month",
+      "status": "pass",
+      "detail": "dataset_sales_objectives_month SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_sales_objectives_month",
+      "status": "pass",
+      "detail": "dataset_sales_objectives_month publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_funnel_progress",
+      "status": "pass",
+      "detail": "dtr_funnel_progress explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_funnel_progress",
+      "status": "pass",
+      "detail": "dtr_funnel_progress explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_funnel_progress",
+      "status": "pass",
+      "detail": "dtr_funnel_progress all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_funnel_progress",
+      "status": "pass",
+      "detail": "dtr_funnel_progress SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_funnel_progress",
+      "status": "pass",
+      "detail": "dtr_funnel_progress publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_funnel_progress",
+      "status": "pass",
+      "detail": "dataset_funnel_progress explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_funnel_progress",
+      "status": "pass",
+      "detail": "dataset_funnel_progress explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_funnel_progress",
+      "status": "pass",
+      "detail": "dataset_funnel_progress all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_funnel_progress",
+      "status": "pass",
+      "detail": "dataset_funnel_progress SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_funnel_progress",
+      "status": "pass",
+      "detail": "dataset_funnel_progress publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_company_mrr_month",
+      "status": "pass",
+      "detail": "dtr_company_mrr_month explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_company_mrr_month",
+      "status": "pass",
+      "detail": "dtr_company_mrr_month explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_company_mrr_month",
+      "status": "pass",
+      "detail": "dtr_company_mrr_month all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_company_mrr_month",
+      "status": "pass",
+      "detail": "dtr_company_mrr_month SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_company_mrr_month",
+      "status": "pass",
+      "detail": "dtr_company_mrr_month publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_company_mrr_month",
+      "status": "pass",
+      "detail": "dataset_company_mrr_month explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_company_mrr_month",
+      "status": "pass",
+      "detail": "dataset_company_mrr_month explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_company_mrr_month",
+      "status": "pass",
+      "detail": "dataset_company_mrr_month all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_company_mrr_month",
+      "status": "pass",
+      "detail": "dataset_company_mrr_month SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_company_mrr_month",
+      "status": "pass",
+      "detail": "dataset_company_mrr_month publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_stage_visits",
+      "status": "pass",
+      "detail": "dtr_stage_visits explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_stage_visits",
+      "status": "pass",
+      "detail": "dtr_stage_visits explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_stage_visits",
+      "status": "pass",
+      "detail": "dtr_stage_visits all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_stage_visits",
+      "status": "pass",
+      "detail": "dtr_stage_visits SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_stage_visits",
+      "status": "pass",
+      "detail": "dtr_stage_visits publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_stage_visits",
+      "status": "pass",
+      "detail": "dataset_stage_visits explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_stage_visits",
+      "status": "pass",
+      "detail": "dataset_stage_visits explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_stage_visits",
+      "status": "pass",
+      "detail": "dataset_stage_visits all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_stage_visits",
+      "status": "pass",
+      "detail": "dataset_stage_visits SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_stage_visits",
+      "status": "pass",
+      "detail": "dataset_stage_visits publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_cohort_outcomes",
+      "status": "pass",
+      "detail": "dtr_cohort_outcomes explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_cohort_outcomes",
+      "status": "pass",
+      "detail": "dtr_cohort_outcomes explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_cohort_outcomes",
+      "status": "pass",
+      "detail": "dtr_cohort_outcomes all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_cohort_outcomes",
+      "status": "pass",
+      "detail": "dtr_cohort_outcomes SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_cohort_outcomes",
+      "status": "pass",
+      "detail": "dtr_cohort_outcomes publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_cohort_outcomes",
+      "status": "pass",
+      "detail": "dataset_cohort_outcomes explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_cohort_outcomes",
+      "status": "pass",
+      "detail": "dataset_cohort_outcomes explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_cohort_outcomes",
+      "status": "pass",
+      "detail": "dataset_cohort_outcomes all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_cohort_outcomes",
+      "status": "pass",
+      "detail": "dataset_cohort_outcomes SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_cohort_outcomes",
+      "status": "pass",
+      "detail": "dataset_cohort_outcomes publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_opportunity_timeline",
+      "status": "pass",
+      "detail": "dtr_opportunity_timeline explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_opportunity_timeline",
+      "status": "pass",
+      "detail": "dtr_opportunity_timeline explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_opportunity_timeline",
+      "status": "pass",
+      "detail": "dtr_opportunity_timeline all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_opportunity_timeline",
+      "status": "pass",
+      "detail": "dtr_opportunity_timeline SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_opportunity_timeline",
+      "status": "pass",
+      "detail": "dtr_opportunity_timeline publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_opportunity_timeline",
+      "status": "pass",
+      "detail": "dataset_opportunity_timeline explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_opportunity_timeline",
+      "status": "pass",
+      "detail": "dataset_opportunity_timeline explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_opportunity_timeline",
+      "status": "pass",
+      "detail": "dataset_opportunity_timeline all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_opportunity_timeline",
+      "status": "pass",
+      "detail": "dataset_opportunity_timeline SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_opportunity_timeline",
+      "status": "pass",
+      "detail": "dataset_opportunity_timeline publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_pipeline_periods",
+      "status": "pass",
+      "detail": "dtr_pipeline_periods explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_pipeline_periods",
+      "status": "pass",
+      "detail": "dtr_pipeline_periods explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_pipeline_periods",
+      "status": "pass",
+      "detail": "dtr_pipeline_periods all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_pipeline_periods",
+      "status": "pass",
+      "detail": "dtr_pipeline_periods SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_pipeline_periods",
+      "status": "pass",
+      "detail": "dtr_pipeline_periods publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_pipeline_periods",
+      "status": "pass",
+      "detail": "dataset_pipeline_periods explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_pipeline_periods",
+      "status": "pass",
+      "detail": "dataset_pipeline_periods explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_pipeline_periods",
+      "status": "pass",
+      "detail": "dataset_pipeline_periods all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_pipeline_periods",
+      "status": "pass",
+      "detail": "dataset_pipeline_periods SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_pipeline_periods",
+      "status": "pass",
+      "detail": "dataset_pipeline_periods publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_sales_events",
+      "status": "pass",
+      "detail": "dtr_sales_events explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_sales_events",
+      "status": "pass",
+      "detail": "dtr_sales_events explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_sales_events",
+      "status": "pass",
+      "detail": "dtr_sales_events all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_sales_events",
+      "status": "pass",
+      "detail": "dtr_sales_events SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_sales_events",
+      "status": "pass",
+      "detail": "dtr_sales_events publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_sales_events",
+      "status": "pass",
+      "detail": "dataset_sales_events explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_sales_events",
+      "status": "pass",
+      "detail": "dataset_sales_events explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_sales_events",
+      "status": "pass",
+      "detail": "dataset_sales_events all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_sales_events",
+      "status": "pass",
+      "detail": "dataset_sales_events SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_sales_events",
+      "status": "pass",
+      "detail": "dataset_sales_events publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_sales_actions",
+      "status": "pass",
+      "detail": "dtr_sales_actions explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_sales_actions",
+      "status": "pass",
+      "detail": "dtr_sales_actions explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_sales_actions",
+      "status": "pass",
+      "detail": "dtr_sales_actions all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_sales_actions",
+      "status": "pass",
+      "detail": "dtr_sales_actions SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_sales_actions",
+      "status": "pass",
+      "detail": "dtr_sales_actions publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_sales_actions",
+      "status": "pass",
+      "detail": "dataset_sales_actions explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_sales_actions",
+      "status": "pass",
+      "detail": "dataset_sales_actions explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_sales_actions",
+      "status": "pass",
+      "detail": "dataset_sales_actions all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_sales_actions",
+      "status": "pass",
+      "detail": "dataset_sales_actions SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_sales_actions",
+      "status": "pass",
+      "detail": "dataset_sales_actions publication isolated"
+    },
+    {
+      "id": "T01_schema_dtr_demo_intervals",
+      "status": "pass",
+      "detail": "dtr_demo_intervals explicit analytical destination"
+    },
+    {
+      "id": "T08_dtr_demo_intervals",
+      "status": "pass",
+      "detail": "dtr_demo_intervals explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dtr_demo_intervals",
+      "status": "pass",
+      "detail": "dtr_demo_intervals all table/column descriptions"
+    },
+    {
+      "id": "T65_dtr_demo_intervals",
+      "status": "pass",
+      "detail": "dtr_demo_intervals SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dtr_demo_intervals",
+      "status": "pass",
+      "detail": "dtr_demo_intervals publication isolated"
+    },
+    {
+      "id": "T01_schema_dataset_demo_intervals",
+      "status": "pass",
+      "detail": "dataset_demo_intervals explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_demo_intervals",
+      "status": "pass",
+      "detail": "dataset_demo_intervals explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_demo_intervals",
+      "status": "pass",
+      "detail": "dataset_demo_intervals all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_demo_intervals",
+      "status": "pass",
+      "detail": "dataset_demo_intervals SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_demo_intervals",
+      "status": "pass",
+      "detail": "dataset_demo_intervals publication isolated"
+    },
+    {
+      "id": "T01_schema_int_publication",
+      "status": "pass",
+      "detail": "int_publication explicit analytical destination"
+    },
+    {
+      "id": "T08_int_publication",
+      "status": "pass",
+      "detail": "int_publication explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_int_publication",
+      "status": "pass",
+      "detail": "int_publication all table/column descriptions"
+    },
+    {
+      "id": "T65_int_publication",
+      "status": "pass",
+      "detail": "int_publication SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T01_schema_dataset_publication_status",
+      "status": "pass",
+      "detail": "dataset_publication_status explicit analytical destination"
+    },
+    {
+      "id": "T08_dataset_publication_status",
+      "status": "pass",
+      "detail": "dataset_publication_status explicit SQL projections"
+    },
+    {
+      "id": "T08_docs_dataset_publication_status",
+      "status": "pass",
+      "detail": "dataset_publication_status all table/column descriptions"
+    },
+    {
+      "id": "T65_dataset_publication_status",
+      "status": "pass",
+      "detail": "dataset_publication_status SELECT model, no manual DDL/DML"
+    },
+    {
+      "id": "T09_dataset_publication_status",
+      "status": "pass",
+      "detail": "dataset_publication_status publication isolated"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_opportunities",
+      "status": "pass",
+      "detail": "stg_boond_opportunities all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_actions",
+      "status": "pass",
+      "detail": "stg_boond_actions all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_companies",
+      "status": "pass",
+      "detail": "stg_boond_companies all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_contacts",
+      "status": "pass",
+      "detail": "stg_boond_contacts all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_resources",
+      "status": "pass",
+      "detail": "stg_boond_resources all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_businessunits",
+      "status": "pass",
+      "detail": "stg_boond_businessunits all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_agencies",
+      "status": "pass",
+      "detail": "stg_boond_agencies all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_poles",
+      "status": "pass",
+      "detail": "stg_boond_poles all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_dictionaries",
+      "status": "pass",
+      "detail": "stg_boond_dictionaries all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_projects",
+      "status": "pass",
+      "detail": "stg_boond_projects all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_boond_deliveries",
+      "status": "pass",
+      "detail": "stg_boond_deliveries all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_hubspot_contacts",
+      "status": "pass",
+      "detail": "stg_hubspot_contacts all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_hubspot_deals",
+      "status": "pass",
+      "detail": "stg_hubspot_deals all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_ref_sales_targets",
+      "status": "pass",
+      "detail": "stg_ref_sales_targets all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_stg_ref_stage_probabilities",
+      "status": "pass",
+      "detail": "stg_ref_stage_probabilities all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_date",
+      "status": "pass",
+      "detail": "dim_date all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_country",
+      "status": "pass",
+      "detail": "dim_country all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_company",
+      "status": "pass",
+      "detail": "dim_company all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_employee",
+      "status": "pass",
+      "detail": "dim_employee all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_team",
+      "status": "pass",
+      "detail": "dim_team all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_stage",
+      "status": "pass",
+      "detail": "dim_stage all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_sale_type",
+      "status": "pass",
+      "detail": "dim_sale_type all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_channel",
+      "status": "pass",
+      "detail": "dim_channel all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_action_type",
+      "status": "pass",
+      "detail": "dim_action_type all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_followup_definition",
+      "status": "pass",
+      "detail": "dim_followup_definition all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dim_metric",
+      "status": "pass",
+      "detail": "dim_metric all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_crm_identity_links",
+      "status": "pass",
+      "detail": "int_crm_identity_links all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_team_membership_periods",
+      "status": "pass",
+      "detail": "int_team_membership_periods all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_signature_probabilities",
+      "status": "pass",
+      "detail": "int_signature_probabilities all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_opportunity_stage_visits",
+      "status": "pass",
+      "detail": "int_opportunity_stage_visits all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_opportunity_periods",
+      "status": "pass",
+      "detail": "int_opportunity_periods all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_opportunity_events",
+      "status": "pass",
+      "detail": "int_opportunity_events all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_opportunity_followup",
+      "status": "pass",
+      "detail": "int_opportunity_followup all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_actions_prepared",
+      "status": "pass",
+      "detail": "int_actions_prepared all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_demo_intervals",
+      "status": "pass",
+      "detail": "int_demo_intervals all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_visit_responsibility",
+      "status": "pass",
+      "detail": "int_visit_responsibility all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_subscription_periods",
+      "status": "pass",
+      "detail": "int_subscription_periods all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_subscription_changes",
+      "status": "pass",
+      "detail": "int_subscription_changes all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_subscription_month_end",
+      "status": "pass",
+      "detail": "int_subscription_month_end all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_client_activity_context",
+      "status": "pass",
+      "detail": "int_client_activity_context all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_mrr_movements",
+      "status": "pass",
+      "detail": "int_mrr_movements all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_sales_objectives_month",
+      "status": "pass",
+      "detail": "int_sales_objectives_month all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_opportunity_period",
+      "status": "pass",
+      "detail": "fct_opportunity_period all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_stage_visit",
+      "status": "pass",
+      "detail": "fct_stage_visit all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_opportunity_event",
+      "status": "pass",
+      "detail": "fct_opportunity_event all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_opportunity_followup",
+      "status": "pass",
+      "detail": "fct_opportunity_followup all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_action",
+      "status": "pass",
+      "detail": "fct_action all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_demo_interval",
+      "status": "pass",
+      "detail": "fct_demo_interval all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_mrr_movement",
+      "status": "pass",
+      "detail": "fct_mrr_movement all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_subscription_month_end",
+      "status": "pass",
+      "detail": "fct_subscription_month_end all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_fct_sales_objectives_month",
+      "status": "pass",
+      "detail": "fct_sales_objectives_month all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_sales_objectives_month",
+      "status": "pass",
+      "detail": "dtr_sales_objectives_month all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_sales_objectives_month",
+      "status": "pass",
+      "detail": "dataset_sales_objectives_month all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_funnel_progress",
+      "status": "pass",
+      "detail": "dtr_funnel_progress all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_funnel_progress",
+      "status": "pass",
+      "detail": "dataset_funnel_progress all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_company_mrr_month",
+      "status": "pass",
+      "detail": "dtr_company_mrr_month all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_company_mrr_month",
+      "status": "pass",
+      "detail": "dataset_company_mrr_month all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_stage_visits",
+      "status": "pass",
+      "detail": "dtr_stage_visits all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_stage_visits",
+      "status": "pass",
+      "detail": "dataset_stage_visits all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_cohort_outcomes",
+      "status": "pass",
+      "detail": "dtr_cohort_outcomes all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_cohort_outcomes",
+      "status": "pass",
+      "detail": "dataset_cohort_outcomes all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_opportunity_timeline",
+      "status": "pass",
+      "detail": "dtr_opportunity_timeline all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_opportunity_timeline",
+      "status": "pass",
+      "detail": "dataset_opportunity_timeline all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_pipeline_periods",
+      "status": "pass",
+      "detail": "dtr_pipeline_periods all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_pipeline_periods",
+      "status": "pass",
+      "detail": "dataset_pipeline_periods all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_sales_events",
+      "status": "pass",
+      "detail": "dtr_sales_events all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_sales_events",
+      "status": "pass",
+      "detail": "dataset_sales_events all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_sales_actions",
+      "status": "pass",
+      "detail": "dtr_sales_actions all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_sales_actions",
+      "status": "pass",
+      "detail": "dataset_sales_actions all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dtr_demo_intervals",
+      "status": "pass",
+      "detail": "dtr_demo_intervals all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_demo_intervals",
+      "status": "pass",
+      "detail": "dataset_demo_intervals all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_int_publication",
+      "status": "pass",
+      "detail": "int_publication all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_contract_dependencies_dataset_publication_status",
+      "status": "pass",
+      "detail": "dataset_publication_status all catalogue dependencies declared"
+    },
+    {
+      "id": "T09_DAG",
+      "status": "pass",
+      "detail": "DAG without cycles; all refs resolve"
+    },
+    {
+      "id": "T09_pointer",
+      "status": "pass",
+      "detail": "Publication model has no upstream ref; runner authorizes final isolated command"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "assert_published_datasets_one_run",
+    "--no-populate-cache"
+  ],
+  "start": "2026-10-25T22:55:59.409Z",
+  "end": "2026-10-25T22:56:05.828Z",
+  "exit_code": 0,
+  "elapsed_seconds": 6.421999999998661
+}

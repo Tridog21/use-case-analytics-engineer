@@ -1,0 +1,451 @@
+{
+  "verification_date": "2026-10-24",
+  "timezone_session": "UTC",
+  "population": "Derniere version par tenant/id, puis exclusion des suppressions; tous types et toutes dates",
+  "queries": [
+    {
+      "query": "Q1",
+      "rows": [
+        {
+          "state": 0,
+          "label": "🤠 Lead à traiter",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 32,
+          "nb_dans_perimetre_type_date_legacy": 26
+        },
+        {
+          "state": 1,
+          "label": "🚀 Signé - formalités à finaliser",
+          "besoin_encore_en_cours": 0,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 41,
+          "nb_dans_perimetre_type_date_legacy": 29
+        },
+        {
+          "state": 2,
+          "label": "👎 Non qualifié",
+          "besoin_encore_en_cours": 0,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 146,
+          "nb_dans_perimetre_type_date_legacy": 128
+        },
+        {
+          "state": 3,
+          "label": "👎 Abandonné",
+          "besoin_encore_en_cours": 0,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 172,
+          "nb_dans_perimetre_type_date_legacy": 128
+        },
+        {
+          "state": 7,
+          "label": "SUPP - Hors cible",
+          "besoin_encore_en_cours": 0,
+          "etape_proposee_dans_interface": 0,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 2,
+          "nb_dans_perimetre_type_date_legacy": 2
+        },
+        {
+          "state": 10,
+          "label": "SUPP - Bidon",
+          "besoin_encore_en_cours": 0,
+          "etape_proposee_dans_interface": 0,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 2,
+          "nb_dans_perimetre_type_date_legacy": 1
+        },
+        {
+          "state": 13,
+          "label": "⛔️ Perdu",
+          "besoin_encore_en_cours": 0,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 260,
+          "nb_dans_perimetre_type_date_legacy": 194
+        },
+        {
+          "state": 14,
+          "label": "🚀 Signé - formalités finalisées",
+          "besoin_encore_en_cours": 0,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 186,
+          "nb_dans_perimetre_type_date_legacy": 128
+        },
+        {
+          "state": 19,
+          "label": "SUPP - Doublon Make",
+          "besoin_encore_en_cours": 0,
+          "etape_proposee_dans_interface": 0,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 26,
+          "nb_dans_perimetre_type_date_legacy": 25
+        },
+        {
+          "state": 20,
+          "label": "🍔 Nurturing",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 338,
+          "nb_dans_perimetre_type_date_legacy": 319
+        },
+        {
+          "state": 21,
+          "label": "🎤 Proposition remise",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 13,
+          "nb_dans_perimetre_type_date_legacy": 7
+        },
+        {
+          "state": 22,
+          "label": "🍷 Qualification",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 73,
+          "nb_dans_perimetre_type_date_legacy": 72
+        },
+        {
+          "state": 23,
+          "label": "🥂 RDV découverte",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 38,
+          "nb_dans_perimetre_type_date_legacy": 34
+        },
+        {
+          "state": 24,
+          "label": "🍆 Show Boond",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 21,
+          "nb_dans_perimetre_type_date_legacy": 19
+        },
+        {
+          "state": 25,
+          "label": "✅ Projet validé par la direction",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 3,
+          "nb_dans_perimetre_type_date_legacy": 2
+        },
+        {
+          "state": 26,
+          "label": "🩳 Shortlist",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 11,
+          "nb_dans_perimetre_type_date_legacy": 7
+        },
+        {
+          "state": 28,
+          "label": "🛜 Closing",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 1,
+          "inclus_liste_ouverte_legacy": 1,
+          "nb_besoins": 4,
+          "nb_dans_perimetre_type_date_legacy": 3
+        },
+        {
+          "state": 30,
+          "label": "SUPP - En cours Chaud [SMB]",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 0,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 2,
+          "nb_dans_perimetre_type_date_legacy": 1
+        },
+        {
+          "state": 31,
+          "label": "SUPP - En cours Tiède [SMB]",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 0,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 4,
+          "nb_dans_perimetre_type_date_legacy": 1
+        },
+        {
+          "state": 32,
+          "label": "SUPP - En cours Froid [SMB]",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 0,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 1,
+          "nb_dans_perimetre_type_date_legacy": 0
+        },
+        {
+          "state": 33,
+          "label": "SUPP - Closing chaud",
+          "besoin_encore_en_cours": 1,
+          "etape_proposee_dans_interface": 0,
+          "inclus_liste_ouverte_legacy": 0,
+          "nb_besoins": 1,
+          "nb_dans_perimetre_type_date_legacy": 1
+        }
+      ]
+    },
+    {
+      "query": "Q2",
+      "rows": [
+        {
+          "first_state": 0,
+          "nb_besoins": 1271,
+          "premiere_observation_apres_creation": 1,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 0
+        },
+        {
+          "first_state": 13,
+          "nb_besoins": 22,
+          "premiere_observation_apres_creation": 22,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 275.33
+        },
+        {
+          "first_state": 14,
+          "nb_besoins": 17,
+          "premiere_observation_apres_creation": 17,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 330.57
+        },
+        {
+          "first_state": 31,
+          "nb_besoins": 12,
+          "premiere_observation_apres_creation": 12,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 221.48
+        },
+        {
+          "first_state": 30,
+          "nb_besoins": 12,
+          "premiere_observation_apres_creation": 12,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 173.81
+        },
+        {
+          "first_state": 3,
+          "nb_besoins": 6,
+          "premiere_observation_apres_creation": 6,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 537.39
+        },
+        {
+          "first_state": 2,
+          "nb_besoins": 6,
+          "premiere_observation_apres_creation": 6,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 326.35
+        },
+        {
+          "first_state": 9,
+          "nb_besoins": 6,
+          "premiere_observation_apres_creation": 6,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 209.68
+        },
+        {
+          "first_state": 10,
+          "nb_besoins": 6,
+          "premiere_observation_apres_creation": 6,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 361.66
+        },
+        {
+          "first_state": 32,
+          "nb_besoins": 6,
+          "premiere_observation_apres_creation": 6,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 53.89
+        },
+        {
+          "first_state": 7,
+          "nb_besoins": 4,
+          "premiere_observation_apres_creation": 4,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 279.35
+        },
+        {
+          "first_state": 27,
+          "nb_besoins": 3,
+          "premiere_observation_apres_creation": 3,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 476.84
+        },
+        {
+          "first_state": 1,
+          "nb_besoins": 2,
+          "premiere_observation_apres_creation": 2,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 55.89
+        },
+        {
+          "first_state": 33,
+          "nb_besoins": 2,
+          "premiere_observation_apres_creation": 2,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 109.47
+        },
+        {
+          "first_state": 34,
+          "nb_besoins": 1,
+          "premiere_observation_apres_creation": 1,
+          "premiere_observation_avant_creation": 0,
+          "delai_median_creation_premiere_observation_jours": 68.07
+        }
+      ]
+    },
+    {
+      "query": "Q3",
+      "rows": [
+        {
+          "nb_besoins": 1376,
+          "qualification_observee": 942,
+          "decouverte_observee": 518,
+          "show_boond_observe": 317,
+          "actuellement_signes": 227,
+          "signes_sans_show_boond_observe": 121,
+          "show_boond_sans_qualification_observee": 14,
+          "show_boond_observe_avant_creation": 0
+        }
+      ]
+    },
+    {
+      "query": "Q4",
+      "rows": [
+        {
+          "tenant": "demo_crm",
+          "id": 201029,
+          "creationDate": "2022-04-11 08:02:39.973",
+          "first_cdc_ts": "2023-06-14 09:00:45.265",
+          "first_state": 31,
+          "first_qualification": null,
+          "first_discovery": "2025-11-27 11:04:01.809",
+          "first_show_boond": "2025-12-09 06:09:21.241",
+          "current_state": 14,
+          "jours_creation_vers_show_boond_observe": 1338
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 200760,
+          "creationDate": "2022-07-18 08:48:55.458",
+          "first_cdc_ts": "2023-06-13 15:32:03.190",
+          "first_state": 31,
+          "first_qualification": "2025-11-27 04:27:35.894",
+          "first_discovery": "2025-12-08 02:20:33.932",
+          "first_show_boond": "2025-12-14 01:27:48.979",
+          "current_state": 20,
+          "jours_creation_vers_show_boond_observe": 1245
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 200625,
+          "creationDate": "2022-08-10 10:26:26.783",
+          "first_cdc_ts": "2023-06-13 14:49:18.969",
+          "first_state": 31,
+          "first_qualification": "2025-11-27 08:04:20.876",
+          "first_discovery": "2025-11-27 11:48:02.877",
+          "first_show_boond": "2026-01-03 05:45:30.153",
+          "current_state": 14,
+          "jours_creation_vers_show_boond_observe": 1242
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 200699,
+          "creationDate": "2022-08-22 10:59:56.768",
+          "first_cdc_ts": "2023-06-13 09:08:15.451",
+          "first_state": 31,
+          "first_qualification": null,
+          "first_discovery": "2025-11-26 15:55:52.425",
+          "first_show_boond": "2026-01-04 02:14:15.425",
+          "current_state": 13,
+          "jours_creation_vers_show_boond_observe": 1231
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 201186,
+          "creationDate": "2022-07-19 15:39:56.165",
+          "first_cdc_ts": "2023-06-12 13:15:27.064",
+          "first_state": 30,
+          "first_qualification": null,
+          "first_discovery": null,
+          "first_show_boond": "2025-11-26 10:22:50.423",
+          "current_state": 1,
+          "jours_creation_vers_show_boond_observe": 1226
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 200183,
+          "creationDate": "2022-10-12 11:31:53.392",
+          "first_cdc_ts": "2023-06-12 22:17:38.394",
+          "first_state": 30,
+          "first_qualification": "2025-11-26 18:29:46.963",
+          "first_discovery": "2026-01-12 20:50:32.962",
+          "first_show_boond": "2026-02-01 10:23:32.762",
+          "current_state": 14,
+          "jours_creation_vers_show_boond_observe": 1208
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 200828,
+          "creationDate": "2023-01-18 11:55:50.677",
+          "first_cdc_ts": "2023-06-12 09:07:23.874",
+          "first_state": 30,
+          "first_qualification": null,
+          "first_discovery": null,
+          "first_show_boond": "2025-11-27 14:48:42.148",
+          "current_state": 3,
+          "jours_creation_vers_show_boond_observe": 1044
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 200813,
+          "creationDate": "2024-06-05 12:15:57.279",
+          "first_cdc_ts": "2024-06-05 12:15:57.279",
+          "first_state": 0,
+          "first_qualification": "2025-11-26 17:37:44.084",
+          "first_discovery": "2025-12-15 05:39:57.289",
+          "first_show_boond": "2025-12-18 09:18:40.486",
+          "current_state": 14,
+          "jours_creation_vers_show_boond_observe": 561
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 201246,
+          "creationDate": "2024-06-25 12:33:18.209",
+          "first_cdc_ts": "2024-06-25 12:33:18.209",
+          "first_state": 0,
+          "first_qualification": null,
+          "first_discovery": "2025-11-26 20:16:24.165",
+          "first_show_boond": "2025-11-28 07:57:27.659",
+          "current_state": 13,
+          "jours_creation_vers_show_boond_observe": 521
+        },
+        {
+          "tenant": "demo_crm",
+          "id": 200627,
+          "creationDate": "2024-08-09 12:20:00.248",
+          "first_cdc_ts": "2024-08-09 12:20:00.248",
+          "first_state": 0,
+          "first_qualification": null,
+          "first_discovery": null,
+          "first_show_boond": "2025-11-27 14:30:25.531",
+          "current_state": 14,
+          "jours_creation_vers_show_boond_observe": 475
+        }
+      ]
+    }
+  ]
+}

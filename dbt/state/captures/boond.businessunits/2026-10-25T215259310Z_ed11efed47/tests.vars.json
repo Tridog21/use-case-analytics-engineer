@@ -1,0 +1,11 @@
+{
+  "capture_key": "2026-10-25T215259310Z_ed11efed47",
+  "capture_at": "2026-10-25T21:52:59.310Z",
+  "cdc_full_scan": true,
+  "cdc_overlap_hours": 48,
+  "source_capture_keys": {
+    "boond.businessunits": [
+      "2026-10-25T212042530Z_1e5ac5ad15"
+    ]
+  }
+}

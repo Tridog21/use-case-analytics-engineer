@@ -1,0 +1,40 @@
+[0m22:11:33  Running with dbt=1.11.12
+[0m22:11:33  Registered adapter: clickhouse=1.10.1
+[0m22:11:34  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m22:11:39  Found 73 models, 10 analyses, 296 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:11:39  
+[0m22:11:39  Concurrency: 1 threads (target='dev')
+[0m22:11:39  
+[0m22:11:40  1 of 13 START unit_test dim_channel::T56_inbound_outbound_other_no_marketing_fallback  [RUN]
+[0m22:11:41  1 of 13 PASS dim_channel::T56_inbound_outbound_other_no_marketing_fallback ..... [[32mPASS[0m in 0.87s]
+[0m22:11:41  2 of 13 START unit_test dim_sale_type::T54_commercial_scope_training_preserved . [RUN]
+[0m22:11:42  2 of 13 PASS dim_sale_type::T54_commercial_scope_training_preserved ............ [[32mPASS[0m in 0.50s]
+[0m22:11:42  3 of 13 START unit_test dim_stage::T43_T57_old_states_never_infer_modern_stage . [RUN]
+[0m22:11:43  3 of 13 PASS dim_stage::T43_T57_old_states_never_infer_modern_stage ............ [[32mPASS[0m in 0.79s]
+[0m22:11:43  4 of 13 START unit_test dim_team::T55_KAM_never_ES ............................. [RUN]
+[0m22:11:43  4 of 13 PASS dim_team::T55_KAM_never_ES ........................................ [[32mPASS[0m in 0.48s]
+[0m22:11:43  5 of 13 START unit_test fct_stage_visit::T61_transfer_preserves_visit_and_entry_team  [RUN]
+[0m22:11:44  5 of 13 PASS fct_stage_visit::T61_transfer_preserves_visit_and_entry_team ...... [[32mPASS[0m in 0.73s]
+[0m22:11:44  6 of 13 START unit_test fct_subscription_month_end::T10_outside_calendar_nullable_role_key  [RUN]
+[0m22:11:44  6 of 13 PASS fct_subscription_month_end::T10_outside_calendar_nullable_role_key  [[32mPASS[0m in 0.28s]
+[0m22:11:44  7 of 13 START unit_test int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr . [RUN]
+[0m22:11:45  7 of 13 PASS int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr ............ [[32mPASS[0m in 1.17s]
+[0m22:11:45  8 of 13 START unit_test int_opportunity_events::T20_T58_T59_first_signature_and_terminal_not_absorbing  [RUN]
+[0m22:12:06  8 of 13 PASS int_opportunity_events::T20_T58_T59_first_signature_and_terminal_not_absorbing  [[32mPASS[0m in 20.68s]
+[0m22:12:06  9 of 13 START unit_test int_opportunity_followup::T41_T42_T44_T58_cohort_horizon_reopened_DST_and_censoring  [RUN]
+[0m22:12:20  9 of 13 PASS int_opportunity_followup::T41_T42_T44_T58_cohort_horizon_reopened_DST_and_censoring  [[32mPASS[0m in 13.87s]
+[0m22:12:20  10 of 13 START unit_test int_opportunity_followup::T60_B_before_A_and_returns_do_not_duplicate_transitions  [RUN]
+[0m22:12:45  10 of 13 PASS int_opportunity_followup::T60_B_before_A_and_returns_do_not_duplicate_transitions  [[32mPASS[0m in 24.77s]
+[0m22:12:45  11 of 13 START unit_test int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [RUN]
+[0m22:12:47  11 of 13 PASS int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [[32mPASS[0m in 2.77s]
+[0m22:12:47  12 of 13 START unit_test int_subscription_month_end::T13_T28_T30_T51_zero_inclusive_end_birth_and_2099  [RUN]
+[0m22:12:50  12 of 13 PASS int_subscription_month_end::T13_T28_T30_T51_zero_inclusive_end_birth_and_2099  [[32mPASS[0m in 2.32s]
+[0m22:12:50  13 of 13 START unit_test int_team_membership_periods::T16_multiple_memberships_remain_unattributed  [RUN]
+[0m22:12:51  13 of 13 PASS int_team_membership_periods::T16_multiple_memberships_remain_unattributed  [[32mPASS[0m in 1.41s]
+[0m22:12:51  
+[0m22:12:51  Finished running 13 unit tests in 0 hours 1 minutes and 12.10 seconds (72.10s).
+[0m22:12:51  
+[0m22:12:51  [32mCompleted successfully[0m
+[0m22:12:51  
+[0m22:12:51  Done. PASS=13 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=13
+

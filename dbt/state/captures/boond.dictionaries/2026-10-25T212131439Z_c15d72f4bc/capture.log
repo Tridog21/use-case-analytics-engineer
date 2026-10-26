@@ -1,0 +1,102 @@
+[0m21:21:34  Running with dbt=1.11.12
+[0m21:21:34  Registered adapter: clickhouse=1.10.1
+[0m21:21:35  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_publication' in the 'models' section of file 'models\intermediate\common\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_opportunity_periods' in the 'models' section of file 'models\intermediate\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_opportunity_events' in the 'models' section of file 'models\intermediate\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_opportunity_followup' in the 'models' section of file 'models\intermediate\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_actions_prepared' in the 'models' section of file 'models\intermediate\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_demo_intervals' in the 'models' section of file 'models\intermediate\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_visit_responsibility' in the 'models' section of file 'models\intermediate\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_subscription_periods' in the 'models' section of file 'models\intermediate\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_subscription_changes' in the 'models' section of file 'models\intermediate\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_subscription_month_end' in the 'models' section of file 'models\intermediate\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_client_activity_context' in the 'models' section of file 'models\intermediate\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_mrr_movements' in the 'models' section of file 'models\intermediate\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_sales_objectives_month' in the 'models' section of file 'models\intermediate\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_opportunity_period' in the 'models' section of file 'models\marts\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_stage_visit' in the 'models' section of file 'models\marts\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_opportunity_event' in the 'models' section of file 'models\marts\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_opportunity_followup' in the 'models' section of file 'models\marts\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_action' in the 'models' section of file 'models\marts\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_demo_interval' in the 'models' section of file 'models\marts\pipeline\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_mrr_movement' in the 'models' section of file 'models\marts\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_subscription_month_end' in the 'models' section of file 'models\marts\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'fct_sales_objectives_month' in the 'models' section of file 'models\marts\revenue\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_sales_objectives_month' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_funnel_progress' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_company_mrr_month' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_stage_visits' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_cohort_outcomes' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_opportunity_timeline' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_pipeline_periods' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_sales_events' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_sales_actions' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_demo_intervals' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_publication_status' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_sales_objectives_month' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_funnel_progress' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_company_mrr_month' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_stage_visits' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_cohort_outcomes' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_opportunity_timeline' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_pipeline_periods' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_sales_events' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_sales_actions' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:37  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_demo_intervals' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_publication_publication_key__False.df11d202ab' (models\intermediate\common\_models.yml) depends on a node named 'int_publication' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_opportunity_periods_record_version_key__True.348f4db2f4' (models\intermediate\pipeline\_models.yml) depends on a node named 'int_opportunity_periods' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_opportunity_events_record_version_key__True.ce1054611c' (models\intermediate\pipeline\_models.yml) depends on a node named 'int_opportunity_events' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_opportunity_followup_record_version_key__True.3aa0e69ea1' (models\intermediate\pipeline\_models.yml) depends on a node named 'int_opportunity_followup' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_actions_prepared_record_version_key__True.8b5631f465' (models\intermediate\pipeline\_models.yml) depends on a node named 'int_actions_prepared' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_demo_intervals_record_version_key__True.3b706da7bf' (models\intermediate\pipeline\_models.yml) depends on a node named 'int_demo_intervals' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_visit_responsibility_record_version_key__True.629e36850a' (models\intermediate\pipeline\_models.yml) depends on a node named 'int_visit_responsibility' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_subscription_periods_record_version_key__True.e638256dc5' (models\intermediate\revenue\_models.yml) depends on a node named 'int_subscription_periods' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_subscription_changes_record_version_key__True.0347bb4782' (models\intermediate\revenue\_models.yml) depends on a node named 'int_subscription_changes' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_subscription_month_end_record_version_key__True.d8e770a68a' (models\intermediate\revenue\_models.yml) depends on a node named 'int_subscription_month_end' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_client_activity_context_record_version_key__True.72cdbb261b' (models\intermediate\revenue\_models.yml) depends on a node named 'int_client_activity_context' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_mrr_movements_record_version_key__True.4f62c40ed3' (models\intermediate\revenue\_models.yml) depends on a node named 'int_mrr_movements' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_sales_objectives_month_record_version_key__True.a196e83093' (models\intermediate\revenue\_models.yml) depends on a node named 'int_sales_objectives_month' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_opportunity_period_record_version_key__True.b05fea7d5f' (models\marts\pipeline\_models.yml) depends on a node named 'fct_opportunity_period' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_stage_visit_record_version_key__True.88eb3bf667' (models\marts\pipeline\_models.yml) depends on a node named 'fct_stage_visit' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_opportunity_event_record_version_key__True.c98df84ada' (models\marts\pipeline\_models.yml) depends on a node named 'fct_opportunity_event' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_opportunity_followup_record_version_key__True.bfb8898ea7' (models\marts\pipeline\_models.yml) depends on a node named 'fct_opportunity_followup' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_action_record_version_key__True.7bfcff34e2' (models\marts\pipeline\_models.yml) depends on a node named 'fct_action' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_demo_interval_record_version_key__True.d96ccffbcd' (models\marts\pipeline\_models.yml) depends on a node named 'fct_demo_interval' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_mrr_movement_record_version_key__True.fe35da8fc9' (models\marts\revenue\_models.yml) depends on a node named 'fct_mrr_movement' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_subscription_month_end_record_version_key__True.509da5e2be' (models\marts\revenue\_models.yml) depends on a node named 'fct_subscription_month_end' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_fct_sales_objectives_month_record_version_key__True.0d631c2cd0' (models\marts\revenue\_models.yml) depends on a node named 'fct_sales_objectives_month' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_sales_objectives_month_record_version_key__True.c2849f38ae' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_sales_objectives_month' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_funnel_progress_record_version_key__True.9ec60eb91a' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_funnel_progress' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_company_mrr_month_record_version_key__True.219a3bc3a1' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_company_mrr_month' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_stage_visits_record_version_key__True.3c11933adb' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_stage_visits' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_cohort_outcomes_record_version_key__True.8c50d98fa8' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_cohort_outcomes' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_opportunity_timeline_record_version_key__True.6b1e904abc' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_opportunity_timeline' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_pipeline_periods_record_version_key__True.c100606b6a' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_pipeline_periods' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_sales_events_record_version_key__True.3a5269b3e7' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_sales_events' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_sales_actions_record_version_key__True.125c1ca805' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_sales_actions' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_demo_intervals_record_version_key__True.30a4eddf13' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_demo_intervals' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_sales_objectives_month_record_version_key__True.552e5f20fb' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_sales_objectives_month' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_funnel_progress_record_version_key__True.acbc4a3df4' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_funnel_progress' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_company_mrr_month_record_version_key__True.4beaa1a33c' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_company_mrr_month' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_stage_visits_record_version_key__True.b525cb6ff6' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_stage_visits' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_cohort_outcomes_record_version_key__True.c38091451c' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_cohort_outcomes' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_opportunity_timeline_record_version_key__True.3b8fd7440d' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_opportunity_timeline' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_pipeline_periods_record_version_key__True.bebbafe7a5' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_pipeline_periods' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_sales_events_record_version_key__True.51bb5276ad' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_sales_events' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_sales_actions_record_version_key__True.8d03ce6721' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_sales_actions' in package '' which was not found
+[0m21:21:38  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_demo_intervals_record_version_key__True.d7645a92ed' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_demo_intervals' in package '' which was not found
+[0m21:21:38  Found 30 models, 30 data tests, 15 sources, 542 macros
+[0m21:21:38  The selection criterion 'tag:publication' does not match any enabled nodes
+[0m21:21:38  
+[0m21:21:38  Concurrency: 1 threads (target='dev')
+[0m21:21:38  
+[0m21:21:40  1 of 1 START sql incremental model `stg_boond`.`stg_boond_dictionaries` ........ [RUN]
+[0m21:21:40  1 of 1 OK created sql incremental model `stg_boond`.`stg_boond_dictionaries` ... [[32mOK[0m in 0.55s]
+[0m21:21:40  
+[0m21:21:40  Finished running 1 incremental model in 0 hours 0 minutes and 2.12 seconds (2.12s).
+[0m21:21:40  
+[0m21:21:40  [32mCompleted successfully[0m
+[0m21:21:40  
+[0m21:21:40  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

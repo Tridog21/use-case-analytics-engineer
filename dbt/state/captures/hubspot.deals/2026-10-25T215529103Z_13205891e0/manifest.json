@@ -1,0 +1,52 @@
+{
+  "source": "hubspot.deals",
+  "model": "stg_hubspot_deals",
+  "capture_key": "2026-10-25T215529103Z_13205891e0",
+  "capture_at": "2026-10-25T21:55:29.103Z",
+  "status": "success",
+  "source_digest": "59bbcd6329bb88fe51b829c64af42f07cc7eaa911e68ed51bd6cd8b70880eedb",
+  "schema_hash": "b77fb1de44a3b2d022983b6547a161d05c4eb8bc5330055ac3119359819489d9",
+  "nb_rows_read": 1190,
+  "lower_bound": null,
+  "upper_bound": "2026-10-25T21:55:29.103Z",
+  "full_scan": true,
+  "started_at": "2026-10-25T21:55:29.103Z",
+  "commands": [
+    {
+      "command": [
+        "run",
+        "--select",
+        "stg_hubspot_deals",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:55:29.204Z",
+      "end": "2026-10-25T21:55:42.599Z",
+      "exit_code": 0,
+      "elapsed_seconds": 13.406000000002678
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "stg_hubspot_deals",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T21:55:42.602Z",
+      "end": "2026-10-25T21:55:49.992Z",
+      "exit_code": 0,
+      "elapsed_seconds": 7.390999999995984
+    }
+  ],
+  "nb_expected_source_keys": 1190,
+  "expected_payload_digest": "7d21ffc329f414b55f6db09eb98ecae52cdf6b3adb7d59077797ec70ddfa39bb",
+  "ended_at": "2026-10-25T21:55:50.201Z",
+  "nb_rows_written": 0,
+  "nb_keys": 1190,
+  "keys_digest": "e3bbc1859d52a94fe595a1d842cbdb8956348cff7bff315158f89c4926904730"
+}

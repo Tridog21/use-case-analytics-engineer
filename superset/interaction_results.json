@@ -1,0 +1,305 @@
+[
+  {
+    "name": "duration_median_default",
+    "passed": true,
+    "evidence": {
+      "actual": 7.698447806712963,
+      "native_exact_inclusive": 7.698447806712963
+    }
+  },
+  {
+    "name": "duration_median_team",
+    "passed": true,
+    "evidence": {
+      "actual": 7.917831087962963,
+      "native_exact_inclusive": 7.917831087962963
+    }
+  },
+  {
+    "name": "duration_median_earlier",
+    "passed": true,
+    "evidence": {
+      "actual": 7.340388136574074,
+      "native_exact_inclusive": 7.340388136574074
+    }
+  },
+  {
+    "name": "duration_p90_default",
+    "passed": true,
+    "evidence": {
+      "actual": 23.3029478611111,
+      "native_exact_inclusive": 23.3029478611111
+    }
+  },
+  {
+    "name": "duration_p90_team",
+    "passed": true,
+    "evidence": {
+      "actual": 23.40633359027779,
+      "native_exact_inclusive": 23.40633359027779
+    }
+  },
+  {
+    "name": "duration_p90_earlier",
+    "passed": true,
+    "evidence": {
+      "actual": 22.44608741898148,
+      "native_exact_inclusive": 22.44608741898148
+    }
+  },
+  {
+    "name": "age_median_default",
+    "passed": true,
+    "evidence": {
+      "actual": 69.70494904513889,
+      "native_exact_inclusive": 69.70494904513889
+    }
+  },
+  {
+    "name": "age_median_team",
+    "passed": true,
+    "evidence": {
+      "actual": 69.70494904513889,
+      "native_exact_inclusive": 69.70494904513889
+    }
+  },
+  {
+    "name": "age_median_earlier",
+    "passed": true,
+    "evidence": {
+      "actual": 51.91302482638889,
+      "native_exact_inclusive": 51.91302482638889
+    }
+  },
+  {
+    "name": "upsell_path",
+    "passed": true,
+    "evidence": [
+      {
+        "etape": "02 · Closing",
+        "Dossiers": 3
+      },
+      {
+        "etape": "03 · Signé",
+        "Dossiers": 3
+      },
+      {
+        "etape": "00 · Création",
+        "Dossiers": 4
+      },
+      {
+        "etape": "01 · Proposition",
+        "Dossiers": 4
+      }
+    ]
+  },
+  {
+    "name": "new_sales_path",
+    "passed": true,
+    "evidence": [
+      {
+        "etape": "03 · Démo",
+        "Dossiers": 26
+      },
+      {
+        "etape": "06 · Signé",
+        "Dossiers": 10
+      },
+      {
+        "etape": "00 · Création",
+        "Dossiers": 84
+      },
+      {
+        "etape": "05 · Closing",
+        "Dossiers": 12
+      },
+      {
+        "etape": "02 · Découverte",
+        "Dossiers": 43
+      },
+      {
+        "etape": "01 · Qualification",
+        "Dossiers": 80
+      },
+      {
+        "etape": "04 · Proposition",
+        "Dossiers": 19
+      }
+    ]
+  },
+  {
+    "name": "threshold_monotonic_and_disabled",
+    "passed": true,
+    "evidence": {
+      "days21": 488,
+      "days30": 445,
+      "disabled": null
+    }
+  },
+  {
+    "name": "cohort_open_immature_team",
+    "passed": true,
+    "evidence": null
+  },
+  {
+    "name": "cohort_won_immature_team",
+    "passed": true,
+    "evidence": null
+  },
+  {
+    "name": "cohort_lost_immature_team",
+    "passed": true,
+    "evidence": null
+  },
+  {
+    "name": "six_outcomes_sum_to_one",
+    "passed": true,
+    "evidence": [
+      {
+        "horizon_label": "J+90",
+        "Ouvert": 0.4642857142857143,
+        "Gagné": 0.09523809523809523,
+        "Perdu": 0.17857142857142858,
+        "Abandonné": 0.07142857142857142,
+        "Non qualifié": 0.13095238095238096,
+        "Inconnu": 0.05952380952380952
+      },
+      {
+        "horizon_label": "J+30",
+        "Ouvert": 0.6904761904761905,
+        "Gagné": 0.0,
+        "Perdu": 0.11904761904761904,
+        "Abandonné": 0.03571428571428571,
+        "Non qualifié": 0.10714285714285714,
+        "Inconnu": 0.047619047619047616
+      },
+      {
+        "horizon_label": "J+60",
+        "Ouvert": 0.5833333333333334,
+        "Gagné": 0.023809523809523808,
+        "Perdu": 0.17857142857142858,
+        "Abandonné": 0.047619047619047616,
+        "Non qualifié": 0.11904761904761904,
+        "Inconnu": 0.047619047619047616
+      }
+    ]
+  },
+  {
+    "name": "matrix_six_cohorts_and_immaturity",
+    "passed": true,
+    "evidence": [
+      {
+        "cohorte": "2026-04-01",
+        "Taille": 52,
+        "J+30": "O 78.8 % · G 0 % · P 1.9 % · A 3.8 % · N 13.5 % · I 1.9 %",
+        "J+60": "O 55.8 % · G 1.9 % · P 11.5 % · A 7.7 % · N 21.2 % · I 1.9 %",
+        "J+90": "O 44.2 % · G 9.6 % · P 15.4 % · A 7.7 % · N 21.2 % · I 1.9 %"
+      },
+      {
+        "cohorte": "2026-05-01",
+        "Taille": 63,
+        "J+30": "O 73 % · G 1.6 % · P 6.3 % · A 4.8 % · N 12.7 % · I 1.6 %",
+        "J+60": "O 57.1 % · G 3.2 % · P 12.7 % · A 4.8 % · N 20.6 % · I 1.6 %",
+        "J+90": "O 44.4 % · G 7.9 % · P 14.3 % · A 11.1 % · N 20.6 % · I 1.6 %"
+      },
+      {
+        "cohorte": "2026-06-01",
+        "Taille": 84,
+        "J+30": "O 69 % · G 0 % · P 11.9 % · A 3.6 % · N 10.7 % · I 4.8 %",
+        "J+60": "O 58.3 % · G 2.4 % · P 17.9 % · A 4.8 % · N 11.9 % · I 4.8 %",
+        "J+90": "O 46.4 % · G 9.5 % · P 17.9 % · A 7.1 % · N 13.1 % · I 6 %"
+      },
+      {
+        "cohorte": "2026-07-01",
+        "Taille": 91,
+        "J+30": "O 82.4 % · G 0 % · P 5.5 % · A 2.2 % · N 7.7 % · I 2.2 %",
+        "J+60": "O 67 % · G 3.3 % · P 9.9 % · A 5.5 % · N 12.1 % · I 2.2 %",
+        "J+90": "Non mature"
+      },
+      {
+        "cohorte": "2026-08-01",
+        "Taille": 86,
+        "J+30": "O 83.7 % · G 0 % · P 2.3 % · A 1.2 % · N 8.1 % · I 4.7 %",
+        "J+60": "Non mature",
+        "J+90": "Non mature"
+      },
+      {
+        "cohorte": "2026-09-01",
+        "Taille": 104,
+        "J+30": "Non mature",
+        "J+60": "Non mature",
+        "J+90": "Non mature"
+      }
+    ]
+  },
+  {
+    "name": "ES_target_preserved_actual_null",
+    "passed": true,
+    "evidence": {
+      "actual": null,
+      "target": 1690.0
+    }
+  },
+  {
+    "name": "selected_timeline",
+    "passed": true,
+    "evidence": {
+      "dossier": "OPP-201310",
+      "rows": 19
+    }
+  },
+  {
+    "name": "timeline_future_mask",
+    "passed": true,
+    "evidence": {
+      "rows": 0
+    }
+  },
+  {
+    "name": "unknown_entries_visible",
+    "passed": true,
+    "evidence": [
+      {
+        "Passages": 5292,
+        "Opportunités": 1278,
+        "Terminés": 3959,
+        "En cours": 1220,
+        "Débuts inconnus": 102,
+        "Non observables": 11
+      }
+    ]
+  },
+  {
+    "name": "financial_scope_global",
+    "passed": true,
+    "evidence": [
+      "Mois · objectifs et portefeuille",
+      "Équipe · objectifs",
+      "Cohorte · tunnel",
+      "Type · tunnel",
+      "Équipe · tunnel",
+      "Observation · tunnel"
+    ]
+  },
+  {
+    "name": "matrix_immune_to_zoom",
+    "passed": true,
+    "evidence": 30
+  },
+  {
+    "name": "publication_unchanged",
+    "passed": true,
+    "evidence": [
+      [
+        "3eb9e7b9fd1d7c77d71db25ea96c59a7073ee1716e8c469e5c3abece2205223e"
+      ]
+    ]
+  },
+  {
+    "name": "native_export_created",
+    "passed": true,
+    "evidence": {
+      "files": 53
+    }
+  }
+]

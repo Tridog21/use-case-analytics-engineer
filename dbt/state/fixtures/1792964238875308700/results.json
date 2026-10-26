@@ -1,0 +1,20 @@
+[
+  {
+    "test": "S01_first_load",
+    "actual": 2,
+    "expected": 2,
+    "status": "pass"
+  },
+  {
+    "test": "S03_exact_rerun",
+    "actual": 2,
+    "expected": 2,
+    "status": "pass"
+  },
+  {
+    "test": "S09_inside_window",
+    "actual": 3,
+    "expected": 3,
+    "status": "pass"
+  }
+]

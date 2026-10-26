@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "dim_metric",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:47:44.212Z",
+  "end": "2026-10-25T21:47:51.843Z",
+  "exit_code": 0,
+  "elapsed_seconds": 7.625
+}

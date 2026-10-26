@@ -1,0 +1,11 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "assert_dataset_contracts"
+  ],
+  "start": "2026-10-25T22:51:24.444Z",
+  "end": "2026-10-25T22:51:31.281Z",
+  "exit_code": 2,
+  "elapsed_seconds": 6.828000000001339
+}

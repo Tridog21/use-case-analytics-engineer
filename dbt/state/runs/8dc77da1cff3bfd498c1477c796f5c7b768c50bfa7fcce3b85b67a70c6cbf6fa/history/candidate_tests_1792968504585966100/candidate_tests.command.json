@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "T07_content_dtr_opportunity_timeline T07_content_dtr_sales_events T07_content_int_opportunity_events T07_content_int_opportunity_periods d8e770a68a",
+    "--threads",
+    "1",
+    "--exclude",
+    "tag:publication test_type:unit"
+  ],
+  "start": "2026-10-25T22:48:15.137Z",
+  "end": "2026-10-25T22:48:24.585Z",
+  "exit_code": 1,
+  "elapsed_seconds": 9.453000000001339
+}

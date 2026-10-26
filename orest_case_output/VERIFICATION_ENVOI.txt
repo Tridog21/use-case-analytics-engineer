@@ -1,0 +1,29 @@
+VÉRIFICATION DU DOSSIER D’ENVOI - 26 octobre 2026
+
+Point d’entrée : START_HERE.md à la racine, puis orest_case_output/START_HERE.pdf.
+Le PDF contient l’explication validée du candidat, le guide et les quatre récapitulatifs.
+
+CONTRÔLES EFFECTUÉS
+- 2149 liens locaux de documents Markdown vérifiés dans le périmètre actif ; 1653 ancres de section vérifiées.
+- 9 liens cliquables du PDF d’entrée pointent vers des livrables inclus.
+- Aucune cible locale manquante dans ce périmètre.
+- 109 liens à fragments de numéros de ligne adaptés à la lecture locale ; les références de lignes restent dans les libellés.
+- Les quatre étapes disposent de leur récapitulatif, historique et documents de travail.
+- Code dbt, assets Superset, configurations Docker, scripts, seeds et preuves d’exécution conservés à leurs emplacements attendus.
+- Aucun secret actuel du fichier local .env.superset détecté dans les fichiers retenus, y compris l’export Superset.
+
+ARCHIVE D’ENVOI
+DOSSIER_RECRUTEURS.zip contient le dépôt utile, y compris les preuves dbt/state/ et l’export Superset existant. Le dossier de documentation seul ne suffit pas pour reproduire les dashboards.
+Sont exclus : .git/, environnements Python .venv/, caches Python, dbt/target/, dbt/logs/, dbt_packages/, .env.superset, identifiants locaux dbt et fichiers temporaires. Les preuves d’exécution conservées dans dbt/state/ et implementation/ ne sont pas supprimées.
+Les fichiers exclus restent intacts sur la machine du candidat. Au premier lancement, le script Superset génère des secrets propres à la machine du recruteur.
+
+LIMITES EXPLICITES
+- Historiques IA et ancien guide archivé : transcriptions conservées, avec leurs anciens chemins locaux et références historiques. Ils ne servent pas de navigation active. Leurs liens ne sont pas présentés comme portables.
+- Les liens Internet et le fonctionnement d’une installation vierge n’ont pas été testés pendant cette revue.
+- L’utilitaire facultatif dbt/tools/report_execution.py conserve des chemins de copie propres à la machine du candidat. Il n’est pas utilisé par les commandes de reproduction du guide ; le rapport déjà produit est inclus. Ces chemins doivent être adaptés si l’on souhaite réutiliser cet utilitaire d’export.
+- Aucun nouveau test métier, aucune reconstruction dbt ni modification de données n’a été effectué.
+- Le cycle final autonome de recette n’a pas été réalisé, comme expliqué par le candidat.
+- Le document opérationnel de communication demandé dans l’énoncé (messages, destinataires et calendrier) reste absent comme livrable autonome. Le recueil de questions métier ne le remplace pas.
+
+CONCLUSION
+Le dossier est organisé et conditionné pour être transmis avec les limites ci-dessus. Il n’est pas présenté comme un rendu intégralement recetté ou couvrant tous les livrables de l’énoncé.

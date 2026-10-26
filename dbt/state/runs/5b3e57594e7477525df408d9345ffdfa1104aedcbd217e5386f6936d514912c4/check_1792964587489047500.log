@@ -1,0 +1,34 @@
+[0m21:43:10  Running with dbt=1.11.12
+[0m21:43:10  Registered adapter: clickhouse=1.10.1
+[0m21:43:11  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m21:43:15  Found 73 models, 5 analyses, 186 data tests, 15 sources, 544 macros, 10 unit tests
+[0m21:43:15  
+[0m21:43:15  Concurrency: 1 threads (target='dev')
+[0m21:43:15  
+[0m21:43:17  1 of 10 START unit_test dim_channel::T56_inbound_outbound_other_no_marketing_fallback  [RUN]
+[0m21:43:18  1 of 10 PASS dim_channel::T56_inbound_outbound_other_no_marketing_fallback ..... [[32mPASS[0m in 0.91s]
+[0m21:43:18  2 of 10 START unit_test dim_sale_type::T54_commercial_scope_training_preserved . [RUN]
+[0m21:43:18  2 of 10 PASS dim_sale_type::T54_commercial_scope_training_preserved ............ [[32mPASS[0m in 0.62s]
+[0m21:43:18  3 of 10 START unit_test dim_stage::T43_T57_old_states_never_infer_modern_stage . [RUN]
+[0m21:43:19  3 of 10 PASS dim_stage::T43_T57_old_states_never_infer_modern_stage ............ [[32mPASS[0m in 0.71s]
+[0m21:43:19  4 of 10 START unit_test dim_team::T55_KAM_never_ES ............................. [RUN]
+[0m21:43:20  4 of 10 PASS dim_team::T55_KAM_never_ES ........................................ [[32mPASS[0m in 0.46s]
+[0m21:43:20  5 of 10 START unit_test int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr . [RUN]
+[0m21:43:21  5 of 10 PASS int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr ............ [[32mPASS[0m in 1.21s]
+[0m21:43:21  6 of 10 START unit_test int_opportunity_events::T20_T58_T59_first_signature_and_terminal_not_absorbing  [RUN]
+[0m21:43:36  6 of 10 PASS int_opportunity_events::T20_T58_T59_first_signature_and_terminal_not_absorbing  [[32mPASS[0m in 15.16s]
+[0m21:43:36  7 of 10 START unit_test int_opportunity_followup::T41_T42_T44_T58_cohort_horizon_reopened_DST_and_censoring  [RUN]
+[0m21:43:49  7 of 10 PASS int_opportunity_followup::T41_T42_T44_T58_cohort_horizon_reopened_DST_and_censoring  [[32mPASS[0m in 12.83s]
+[0m21:43:49  8 of 10 START unit_test int_opportunity_followup::T60_B_before_A_and_returns_do_not_duplicate_transitions  [RUN]
+[0m21:44:13  8 of 10 PASS int_opportunity_followup::T60_B_before_A_and_returns_do_not_duplicate_transitions  [[32mPASS[0m in 24.16s]
+[0m21:44:13  9 of 10 START unit_test int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [RUN]
+[0m21:44:16  9 of 10 PASS int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [[32mPASS[0m in 2.83s]
+[0m21:44:16  10 of 10 START unit_test int_subscription_month_end::T13_T28_T30_T51_zero_inclusive_end_birth_and_2099  [RUN]
+[0m21:44:18  10 of 10 PASS int_subscription_month_end::T13_T28_T30_T51_zero_inclusive_end_birth_and_2099  [[32mPASS[0m in 2.37s]
+[0m21:44:18  
+[0m21:44:18  Finished running 10 unit tests in 0 hours 1 minutes and 2.71 seconds (62.71s).
+[0m21:44:18  
+[0m21:44:18  [32mCompleted successfully[0m
+[0m21:44:18  
+[0m21:44:18  Done. PASS=10 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=10
+

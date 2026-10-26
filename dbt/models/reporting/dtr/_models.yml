@@ -1,0 +1,1670 @@
+version: 2
+models:
+- name: dtr_sales_objectives_month
+  description: '**Grain métier :** tenant_id × month_date × source_segment × metric_code ; segment Sales de la cible,
+    équipe résolue seulement si mapping univoque. **Identité logique :** `record_key=H(tenant_id, month_date, source_segment,
+    metric_code)`. **Grain historique/physique :** `(model_run_id,record_key)` ; version=H(run,key), une seule contribution
+    par unité dans un run. Les clés métier et de dimensions sont conservées ci-dessous. Rafraîchissement manuel
+    à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id001
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: 'Fait : tenant de la comparaison.'
+  - name: month_date
+    data_type: Date
+    description: 'Fait : premier jour du mois de reporting Europe/Paris.'
+  - name: source_segment
+    data_type: String
+    description: 'fct_sales_objectives_month.source_segment : SMB/LA/ES ; identité du segment de cible sans fabriquer
+      une businessunit.'
+  - name: team_key
+    data_type: Nullable(String)
+    description: fct_sales_objectives_month.team_key ; NULL si mapping source_segment→équipe non résolu. La clé
+      du grain utilise source_segment pour préserver les cibles non rapprochées.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: 'Fait : version pertinente de l''équipe ; NULL si mapping non résolu.'
+  - name: team_name
+    data_type: Nullable(String)
+    description: dim_team.team_name, jointure par model_run_id + team_version_key.
+  - name: metric_code
+    data_type: String
+    description: 'Fait : mrr_signed, pipeline_generated, pipeline_weighted ou demos.'
+  - name: metric_key
+    data_type: String
+    description: 'Fait : identité de l''indicateur.'
+  - name: metric_version_key
+    data_type: String
+    description: Version de dim_metric utilisée par le run.
+  - name: metric_label
+    data_type: Nullable(String)
+    description: dim_metric.metric_label ; une ligne de dimension au plus.
+  - name: value_unit
+    data_type: String
+    description: fct_sales_objectives_month.value_unit, déclaration attendue de mesure (peut marquer pipeline non
+      confirmé) ; ne prouve pas la comparabilité du réalisé. Ce dernier reste NULL sans unité validée.
+  - name: actual_value
+    data_type: Nullable(Decimal(38,4))
+    description: 'Fait : réalisé de la population compatible, jamais un candidat monétaire promu sans validation.'
+  - name: target_value
+    data_type: Nullable(Decimal(38,4))
+    description: 'Fait : cible versionnée de la même équipe et du même mois.'
+  - name: variance_value
+    data_type: Nullable(Decimal(38,4))
+    description: actual_value - target_value seulement si les deux valeurs et leur comparabilité sont connues.
+  - name: attainment_rate
+    data_type: Nullable(Float64)
+    description: actual_value / target_value si cible > 0 et valeurs comparables ; affichage ×100 dans la BI.
+  - name: is_population_compatible
+    data_type: Nullable(Bool)
+    description: Population4/7 décidée D22 ; compatibilité d’unité/date vérifiée séparément, NULL si preuve d’unité
+      manque.
+  - name: nb_source_contributions
+    data_type: Nullable(UInt64)
+    description: Nombre de contributions logiques examinées dans le réalisé, s'il est disponible dans le fait.
+  - name: nb_uncalculable_contributions
+    data_type: Nullable(UInt64)
+    description: Nombre de contributions dont le calcul reste inconnu ; ne prouve pas à lui seul la complétude de
+      la source.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; statut transmis et combiné aux contrôles de jointure.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: 'Motif explicite : unconfirmed_amount_unit, missing_team_mapping, missing_demo_completion_proof,
+      incompatible_population, missing_target, zero_target, ou motif du fait.'
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id001
+- name: dtr_funnel_progress
+  description: '**Grain métier :** tenant_id × opportunity_key × définition de parcours × anchor_at × target_stage_id
+    ; une contribution de dossier par étape cible. **Identité logique :** `record_key=H(tenant_id, opportunity_key,
+    followup_definition_key, anchor_at, target_stage_id)`. **Grain historique/physique :** `(model_run_id,record_key)`
+    ; version=H(run,key), une seule contribution par unité dans un run. Les clés métier et de dimensions sont conservées
+    ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id002
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant Boond conservé dans les identités et jointures.
+  - name: opportunity_key
+    data_type: String
+    description: Identité stable tenant + opportunité.
+  - name: opportunity_id
+    data_type: Int64
+    description: Identifiant Boond du dossier, pour investigation.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité stable de société résolue au contexte retenu.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version de société pertinente au contexte retenu.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond de la société.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name par run+company_version_key, N:0..1.
+  - name: followup_key
+    data_type: String
+    description: Identité de la contribution canonique de suivi.
+  - name: followup_definition_key
+    data_type: String
+    description: Définition versionnée du parcours et de l'étape cible ; ne pas additionner des définitions différentes.
+  - name: followup_definition_version_key
+    data_type: String
+    description: Version de dim_followup_definition utilisée.
+  - name: created_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Création métier Boond, ancrage d'entrée du pipeline.
+  - name: anchor_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Ancrage de définition D17/D18 ; NULL et qualité si date d’entrée non observable, pas règle indécise.
+  - name: cohort_month
+    data_type: Nullable(Date)
+    description: Mois de création Paris, filtre cohorte du tunnel.
+  - name: sale_path_code
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_code associé au type d'ancrage ; aucune déduction du parcours depuis un
+      code d'étape.
+  - name: target_stage_id
+    data_type: Int64
+    description: Étape cible de la ligne.
+  - name: target_stage_key
+    data_type: Nullable(String)
+    description: Identité stable de l'étape cible.
+  - name: target_stage_version_key
+    data_type: Nullable(String)
+    description: Version de la cible.
+  - name: target_stage_label
+    data_type: Nullable(String)
+    description: Libellé dim_stage de la cible par run+version.
+  - name: funnel_position
+    data_type: Nullable(UInt16)
+    description: Position explicite dans le parcours validé ; jamais tri du code numérique.
+  - name: previous_target_stage_id
+    data_type: Nullable(Int64)
+    description: Étape précédente définie du même parcours, NULL pour la première.
+  - name: first_reached_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Première entrée admissible connue dans la cible après ancrage ; NULL n'est pas preuve d'échec.
+  - name: first_reached_observed_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Première preuve d'observation en cible, utilisable comme borne supérieure d'atteinte sans inventer
+      une entrée exacte.
+  - name: previous_stage_first_reached_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Première atteinte admissible de l'étape précédente selon définition.
+  - name: transition_reached_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Alias de first_reached_at du suivi stage_transition sélectionné, après ancrage source ; jointure
+      explicitée, pas colonne supposée du fait.
+  - name: is_eligible
+    data_type: Nullable(Bool)
+    description: Admissibilité du dossier à la population commune du parcours.
+  - name: is_definition_enabled
+    data_type: Bool
+    description: dim_followup_definition.is_enabled ; false si définition absente/désactivée, avec blocked_definition
+      dans disponibilité.
+  - name: coverage_start_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Borne de couverture historique de la population suivie.
+  - name: coverage_end_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Fin de couverture connue.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Couverture permettant de distinguer non atteinte observée et absence de trace.
+  - name: reached_target
+    data_type: Nullable(Bool)
+    description: Résultat à l'observation du run ; recalculer par les timestamps pour une autre observation.
+  - name: denominator_contribution
+    data_type: Nullable(UInt8)
+    description: Contribution du dossier admissible au dénominateur de la définition ; NULL si non calculable.
+  - name: converted_contribution
+    data_type: Nullable(UInt8)
+    description: Contribution admissible convertie, interprétée avec son ancrage/horizon ; ne pas sommer sans restriction
+      d'observation.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du dossier dans le contexte retenu ; ne désigne pas la composante financière New/Upsell.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité stable du type commercial.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_sale_type pertinente.
+  - name: sale_type_label
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_label par run+version, N:0..1.
+  - name: channel_key
+    data_type: Nullable(String)
+    description: Alias explicite de acquisition_channel_key du fait ; canal officiel d'entrée, NULL avant règle
+      validée.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Version de mapping du canal, indépendante des sources candidates conservées.
+  - name: channel_label
+    data_type: Nullable(String)
+    description: dim_channel.channel_label par run+version, N:0..1.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Valeur candidate Boond conservée sans la transformer en canal officiel.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: false si origine à création ou mapping de valeur est manquant ; règle D24 définie, filtre disponible
+      sur les lignes résolues.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Identité stable du responsable retenu.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Version descriptive du responsable.
+  - name: employee_display_name
+    data_type: Nullable(String)
+    description: dim_employee.employee_display_name par run+version, N:0..1.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Équipe historiquement retenue si mapping et attribution validés.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version de l'équipe pertinente.
+  - name: team_name
+    data_type: Nullable(String)
+    description: dim_team.team_name par run+version, N:0..1.
+  - name: is_team_calculable
+    data_type: Bool
+    description: false pour rattachement à entrée/événement inconnu ou ambigu ; sinon true y compris KAM connue,
+      indépendamment de son absence de cible D23.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ready n'efface pas les réserves distinctes de couverture.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Motif explicite, stable et documenté ; plusieurs motifs séparés de façon canonique si nécessaire.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id002
+- name: dtr_company_mrr_month
+  description: '**Grain métier :** tenant_id × company_key × closing_date ; une ligne par société aux deux clôtures
+    comparées. **Identité logique :** `record_key=H(tenant_id, company_key, closing_date)`. **Grain historique/physique
+    :** `(model_run_id,record_key)` ; version=H(run,key), une seule contribution par unité dans un run. Les clés
+    métier et de dimensions sont conservées ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions
+    conservées ; publication contrôlée.'
+  config:
+    tags: &id003
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant des abonnements et de la société.
+  - name: company_key
+    data_type: String
+    description: Identité stable de société ; aucune clé société inventée pour une ligne non rattachable.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond lorsque résolu.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version descriptive de la société à la clôture.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name, N:0..1 par run et version.
+  - name: closing_date
+    data_type: Date
+    description: Alias de month_end_date, fct_subscription_month_end/fct_mrr_movement après préagrégation.
+  - name: previous_closing_date
+    data_type: Date
+    description: Alias de fct_mrr_movement.previous_month_end_date ; sinon calendrier Paris du mois précédent.
+  - name: is_active_begin
+    data_type: Nullable(Bool)
+    description: Au moins une ligne active au début ; NULL si la clôture précédente n'est pas suffisamment observable.
+  - name: is_active_end
+    data_type: Nullable(Bool)
+    description: Au moins une ligne active à la clôture courante, règle état 1 + service en cours avec date de fin
+      inclusive.
+  - name: nb_active_lines_begin
+    data_type: Nullable(UInt64)
+    description: Somme des indicateurs d'activité de lignes de la clôture précédente si couverture connue.
+  - name: nb_active_lines_end
+    data_type: Nullable(UInt64)
+    description: Somme des indicateurs d'activité de lignes de la clôture courante si couverture connue.
+  - name: sum_mrr_begin
+    data_type: Nullable(Decimal(38,4))
+    description: Somme des sum_active_mrr des lignes de la clôture précédente, après sélection du run et de l'unique
+      version pertinente.
+  - name: sum_mrr_end
+    data_type: Nullable(Decimal(38,4))
+    description: Somme des sum_active_mrr des lignes de la clôture courante ; aucun prorata.
+  - name: sum_new_mrr_new
+    data_type: Nullable(Decimal(38,4))
+    description: Somme des contributions du fait de mouvements où new_mrr_component=New, retours compris.
+  - name: sum_new_mrr_upsell
+    data_type: Nullable(Decimal(38,4))
+    description: Somme des contributions du fait où new_mrr_component=Upsell ; net des sociétés restées actives.
+  - name: sum_new_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: sum_new_mrr_new + sum_new_mrr_upsell si les deux composantes sont calculables.
+  - name: sum_departure_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Perte positive des sociétés sortantes, issue du fait de mouvements.
+  - name: sum_contraction_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Perte positive des sociétés actives aux deux clôtures et en baisse nette.
+  - name: sum_churn_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: sum_departure_mrr + sum_contraction_mrr si les composantes sont calculables.
+  - name: sum_other_mrr_delta
+    data_type: Nullable(Decimal(38,4))
+    description: Decimal0 uniquement quand les deux clôtures sont comparables et toutes variations classées new/upsell/departure/contraction/stable
+      ; NULL si movement_kind=unknown ou correction non classée. Aucun résidu transformé en correction/churn.
+  - name: sum_reconciliation_gap
+    data_type: Nullable(Decimal(38,4))
+    description: sum_mrr_end - sum_mrr_begin - sum_new_mrr + sum_churn_mrr - sum_other_mrr_delta, si tous les termes
+      sont calculables.
+  - name: is_portfolio_entrant
+    data_type: Nullable(Bool)
+    description: Non actif début et actif fin ; retours compris. Activité indépendante d'un montant nul.
+  - name: is_departure
+    data_type: Nullable(Bool)
+    description: Actif début et non actif fin.
+  - name: is_contraction
+    data_type: Nullable(Bool)
+    description: Actif aux deux clôtures et MRR total fin < début.
+  - name: is_first_acquisition
+    data_type: Nullable(Bool)
+    description: true si first_acquisition_status=first_proven, false si return_proven, NULL si unknown selon D27
+      ; un entrant seul ne prouve jamais première acquisition.
+  - name: is_begin_observable
+    data_type: Bool
+    description: Clôture précédente suffisamment couverte selon le contrôle source déclaré.
+  - name: is_end_observable
+    data_type: Bool
+    description: Clôture courante suffisamment couverte selon le contrôle source déclaré.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ne pas publier un portefeuille incomplet comme exhaustif.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: incomplete_history, unknown_activity, unresolved_company, unknown_amount, unclassified_correction,
+      ou motif upstream.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id003
+- name: dtr_stage_visits
+  description: '**Grain métier :** tenant_id × visit_key ; un passage continu d''une opportunité dans une étape.
+    **Identité logique :** `record_key=H(tenant_id, visit_key)`. **Grain historique/physique :** `(model_run_id,record_key)`
+    ; version=H(run,key), une seule contribution par unité dans un run. Les clés métier et de dimensions sont conservées
+    ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id004
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant Boond conservé dans les identités et jointures.
+  - name: opportunity_key
+    data_type: String
+    description: Identité stable tenant + opportunité.
+  - name: opportunity_id
+    data_type: Int64
+    description: Identifiant Boond du dossier, pour investigation.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité stable de société résolue au contexte retenu.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version de société pertinente au contexte retenu.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond de la société.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name par run+company_version_key, N:0..1.
+  - name: visit_key
+    data_type: String
+    description: Identité logique stable du passage ; distincte des versions du run.
+  - name: visit_rank
+    data_type: UInt32
+    description: Rang observé du passage dans le parcours ; NULL si le classement ne peut être établi sans ambiguïté.
+  - name: stage_id
+    data_type: Nullable(Int64)
+    description: Code de l'étape observée ; les codes ne donnent aucun ordre de funnel.
+  - name: stage_key
+    data_type: Nullable(String)
+    description: Identité stable de l'étape.
+  - name: stage_version_key
+    data_type: Nullable(String)
+    description: Version pertinente de dim_stage.
+  - name: stage_label
+    data_type: Nullable(String)
+    description: dim_stage.stage_label par run+version.
+  - name: entered_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Entrée du passage prouvée ou proxy observé explicitement qualifié ; NULL si début non observable.
+  - name: exited_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Sortie d'étape observée admissible ; une suppression ne crée pas cette sortie métier.
+  - name: first_observed_at
+    data_type: DateTime64(3, 'UTC')
+    description: Première observation disponible du passage ; borne de couverture distincte d'une entrée.
+  - name: observation_end_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Alias explicite de fct_stage_visit.observation_ended_at ; fin technique d'observation, distincte
+      d'une sortie métier.
+  - name: event_time_basis
+    data_type: String
+    description: 'fct_stage_visit.event_time_basis : cdc_transition_proxy/business_proven/left_censored/observation_only
+      ; aucun proxy rebaptisé date métier certaine.'
+  - name: is_entry_date_known
+    data_type: Bool
+    description: entered_at IS NOT NULL ; ce test de connaissance ne donne aucune date aux entrées inconnues.
+  - name: is_left_censored
+    data_type: Bool
+    description: Début du passage non connu avant la première observation.
+  - name: is_open_visit
+    data_type: Bool
+    description: État à la borne du run ; information descriptive, à recalculer pour une observation passée.
+  - name: completed_duration_seconds
+    data_type: Nullable(Float64)
+    description: (exited_at - entered_at) en millisecondes /1000, si les deux bornes admissibles et la continuité
+      sont connues.
+  - name: completed_duration_days
+    data_type: Nullable(Float64)
+    description: completed_duration_seconds /86400, sans arrondi intermédiaire.
+  - name: entry_employee_key
+    data_type: Nullable(String)
+    description: Responsable à l'entrée, descriptif uniquement ; NULL si entrée ou attribution inconnue.
+  - name: entry_employee_version_key
+    data_type: Nullable(String)
+    description: Version du responsable à l'entrée.
+  - name: entry_team_key
+    data_type: Nullable(String)
+    description: Équipe à l'entrée, descriptif ; n'autorise pas un filtre de durée sur toute la responsabilité.
+  - name: entry_team_version_key
+    data_type: Nullable(String)
+    description: Version de l'équipe à l'entrée.
+  - name: entry_team_name
+    data_type: Nullable(String)
+    description: Libellé descriptif par run+entry_team_version_key.
+  - name: is_team_filter_available
+    data_type: Bool
+    description: true si équipe à entrée connue D25 ; false sinon, sans recours à équipe actuelle.
+  - name: coverage_start_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Début de couverture continue connu pour le passage.
+  - name: coverage_end_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Fin de couverture continue si bornée ; NULL ne prouve pas une couverture infinie.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Complétude déclarée de la séquence utile ; aucune inférence depuis seul min/max CDC.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du dossier dans le contexte retenu ; ne désigne pas la composante financière New/Upsell.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité stable du type commercial.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_sale_type pertinente.
+  - name: sale_type_label
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_label par run+version, N:0..1.
+  - name: channel_key
+    data_type: Nullable(String)
+    description: Alias explicite de acquisition_channel_key du fait ; canal officiel d'entrée, NULL avant règle
+      validée.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Version de mapping du canal, indépendante des sources candidates conservées.
+  - name: channel_label
+    data_type: Nullable(String)
+    description: dim_channel.channel_label par run+version, N:0..1.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Valeur candidate Boond conservée sans la transformer en canal officiel.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: false si origine à création ou mapping de valeur est manquant ; règle D24 définie, filtre disponible
+      sur les lignes résolues.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ready n'efface pas les réserves distinctes de couverture.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Motif explicite, stable et documenté ; plusieurs motifs séparés de façon canonique si nécessaire.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id004
+- name: dtr_cohort_outcomes
+  description: '**Grain métier :** tenant_id × opportunity_key × followup_definition_key × anchor_at × horizon_days
+    ; une opportunité de sa cohorte de création par horizon. **Identité logique :** `record_key=H(tenant_id, opportunity_key,
+    followup_definition_key, anchor_key, horizon_days)`. **Grain historique/physique :** `(model_run_id,record_key)`
+    ; version=H(run,key), une seule contribution par unité dans un run. Les clés métier et de dimensions sont conservées
+    ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id005
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant Boond conservé dans les identités et jointures.
+  - name: opportunity_key
+    data_type: String
+    description: Identité stable tenant + opportunité.
+  - name: opportunity_id
+    data_type: Int64
+    description: Identifiant Boond du dossier, pour investigation.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité stable de société résolue au contexte retenu.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version de société pertinente au contexte retenu.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond de la société.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name par run+company_version_key, N:0..1.
+  - name: followup_key
+    data_type: String
+    description: Identité logique de l'observation du fait.
+  - name: followup_definition_key
+    data_type: String
+    description: Identité de définition de suivi explicitement retenue.
+  - name: followup_definition_version_key
+    data_type: Nullable(String)
+    description: Version de la définition du même run.
+  - name: created_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Création individuelle Boond, ancrage décidé ; les créations manquantes sont des anomalies de couverture
+      hors cohorte calculable.
+  - name: anchor_key
+    data_type: String
+    description: fct_opportunity_followup.anchor_key ; identité source de l'ancrage, distincte de son timestamp
+      éventuellement inconnu.
+  - name: anchor_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Création individuelle pour cette définition, sans changement de cohorte sur réentrée.
+  - name: cohort_month
+    data_type: Nullable(Date)
+    description: Premier jour du mois civil de created_at en Europe/Paris.
+  - name: horizon_days
+    data_type: Nullable(UInt16)
+    description: 30,60 ou90 selon les horizons demandés.
+  - name: horizon_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Ajouter horizon_days jours calendaires à la création en Europe/Paris à même heure locale, puis
+      conserver l'instant UTC.
+  - name: cohort_mature_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: max(horizon_at) parmi tous membres connus tenant/mois/type commercial/définition/horizon, AVANT
+      filtres équipe et canal.
+  - name: issue_at_horizon
+    data_type: Nullable(String)
+    description: open/won/lost/abandoned/unqualified/unknown lorsque horizon évalué ; nurturing=open. NULL si horizon
+      non atteint au run.
+  - name: is_eligible
+    data_type: Nullable(Bool)
+    description: Admissibilité de l'unique ancrage dans la population de création ; ne pas exclure silencieusement
+      un inconnu.
+  - name: is_mature
+    data_type: Nullable(Bool)
+    description: horizon_at <= observation du run, conservé pour contrôle ; à recalculer si observation BI différente.
+  - name: is_cohort_mature
+    data_type: Nullable(Bool)
+    description: cohort_mature_at <= observation du run ; à recalculer pour observation BI différente.
+  - name: is_observable
+    data_type: Nullable(Bool)
+    description: L'histoire permet de déterminer le statut à horizon_at ; distinct de maturité.
+  - name: coverage_start_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Début observable de l'historique utile du dossier.
+  - name: coverage_end_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Fin observable connue.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Couverture déclarée ; la maturité ne prouve jamais l'exhaustivité des membres ni l'observabilité.
+  - name: nb_cohort_membership
+    data_type: UInt8
+    description: 1 pour cette identité admissible de cohorte/horizon ; effectif de base connu, pas à sommer entre
+      horizons.
+  - name: denominator_contribution
+    data_type: Nullable(UInt8)
+    description: 1 pour le membre de base à horizon mature ; NULL pour non mature ou inadmissible non résolu. Les
+      inconnus matures restent au dénominateur.
+  - name: open_contribution
+    data_type: Nullable(UInt8)
+    description: 1 si issue=open à horizon mature, 0 si une autre issue mature, NULL si horizon non mature.
+  - name: won_contribution
+    data_type: Nullable(UInt8)
+    description: Même convention pour won ; état 1 constitue victoire, état 14 ne crée pas une nouvelle ligne.
+  - name: lost_contribution
+    data_type: Nullable(UInt8)
+    description: Même convention pour lost, distinct des abandons/nonqualifiés.
+  - name: abandoned_contribution
+    data_type: Nullable(UInt8)
+    description: Même convention pour abandoned, conservé séparément.
+  - name: unqualified_contribution
+    data_type: Nullable(UInt8)
+    description: Même convention pour unqualified, conservé séparément.
+  - name: unknown_contribution
+    data_type: Nullable(UInt8)
+    description: 1 pour mature avec état/couverture non observable ou non classable ; NULL pour non mature. Maintient
+      la base entière, sans classer l'inconnu comme perdu.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du dossier dans le contexte retenu ; ne désigne pas la composante financière New/Upsell.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité stable du type commercial.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_sale_type pertinente.
+  - name: sale_type_label
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_label par run+version, N:0..1.
+  - name: channel_key
+    data_type: Nullable(String)
+    description: Alias explicite de acquisition_channel_key du fait ; canal officiel d'entrée, NULL avant règle
+      validée.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Version de mapping du canal, indépendante des sources candidates conservées.
+  - name: channel_label
+    data_type: Nullable(String)
+    description: dim_channel.channel_label par run+version, N:0..1.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Valeur candidate Boond conservée sans la transformer en canal officiel.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: false si origine à création ou mapping de valeur est manquant ; règle D24 définie, filtre disponible
+      sur les lignes résolues.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Identité stable du responsable retenu.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Version descriptive du responsable.
+  - name: employee_display_name
+    data_type: Nullable(String)
+    description: dim_employee.employee_display_name par run+version, N:0..1.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Équipe historiquement retenue si mapping et attribution validés.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version de l'équipe pertinente.
+  - name: team_name
+    data_type: Nullable(String)
+    description: dim_team.team_name par run+version, N:0..1.
+  - name: is_team_calculable
+    data_type: Bool
+    description: false pour rattachement à entrée/événement inconnu ou ambigu ; sinon true y compris KAM connue,
+      indépendamment de son absence de cible D23.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ready n'efface pas les réserves distinctes de couverture.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Motif explicite, stable et documenté ; plusieurs motifs séparés de façon canonique si nécessaire.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id005
+- name: dtr_opportunity_timeline
+  description: '**Grain métier :** tenant_id × object_kind × object_key ; une unité logique de période/passage/événement/tranche
+    de responsabilité. **Identité logique :** `record_key=H(tenant_id, object_kind, object_key)`. **Grain historique/physique
+    :** `(model_run_id,record_key)` ; version=H(run,key), une seule contribution par unité dans un run. Les clés
+    métier et de dimensions sont conservées ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions
+    conservées ; publication contrôlée.'
+  config:
+    tags: &id006
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant Boond conservé dans les identités et jointures.
+  - name: opportunity_key
+    data_type: String
+    description: Identité stable tenant + opportunité.
+  - name: opportunity_id
+    data_type: Int64
+    description: Identifiant Boond du dossier, pour investigation.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité stable de société résolue au contexte retenu.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version de société pertinente au contexte retenu.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond de la société.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name par run+company_version_key, N:0..1.
+  - name: object_kind
+    data_type: String
+    description: opportunity_period/stage_visit/opportunity_event/responsibility_slice ; distingue les grains qui
+      ne s'additionnent pas.
+  - name: object_key
+    data_type: String
+    description: period_key,visit_key,event_key ou responsibility_slice_key selon object_kind.
+  - name: source_model_name
+    data_type: String
+    description: Nom parmi les quatre modèles amont, pour lineage ; pas un nom SQL à exécuter dynamiquement.
+  - name: source_record_version_key
+    data_type: String
+    description: Clé de version de la ligne source dans le même run.
+  - name: visit_key
+    data_type: Nullable(String)
+    description: Passage associé lorsqu'il est établi.
+  - name: event_type
+    data_type: Nullable(String)
+    description: Type d'événement pour object_kind=opportunity_event ; NULL dans les autres cas.
+  - name: started_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Début de période/passage/tranche ; event_at pour événement ; entrée inconnue reste NULL.
+  - name: ended_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Fin de période/passage/tranche ; NULL pour événement ponctuel ou fin inconnue.
+  - name: stage_key
+    data_type: Nullable(String)
+    description: Étape de période/passage ; pour événement seulement rôle explicitement défini.
+  - name: stage_version_key
+    data_type: Nullable(String)
+    description: Version de l'étape dans le contexte de l'unité.
+  - name: stage_label
+    data_type: Nullable(String)
+    description: Libellé descriptif de l'étape.
+  - name: from_stage_id
+    data_type: Nullable(Int64)
+    description: Étape quittée d'une transition, si pertinente.
+  - name: to_stage_id
+    data_type: Nullable(Int64)
+    description: Étape rejointe d'une transition, si pertinente.
+  - name: is_left_censored
+    data_type: Nullable(Bool)
+    description: Censure du passage, NULL si sans objet.
+  - name: time_basis
+    data_type: Nullable(String)
+    description: Provenance temporelle de la borne/événement ; prouvée/proxy/inconnue conservée.
+  - name: slice_duration_seconds
+    data_type: Nullable(Float64)
+    description: int_visit_responsibility.allocated_duration_seconds seulement si allocation validée ; NULL sinon.
+      Jamais durée complète répétée du passage.
+  - name: slice_duration_days
+    data_type: Nullable(Float64)
+    description: slice_duration_seconds/86400, pour object_kind=responsibility_slice ; NULL sinon.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du dossier dans le contexte retenu ; ne désigne pas la composante financière New/Upsell.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité stable du type commercial.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_sale_type pertinente.
+  - name: sale_type_label
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_label par run+version, N:0..1.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Identité stable du responsable retenu.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Version descriptive du responsable.
+  - name: employee_display_name
+    data_type: Nullable(String)
+    description: dim_employee.employee_display_name par run+version, N:0..1.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Équipe historiquement retenue si mapping et attribution validés.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version de l'équipe pertinente.
+  - name: team_name
+    data_type: Nullable(String)
+    description: dim_team.team_name par run+version, N:0..1.
+  - name: is_team_calculable
+    data_type: Bool
+    description: false pour rattachement à entrée/événement inconnu ou ambigu ; sinon true y compris KAM connue,
+      indépendamment de son absence de cible D23.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ready n'efface pas les réserves distinctes de couverture.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Motif explicite, stable et documenté ; plusieurs motifs séparés de façon canonique si nécessaire.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id006
+- name: dtr_pipeline_periods
+  description: '**Grain métier :** tenant_id × period_key ; intervalle analytique stable d''une opportunité. **Identité
+    logique :** `record_key=H(tenant_id, period_key)`. **Grain historique/physique :** `(model_run_id,record_key)`
+    ; version=H(run,key), une seule contribution par unité dans un run. Les clés métier et de dimensions sont conservées
+    ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id007
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant Boond conservé dans les identités et jointures.
+  - name: opportunity_key
+    data_type: String
+    description: Identité stable tenant + opportunité.
+  - name: opportunity_id
+    data_type: Int64
+    description: Identifiant Boond du dossier, pour investigation.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité stable de société résolue au contexte retenu.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version de société pertinente au contexte retenu.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond de la société.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name par run+company_version_key, N:0..1.
+  - name: period_key
+    data_type: String
+    description: Clé logique de période préparée dans le fait.
+  - name: visit_key
+    data_type: Nullable(String)
+    description: Passage continu associé si observable ; plusieurs périodes peuvent partager un passage.
+  - name: valid_from_at
+    data_type: DateTime64(3, 'UTC')
+    description: Début inclus de période analytique observable.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Fin exclue ; NULL pour période ouverte, sous couverture déclarée.
+  - name: created_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Création métier Boond ; pas meta.ts par défaut.
+  - name: stage_id
+    data_type: Nullable(Int64)
+    description: Étape dans l'intervalle.
+  - name: stage_key
+    data_type: Nullable(String)
+    description: Identité d'étape.
+  - name: stage_version_key
+    data_type: Nullable(String)
+    description: Version de l'étape valide dans tout l'intervalle.
+  - name: stage_label
+    data_type: Nullable(String)
+    description: dim_stage.stage_label.
+  - name: is_open
+    data_type: Nullable(Bool)
+    description: Population ouverte définie par le mapping d'issues ; nurturing ouvert, abandonné/nonqualifié distincts.
+  - name: is_demo_stage
+    data_type: Nullable(Bool)
+    description: Pour tenant demo_crm, paramètre case_rules.demo_stage_ids=[24]. Q11(document 03) vérifie code24
+      Show Boond dans les versions fr du 2025-03-10 09:00:00 UTC et du 2025-12-08 10:00:00 UTC. is_demo_stage=true
+      seulement si stage_id=24 ET version dim_stage contenant ce mapping valide à l'instant de la période/observation
+      ; avant première preuve de mapping ou sans version pertinente=>NULL+missing_stage_rule, jamais rétroprojection.
+      Ce code ne définit ni ordre obligatoire ni règle d'un autre tenant.
+  - name: stage_entered_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Entrée du passage courant, inchangée sur modification de contexte.
+  - name: expected_close_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Date de closing prévue dans la version pertinente ; pas date de signature.
+  - name: pipeline_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Montant candidat du fait, à conserver sans qualifier automatiquement de MRR.
+  - name: amount_basis
+    data_type: Nullable(String)
+    description: Nature/unité du montant ; NULL tant qu'elle n'est pas validée.
+  - name: currency_code
+    data_type: Nullable(String)
+    description: EUR par hypothèse explicite du case D20 ; cette devise ne prouve ni mensualité ni engagement du
+      montant commercial.
+  - name: signature_probability
+    data_type: Nullable(Decimal(18,8))
+    description: Probabilité de signature finale si source, segment, dates et type validés.
+  - name: weighted_pipeline_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Montant × probabilité avec précision commune, seulement si montant et coefficient admissibles.
+  - name: is_amount_calculable
+    data_type: Bool
+    description: true seulement si pipeline_amount, nature/unité et devise prouvées ET statut spécifique de mesure
+      disponible ; false sinon. Un montant candidat non NULL seul ne suffit pas.
+  - name: is_probability_calculable
+    data_type: Bool
+    description: true si signature_probability est non NULL et probability_rule validée pour étape/segment/type/période
+      ; false sinon.
+  - name: is_left_censored
+    data_type: Bool
+    description: stage_entered_at IS NULL et stage_first_observed_at connu ; début exact absent, sans remplacer
+      par première observation.
+  - name: coverage_start_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Borne basse de couverture utile.
+  - name: coverage_end_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Borne haute de couverture connue.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Contrôle de couverture déclaré.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du dossier dans le contexte retenu ; ne désigne pas la composante financière New/Upsell.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité stable du type commercial.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_sale_type pertinente.
+  - name: sale_type_label
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_label par run+version, N:0..1.
+  - name: channel_key
+    data_type: Nullable(String)
+    description: Alias explicite de acquisition_channel_key du fait ; canal officiel d'entrée, NULL avant règle
+      validée.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Version de mapping du canal, indépendante des sources candidates conservées.
+  - name: channel_label
+    data_type: Nullable(String)
+    description: dim_channel.channel_label par run+version, N:0..1.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Valeur candidate Boond conservée sans la transformer en canal officiel.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: false si origine à création ou mapping de valeur est manquant ; règle D24 définie, filtre disponible
+      sur les lignes résolues.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Identité stable du responsable retenu.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Version descriptive du responsable.
+  - name: employee_display_name
+    data_type: Nullable(String)
+    description: dim_employee.employee_display_name par run+version, N:0..1.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Équipe historiquement retenue si mapping et attribution validés.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version de l'équipe pertinente.
+  - name: team_name
+    data_type: Nullable(String)
+    description: dim_team.team_name par run+version, N:0..1.
+  - name: is_team_calculable
+    data_type: Bool
+    description: false pour rattachement à entrée/événement inconnu ou ambigu ; sinon true y compris KAM connue,
+      indépendamment de son absence de cible D23.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ready n'efface pas les réserves distinctes de couverture.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Motif explicite, stable et documenté ; plusieurs motifs séparés de façon canonique si nécessaire.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id007
+- name: dtr_sales_events
+  description: '**Grain métier :** tenant_id × event_key ; un événement commercial admissible d''un dossier. **Identité
+    logique :** `record_key=H(tenant_id, event_key)`. **Grain historique/physique :** `(model_run_id,record_key)`
+    ; version=H(run,key), une seule contribution par unité dans un run. Les clés métier et de dimensions sont conservées
+    ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id008
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant Boond conservé dans les identités et jointures.
+  - name: opportunity_key
+    data_type: String
+    description: Identité stable tenant + opportunité.
+  - name: opportunity_id
+    data_type: Int64
+    description: Identifiant Boond du dossier, pour investigation.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité stable de société résolue au contexte retenu.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version de société pertinente au contexte retenu.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond de la société.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name par run+company_version_key, N:0..1.
+  - name: event_key
+    data_type: String
+    description: Identité logique de l'événement ; plusieurs versions CDC ne créent pas plusieurs événements.
+  - name: visit_key
+    data_type: Nullable(String)
+    description: Passage d'origine si rattachement démontré.
+  - name: event_type
+    data_type: String
+    description: 'Type canonique du fait : création/entrée pipeline, entrée/sortie étape, signature, perte ou autre
+      événement explicite.'
+  - name: event_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Date métier prouvée ou proxy qualifié ; NULL si événement non datable.
+  - name: event_date
+    data_type: Nullable(Date)
+    description: Date Europe/Paris de event_at préparée dans SELECT ; NULL si event_at inconnu.
+  - name: event_time_basis
+    data_type: String
+    description: Provenance exacte de la date ; meta.ts ne devient pas automatiquement signature.
+  - name: is_event_time_accepted
+    data_type: Nullable(Bool)
+    description: fct_opportunity_event.is_event_time_accepted ; true pour date métier ou transition CDC observée
+      admissible selon D15, NULL pour événement non datable.
+  - name: from_stage_id
+    data_type: Nullable(Int64)
+    description: Code d'étape quittée pour une transition.
+  - name: to_stage_id
+    data_type: Nullable(Int64)
+    description: Code d'étape rejointe pour une transition.
+  - name: from_stage_version_key
+    data_type: Nullable(String)
+    description: Version pertinente de l'étape quittée.
+  - name: to_stage_version_key
+    data_type: Nullable(String)
+    description: Version pertinente de l'étape rejointe.
+  - name: from_stage_label
+    data_type: Nullable(String)
+    description: Libellé de l'étape quittée, N:0..1 par run+version.
+  - name: to_stage_label
+    data_type: Nullable(String)
+    description: Libellé de l'étape rejointe, N:0..1 par run+version.
+  - name: nb_events
+    data_type: Nullable(UInt8)
+    description: Contribution admissible canonique 0/1 du fait ; pas nombre de versions sources.
+  - name: sum_generated_pipeline_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Montant de génération admissible pour4/7 ; NULL si unité/date/valeur non prouvées ; périmètre décidé
+      D22.
+  - name: sum_signed_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Mensualité récurrente engagée, supplément seul pour upsell ; NULL sans source prouvée.
+  - name: amount_basis
+    data_type: Nullable(String)
+    description: Nature du montant financier, sans assimilation automatique montant CRM/MRR.
+  - name: currency_code
+    data_type: Nullable(String)
+    description: EUR par hypothèse explicite du case D20 ; cette devise ne prouve ni mensualité ni engagement du
+      montant commercial.
+  - name: is_generated_amount_calculable
+    data_type: Bool
+    description: true si sum_generated_pipeline_amount est non NULL ET les règles unité/devise/périmètre sont validées
+      pour cette contribution ; false sinon.
+  - name: is_signed_mrr_calculable
+    data_type: Bool
+    description: true si sum_signed_mrr est non NULL ET preuve du montant signé mensuel et population validées ;
+      false sinon.
+  - name: cycle_started_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Création/entrée retenue pour le cycle commercial.
+  - name: completed_cycle_duration_seconds
+    data_type: Nullable(Float64)
+    description: Écart en millisecondes event_at-cycle_started_at /1000 pour issue admissible connue.
+  - name: completed_cycle_duration_days
+    data_type: Nullable(Float64)
+    description: fct_opportunity_event.completed_cycle_duration_seconds/86400.0, sans arrondi.
+  - name: is_eligible
+    data_type: Nullable(Bool)
+    description: Alias explicite de fct_opportunity_event.is_contribution_eligible ; NULL si la contribution n'est
+      pas admissible de façon déterminée.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du dossier dans le contexte retenu ; ne désigne pas la composante financière New/Upsell.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité stable du type commercial.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_sale_type pertinente.
+  - name: sale_type_label
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_label par run+version, N:0..1.
+  - name: channel_key
+    data_type: Nullable(String)
+    description: Alias explicite de acquisition_channel_key du fait ; canal officiel d'entrée, NULL avant règle
+      validée.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Version de mapping du canal, indépendante des sources candidates conservées.
+  - name: channel_label
+    data_type: Nullable(String)
+    description: dim_channel.channel_label par run+version, N:0..1.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Valeur candidate Boond conservée sans la transformer en canal officiel.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: false si origine à création ou mapping de valeur est manquant ; règle D24 définie, filtre disponible
+      sur les lignes résolues.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Identité stable du responsable retenu.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Version descriptive du responsable.
+  - name: employee_display_name
+    data_type: Nullable(String)
+    description: dim_employee.employee_display_name par run+version, N:0..1.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Équipe historiquement retenue si mapping et attribution validés.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version de l'équipe pertinente.
+  - name: team_name
+    data_type: Nullable(String)
+    description: dim_team.team_name par run+version, N:0..1.
+  - name: is_team_calculable
+    data_type: Bool
+    description: false pour rattachement à entrée/événement inconnu ou ambigu ; sinon true y compris KAM connue,
+      indépendamment de son absence de cible D23.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ready n'efface pas les réserves distinctes de couverture.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Motif explicite, stable et documenté ; plusieurs motifs séparés de façon canonique si nécessaire.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id008
+- name: dtr_sales_actions
+  description: '**Grain métier :** tenant_id × action_key ; état corrigé pertinent d''une action logique dans le
+    run. **Identité logique :** `record_key=H(tenant_id, action_key)`. **Grain historique/physique :** `(model_run_id,record_key)`
+    ; version=H(run,key), une seule contribution par unité dans un run. Les clés métier et de dimensions sont conservées
+    ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id009
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant de l'action.
+  - name: action_key
+    data_type: String
+    description: Identité stable tenant+action ; le nombre de versions ne crée pas plusieurs séances.
+  - name: action_id
+    data_type: Int64
+    description: Identifiant Boond de l'action.
+  - name: source_action_version_key
+    data_type: String
+    description: Alias explicite de fct_action.action_version_key de la tranche retenue.
+  - name: action_state_valid_from_at
+    data_type: DateTime64(3, 'UTC')
+    description: Alias explicite de fct_action.valid_from_at de la tranche retenue.
+  - name: action_state_valid_to_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Alias explicite de fct_action.valid_to_at de la tranche retenue.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Marqueur de la dernière version pertinente ; sélectionner cette version AVANT de traiter la suppression.
+      Aucune résurrection d'une ancienne version vivante.
+  - name: action_type_id
+    data_type: Nullable(Int64)
+    description: Type source de l'action, distinct d'une preuve de réalisation.
+  - name: action_type_key
+    data_type: Nullable(String)
+    description: Identité du type d'action.
+  - name: action_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_action_type pertinente.
+  - name: action_type_label
+    data_type: Nullable(String)
+    description: Libellé dim_action_type par run+version.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Société rattachée par lien direct/prouvé.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version descriptive de la société.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond de société.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name.
+  - name: contact_id
+    data_type: Nullable(Int64)
+    description: Contact source ; un contact partagé ne prouve pas le dossier.
+  - name: opportunity_key
+    data_type: Nullable(String)
+    description: Dossier relié directement ou selon règle démontrée ; NULL si candidat/ambigu.
+  - name: opportunity_id
+    data_type: Nullable(Int64)
+    description: Identifiant du dossier prouvé, NULL sinon.
+  - name: link_status
+    data_type: String
+    description: 'fct_action.link_status : direct_opportunity/contact_only/missing/ambiguous ; seuls liens démontrés
+      fournissent dossier.'
+  - name: created_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Création de la fiche action, distincte de l'agenda et d'un événement tenu.
+  - name: scheduled_start_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Début planifié de rendez-vous, sans preuve de tenue.
+  - name: scheduled_end_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Fin planifiée de rendez-vous.
+  - name: actual_event_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Date de tenue prouvée, jamais agenda automatiquement.
+  - name: realization_status
+    data_type: String
+    description: 'fct_action.realization_status : unknown sans preuve ; held/planned/cancelled/no_show seulement
+      si prouvé. Ne pas inventer domaine différent.'
+  - name: is_demo_request
+    data_type: Nullable(Bool)
+    description: Action de demande admissible selon référentiel ; NULL si type non interprétable.
+  - name: is_realized_demo
+    data_type: Nullable(Bool)
+    description: true/false seulement selon preuve de réalisation/nonréalisation ; NULL sans preuve.
+  - name: request_counting_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: 'created_at pour action de demande type25 admise : demande enregistrée ; NULL si type/date manquant.'
+  - name: demo_session_key
+    data_type: Nullable(String)
+    description: 'fct_action.demo_session_key : identité de séance tenue prouvée, NULL sans règle/preuve ; déduplication
+      au-delà de l''identité de fiche action.'
+  - name: demo_counting_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: actual_event_at seulement pour séance réellement tenue prouvée ; NULL sinon.
+  - name: nb_demo_request_contribution
+    data_type: Nullable(UInt8)
+    description: 1 si demande admissible datée, 0 si autre action connue, NULL si type/date inconnus.
+  - name: nb_realized_demo_contribution
+    data_type: Nullable(UInt8)
+    description: NULL sans tenue/session prouvée. Pour séance prouvée :1 seulement sur représentant canonique de
+      demo_session_key (action_key minimale pour décompte technique),0 autres fiches de même séance ; preuve d'attribution
+      équipe univoque requise pour ventilation.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du dossier dans le contexte retenu ; ne désigne pas la composante financière New/Upsell.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité stable du type commercial.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_sale_type pertinente.
+  - name: sale_type_label
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_label par run+version, N:0..1.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Identité stable du responsable retenu.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Version descriptive du responsable.
+  - name: employee_display_name
+    data_type: Nullable(String)
+    description: dim_employee.employee_display_name par run+version, N:0..1.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Équipe historiquement retenue si mapping et attribution validés.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version de l'équipe pertinente.
+  - name: team_name
+    data_type: Nullable(String)
+    description: dim_team.team_name par run+version, N:0..1.
+  - name: is_team_calculable
+    data_type: Bool
+    description: false pour rattachement à entrée/événement inconnu ou ambigu ; sinon true y compris KAM connue,
+      indépendamment de son absence de cible D23.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ready n'efface pas les réserves distinctes de couverture.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Motif explicite, stable et documenté ; plusieurs motifs séparés de façon canonique si nécessaire.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id009
+- name: dtr_demo_intervals
+  description: '**Grain métier :** tenant_id × demo_interval_key ; intervalle entre deux événements reliés d''un
+    parcours établi. **Identité logique :** `record_key=H(tenant_id, demo_interval_key)`. **Grain historique/physique
+    :** `(model_run_id,record_key)` ; version=H(run,key), une seule contribution par unité dans un run. Les clés
+    métier et de dimensions sont conservées ci-dessous. Rafraîchissement manuel à la demande. Histoire et révisions
+    conservées ; publication contrôlée.'
+  config:
+    tags: &id010
+    - dtr
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Identifiant de la recomposition complète et immuable ; hérité des entrées du même run.
+  - name: record_key
+    data_type: String
+    description: SHA256 de la liste ordonnée des éléments du grain indiquée dans la fiche ; sérialisation canonique
+      commune, jamais simple concaténation ambiguë.
+  - name: record_version_key
+    data_type: String
+    description: SHA256 de (model_run_id, record_key).
+  - name: row_hash
+    data_type: String
+    description: SHA256 du payload ordonné de la fiche, hors colonnes techniques communes.
+  - name: calculated_at
+    data_type: DateTime64(3, 'UTC')
+    description: Instant de calcul du run ; aucune substitution à une date métier.
+  - name: rule_version
+    data_type: String
+    description: Version immuable des règles et référentiels utilisés par le run.
+  - name: input_cutoff_at
+    data_type: DateTime64(3, 'UTC')
+    description: Borne des entrées figées ; héritée du manifeste de run.
+  - name: tenant_id
+    data_type: String
+    description: Tenant du parcours établi.
+  - name: demo_interval_key
+    data_type: String
+    description: Identité logique de l'intervalle canonique ; jamais construit depuis simple ordre d'actions d'un
+      contact ambigu.
+  - name: demo_journey_id
+    data_type: Nullable(String)
+    description: Alias explicite de fct_demo_interval.demo_journey_key ; identité de parcours démontré, jamais id
+      naturel inventé.
+  - name: start_action_id
+    data_type: Nullable(Int64)
+    description: Action du premier événement, avec tenant.
+  - name: end_action_id
+    data_type: Nullable(Int64)
+    description: Action du second événement.
+  - name: start_action_key
+    data_type: Nullable(String)
+    description: Identité stable de l'action initiale.
+  - name: end_action_key
+    data_type: Nullable(String)
+    description: Identité stable de l'action finale.
+  - name: opportunity_key
+    data_type: Nullable(String)
+    description: Dossier prouvé du parcours.
+  - name: opportunity_id
+    data_type: Nullable(Int64)
+    description: Identifiant Boond du dossier.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Société cohérente des événements reliés.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version descriptive de société au contexte retenu.
+  - name: company_name
+    data_type: Nullable(String)
+    description: dim_company.company_name.
+  - name: from_demo_step
+    data_type: Nullable(String)
+    description: 'Étape de sous-parcours explicitement définie : demande/séance1/complément, sans les confondre
+      avec phase commerciale.'
+  - name: to_demo_step
+    data_type: Nullable(String)
+    description: Étape finale explicitement définie.
+  - name: started_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Événement initial admissible selon sa preuve et sa date.
+  - name: ended_at
+    data_type: Nullable(DateTime64(3, 'UTC'))
+    description: Événement final admissible et relié.
+  - name: elapsed_duration_seconds
+    data_type: Nullable(Float64)
+    description: (ended_at-started_at en ms)/1000 si les deux dates/événements et leur lien sont admissibles.
+  - name: elapsed_duration_days
+    data_type: Nullable(Float64)
+    description: elapsed_duration_seconds/86400 ; NULL sans intervalle démontré.
+  - name: time_basis
+    data_type: String
+    description: Provenance des événements et dates, sans assimilation agenda/tenue.
+  - name: link_status
+    data_type: String
+    description: proven/candidate/ambiguous/missing selon le chaînage.
+  - name: is_interval_calculable
+    data_type: Bool
+    description: link_status prouvé ET bornes connues/ordonnées ET événements admissibles ET statut de mesure valide
+      ; false sinon.
+  - name: is_team_filter_available
+    data_type: Bool
+    description: false dans cette v1 sans duration_team_rule de sous-parcours explicitement validée ; team_key descriptive
+      n'autorise pas le filtre.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du dossier dans le contexte retenu ; ne désigne pas la composante financière New/Upsell.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité stable du type commercial.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version de dim_sale_type pertinente.
+  - name: sale_type_label
+    data_type: Nullable(String)
+    description: dim_sale_type.sale_type_label par run+version, N:0..1.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Équipe proposée/prouvée seulement si attribution spécifique établie.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version pertinente de l'équipe.
+  - name: team_name
+    data_type: Nullable(String)
+    description: dim_team.team_name.
+  - name: calculation_status
+    data_type: String
+    description: ready/partial/blocked/not_applicable ; ready n'efface pas les réserves distinctes de couverture.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Motif explicite, stable et documenté ; plusieurs motifs séparés de façon canonique si nécessaire.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id010

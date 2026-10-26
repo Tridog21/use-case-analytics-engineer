@@ -1,0 +1,40 @@
+[0m22:41:19  Running with dbt=1.11.12
+[0m22:41:20  Registered adapter: clickhouse=1.10.1
+[0m22:41:21  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:41:21  
+[0m22:41:21  Concurrency: 1 threads (target='dev')
+[0m22:41:21  
+[0m22:41:23  1 of 10 START sql incremental model `dtr_sales`.`dtr_cohort_outcomes` .......... [RUN]
+[0m22:41:24  1 of 10 OK created sql incremental model `dtr_sales`.`dtr_cohort_outcomes` ..... [[32mOK[0m in 1.59s]
+[0m22:41:24  2 of 10 START sql incremental model `dtr_sales`.`dtr_company_mrr_month` ........ [RUN]
+[0m22:41:25  2 of 10 OK created sql incremental model `dtr_sales`.`dtr_company_mrr_month` ... [[32mOK[0m in 0.77s]
+[0m22:41:25  3 of 10 START sql incremental model `dtr_sales`.`dtr_demo_intervals` ........... [RUN]
+[0m22:41:25  3 of 10 OK created sql incremental model `dtr_sales`.`dtr_demo_intervals` ...... [[32mOK[0m in 0.47s]
+[0m22:41:25  4 of 10 START sql incremental model `dtr_sales`.`dtr_funnel_progress` .......... [RUN]
+[0m22:41:27  4 of 10 OK created sql incremental model `dtr_sales`.`dtr_funnel_progress` ..... [[32mOK[0m in 1.39s]
+[0m22:41:27  5 of 10 START sql incremental model `dtr_sales`.`dtr_opportunity_timeline` ..... [RUN]
+[0m22:41:31  5 of 10 OK created sql incremental model `dtr_sales`.`dtr_opportunity_timeline`  [[32mOK[0m in 4.04s]
+[0m22:41:31  6 of 10 START sql incremental model `dtr_sales`.`dtr_pipeline_periods` ......... [RUN]
+[0m22:41:32  6 of 10 OK created sql incremental model `dtr_sales`.`dtr_pipeline_periods` .... [[32mOK[0m in 1.28s]
+[0m22:41:32  7 of 10 START sql incremental model `dtr_sales`.`dtr_sales_actions` ............ [RUN]
+[0m22:41:36  7 of 10 OK created sql incremental model `dtr_sales`.`dtr_sales_actions` ....... [[32mOK[0m in 3.72s]
+[0m22:41:36  8 of 10 START sql incremental model `dtr_sales`.`dtr_sales_events` ............. [RUN]
+[0m22:41:37  8 of 10 ERROR creating sql incremental model `dtr_sales`.`dtr_sales_events` .... [[31mERROR[0m in 1.03s]
+[0m22:41:37  9 of 10 START sql incremental model `dtr_sales`.`dtr_sales_objectives_month` ... [RUN]
+[0m22:41:37  9 of 10 OK created sql incremental model `dtr_sales`.`dtr_sales_objectives_month`  [[32mOK[0m in 0.35s]
+[0m22:41:37  10 of 10 START sql incremental model `dtr_sales`.`dtr_stage_visits` ............ [RUN]
+[0m22:41:39  10 of 10 OK created sql incremental model `dtr_sales`.`dtr_stage_visits` ....... [[32mOK[0m in 1.53s]
+[0m22:41:39  
+[0m22:41:39  Finished running 10 incremental models in 0 hours 0 minutes and 17.92 seconds (17.92s).
+[0m22:41:39  
+[0m22:41:39  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m22:41:39  
+[0m22:41:39  [31mFailure in model dtr_sales_events (models\reporting\dtr\dtr_sales_events.sql)[0m
+[0m22:41:39    Database Error in model dtr_sales_events (models\reporting\dtr\dtr_sales_events.sql)
+  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.72 GiB (attempt to allocate chunk of 4.00 MiB), current RSS: 1.48 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+  compiled code at target\run\use_case\models\reporting\dtr\dtr_sales_events.sql
+[0m22:41:39  
+[0m22:41:39    compiled code at target\compiled\use_case\models\reporting\dtr\dtr_sales_events.sql
+[0m22:41:39  
+[0m22:41:39  Done. PASS=9 WARN=0 ERROR=1 SKIP=0 NO-OP=0 TOTAL=10
+

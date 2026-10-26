@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "tag:dtr",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:58:00.289Z",
+  "end": "2026-10-25T21:58:21.862Z",
+  "exit_code": 1,
+  "elapsed_seconds": 21.562000000005355
+}

@@ -1,0 +1,15 @@
+[0m22:32:07  Running with dbt=1.11.12
+[0m22:32:07  Registered adapter: clickhouse=1.10.1
+[0m22:32:08  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:32:08  
+[0m22:32:08  Concurrency: 1 threads (target='dev')
+[0m22:32:08  
+[0m22:32:10  1 of 1 START sql incremental model `dwh_common`.`int_crm_identity_links` ....... [RUN]
+[0m22:32:12  1 of 1 OK created sql incremental model `dwh_common`.`int_crm_identity_links` .. [[32mOK[0m in 1.75s]
+[0m22:32:12  
+[0m22:32:12  Finished running 1 incremental model in 0 hours 0 minutes and 3.67 seconds (3.67s).
+[0m22:32:13  
+[0m22:32:13  [32mCompleted successfully[0m
+[0m22:32:13  
+[0m22:32:13  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

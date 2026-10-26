@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "stg_ref_sales_targets",
+    "--exclude",
+    "tag:publication",
+    "--indirect-selection",
+    "cautious"
+  ],
+  "start": "2026-10-25T21:23:14.716Z",
+  "end": "2026-10-25T21:23:21.709Z",
+  "exit_code": 0,
+  "elapsed_seconds": 7.0
+}

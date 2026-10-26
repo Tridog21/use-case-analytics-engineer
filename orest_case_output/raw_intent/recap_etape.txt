@@ -1,0 +1,31 @@
+1. Raw intent - cadrer le problème
+
+
+Point de départ
+
+Un cockpit commercial demandé par la VP Sales, des définitions divergentes entre Sales et Marketing, une maquette et un SQL historique à comprendre.
+
+
+Travail réalisé
+
+Le candidat a structuré le contexte, formulé les questions puis précisé ses choix au fil des échanges. L’IA a aidé à confronter les consignes, décomposer le SQL existant et organiser les besoins, hypothèses et preuves. Le catalogue recense les attentes sans les réduire prématurément à ce qui semble calculable.
+
+
+Décisions et clarifications
+
+Distinction entre opportunité, société, contact et action ; entre MRR actif, signé, nouveau revenu et encaissement. Boond est retenu pour les abonnements actifs. Les parcours de nouvelles ventes et d’upsell sont distingués. Le désaccord sur l’entrée dans le pipeline reste explicite et documenté.
+
+
+Valeur pour le case
+
+Une base commune permet de discuter les mêmes concepts avant de produire des chiffres. L’analyse du SQL rend visibles ses définitions implicites et ses limites. Les questions métier ont un emplacement unique et les hypothèses ne sont pas présentées comme des faits.
+
+
+Livrables à ouvrir
+
+raw_intent.md ; questions_metiers.md ; analyse_pipeline_actuel.md ; etat_des_lieux_Q10.md ; analyse_funnel_upsell.md ; cycle_hypotheses/.
+
+
+Limite de cette étape
+
+Il s’agit d’un cadrage. L’analyse historique ne constitue ni une optimisation SQL livrée, ni un benchmark. Des preuves préparées ailleurs sont citées dans ce chat ; les discussions non numérotées ne sont pas ajoutées à l’historique.

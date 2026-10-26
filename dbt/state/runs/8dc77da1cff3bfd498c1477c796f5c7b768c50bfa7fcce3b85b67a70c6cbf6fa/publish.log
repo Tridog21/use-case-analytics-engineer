@@ -1,0 +1,15 @@
+[0m22:55:44  Running with dbt=1.11.12
+[0m22:55:45  Registered adapter: clickhouse=1.10.1
+[0m22:55:46  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:55:46  
+[0m22:55:46  Concurrency: 1 threads (target='dev')
+[0m22:55:46  
+[0m22:55:47  1 of 1 START sql table model `dwh_common`.`int_publication` .................... [RUN]
+[0m22:55:48  1 of 1 OK created sql table model `dwh_common`.`int_publication` ............... [[32mOK[0m in 0.67s]
+[0m22:55:48  
+[0m22:55:48  Finished running 1 table model in 0 hours 0 minutes and 1.60 seconds (1.60s).
+[0m22:55:48  
+[0m22:55:48  [32mCompleted successfully[0m
+[0m22:55:48  
+[0m22:55:48  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

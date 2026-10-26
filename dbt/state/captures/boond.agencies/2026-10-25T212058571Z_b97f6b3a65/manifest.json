@@ -1,0 +1,49 @@
+{
+  "source": "boond.agencies",
+  "model": "stg_boond_agencies",
+  "capture_key": "2026-10-25T212058571Z_b97f6b3a65",
+  "capture_at": "2026-10-25T21:20:58.571Z",
+  "status": "success",
+  "source_digest": "e18a8333273ba7da1cb7f9f99525fa0049f670cc8b81544f6bbeeb5a2ec7a771",
+  "schema_hash": "4a8240b48b4e418748f86e416a85f799e6a743a8a5a0611d3d381d420e119c8f",
+  "nb_rows_read": 2,
+  "lower_bound": null,
+  "upper_bound": "2026-10-25T21:20:58.571Z",
+  "full_scan": true,
+  "started_at": "2026-10-25T21:20:58.571Z",
+  "commands": [
+    {
+      "command": [
+        "run",
+        "--select",
+        "stg_boond_agencies",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:20:58.574Z",
+      "end": "2026-10-25T21:21:07.700Z",
+      "exit_code": 0,
+      "elapsed_seconds": 9.125
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "stg_boond_agencies",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T21:21:07.702Z",
+      "end": "2026-10-25T21:21:14.586Z",
+      "exit_code": 0,
+      "elapsed_seconds": 6.89100000000326
+    }
+  ],
+  "ended_at": "2026-10-25T21:21:14.644Z",
+  "nb_keys": 2,
+  "keys_digest": "d966d9a2651974dee99b0153ba4a4a2a2aae12a9f3532259b7e997380000a869"
+}

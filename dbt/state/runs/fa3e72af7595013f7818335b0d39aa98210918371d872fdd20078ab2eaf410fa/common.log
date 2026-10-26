@@ -1,0 +1,39 @@
+[0m21:56:55  Running with dbt=1.11.12
+[0m21:56:55  Registered adapter: clickhouse=1.10.1
+[0m21:56:56  Found 73 models, 10 analyses, 295 data tests, 15 sources, 544 macros, 12 unit tests
+[0m21:56:56  
+[0m21:56:56  Concurrency: 1 threads (target='dev')
+[0m21:56:56  
+[0m21:56:58  1 of 13 START sql incremental model `dtm_common`.`dim_action_type` ............. [RUN]
+[0m21:56:59  1 of 13 OK created sql incremental model `dtm_common`.`dim_action_type` ........ [[32mOK[0m in 0.69s]
+[0m21:56:59  2 of 13 START sql incremental model `dtm_common`.`dim_channel` ................. [RUN]
+[0m21:56:59  2 of 13 OK created sql incremental model `dtm_common`.`dim_channel` ............ [[32mOK[0m in 0.36s]
+[0m21:56:59  3 of 13 START sql incremental model `dtm_common`.`dim_country` ................. [RUN]
+[0m21:56:59  3 of 13 OK created sql incremental model `dtm_common`.`dim_country` ............ [[32mOK[0m in 0.22s]
+[0m21:56:59  4 of 13 START sql incremental model `dtm_common`.`dim_date` .................... [RUN]
+[0m21:57:00  4 of 13 OK created sql incremental model `dtm_common`.`dim_date` ............... [[32mOK[0m in 0.27s]
+[0m21:57:00  5 of 13 START sql incremental model `dtm_common`.`dim_employee` ................ [RUN]
+[0m21:57:00  5 of 13 OK created sql incremental model `dtm_common`.`dim_employee` ........... [[32mOK[0m in 0.24s]
+[0m21:57:00  6 of 13 START sql incremental model `dtm_common`.`dim_followup_definition` ..... [RUN]
+[0m21:57:00  6 of 13 OK created sql incremental model `dtm_common`.`dim_followup_definition`  [[32mOK[0m in 0.53s]
+[0m21:57:00  7 of 13 START sql incremental model `dtm_common`.`dim_metric` .................. [RUN]
+[0m21:57:01  7 of 13 OK created sql incremental model `dtm_common`.`dim_metric` ............. [[32mOK[0m in 0.20s]
+[0m21:57:01  8 of 13 START sql incremental model `dtm_common`.`dim_sale_type` ............... [RUN]
+[0m21:57:01  8 of 13 OK created sql incremental model `dtm_common`.`dim_sale_type` .......... [[32mOK[0m in 0.37s]
+[0m21:57:01  9 of 13 START sql incremental model `dtm_common`.`dim_stage` ................... [RUN]
+[0m21:57:01  9 of 13 OK created sql incremental model `dtm_common`.`dim_stage` .............. [[32mOK[0m in 0.46s]
+[0m21:57:01  10 of 13 START sql incremental model `dtm_common`.`dim_team` ................... [RUN]
+[0m21:57:02  10 of 13 OK created sql incremental model `dtm_common`.`dim_team` .............. [[32mOK[0m in 0.22s]
+[0m21:57:02  11 of 13 START sql incremental model `dwh_common`.`int_crm_identity_links` ..... [RUN]
+[0m21:57:03  11 of 13 OK created sql incremental model `dwh_common`.`int_crm_identity_links`  [[32mOK[0m in 1.26s]
+[0m21:57:03  12 of 13 START sql incremental model `dtm_common`.`dim_company` ................ [RUN]
+[0m21:57:04  12 of 13 OK created sql incremental model `dtm_common`.`dim_company` ........... [[32mOK[0m in 0.66s]
+[0m21:57:04  13 of 13 START sql incremental model `dwh_common`.`int_team_membership_periods`  [RUN]
+[0m21:57:04  13 of 13 OK created sql incremental model `dwh_common`.`int_team_membership_periods`  [[32mOK[0m in 0.68s]
+[0m21:57:04  
+[0m21:57:04  Finished running 13 incremental models in 0 hours 0 minutes and 8.02 seconds (8.02s).
+[0m21:57:05  
+[0m21:57:05  [32mCompleted successfully[0m
+[0m21:57:05  
+[0m21:57:05  Done. PASS=13 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=13
+

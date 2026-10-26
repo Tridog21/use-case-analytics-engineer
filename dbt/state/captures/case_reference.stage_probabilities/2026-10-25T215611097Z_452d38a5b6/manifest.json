@@ -1,0 +1,52 @@
+{
+  "source": "case_reference.stage_probabilities",
+  "model": "stg_ref_stage_probabilities",
+  "capture_key": "2026-10-25T215611097Z_452d38a5b6",
+  "capture_at": "2026-10-25T21:56:11.097Z",
+  "status": "success",
+  "source_digest": "599a0ef8492039278de7a2e489b15bd386303f725a815bf97120c91f1c6db8b7",
+  "schema_hash": "9739dc13e556d2f3b83c3e82eca7f5cf56ffc226fc21cedcba3c3b60d06ea836",
+  "nb_rows_read": 33,
+  "lower_bound": null,
+  "upper_bound": "2026-10-25T21:56:11.097Z",
+  "full_scan": true,
+  "started_at": "2026-10-25T21:56:11.097Z",
+  "commands": [
+    {
+      "command": [
+        "run",
+        "--select",
+        "stg_ref_stage_probabilities",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:56:11.190Z",
+      "end": "2026-10-25T21:56:23.825Z",
+      "exit_code": 0,
+      "elapsed_seconds": 12.639999999999418
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "stg_ref_stage_probabilities",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T21:56:23.828Z",
+      "end": "2026-10-25T21:56:31.235Z",
+      "exit_code": 0,
+      "elapsed_seconds": 7.4060000000026776
+    }
+  ],
+  "nb_expected_source_keys": 33,
+  "expected_payload_digest": "ac01b5b5f718f42d24a78fc0a5a7394e4ea354f86c51926fd97456fc5d071ebf",
+  "ended_at": "2026-10-25T21:56:31.397Z",
+  "nb_rows_written": 0,
+  "nb_keys": 33,
+  "keys_digest": "fe8883758288e774534a543e295266ad569c0fce61b1e1d45b0b0ab667007ef2"
+}

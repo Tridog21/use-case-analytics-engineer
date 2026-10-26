@@ -1,0 +1,19 @@
+[0m21:54:17  Running with dbt=1.11.12
+[0m21:54:17  Registered adapter: clickhouse=1.10.1
+[0m21:54:19  Found 73 models, 10 analyses, 294 data tests, 15 sources, 544 macros, 12 unit tests
+[0m21:54:19  
+[0m21:54:19  Concurrency: 1 threads (target='dev')
+[0m21:54:19  
+[0m21:54:20  1 of 3 START test T02_payload_stg_boond_dictionaries ........................... [RUN]
+[0m21:54:20  1 of 3 PASS T02_payload_stg_boond_dictionaries ................................. [[32mPASS[0m in 0.32s]
+[0m21:54:20  2 of 3 START test T03_stg_boond_dictionaries ................................... [RUN]
+[0m21:54:21  2 of 3 PASS T03_stg_boond_dictionaries ......................................... [[32mPASS[0m in 0.06s]
+[0m21:54:21  3 of 3 START test case_grain_stg_boond_dictionaries_source_version_key__False .. [RUN]
+[0m21:54:21  3 of 3 PASS case_grain_stg_boond_dictionaries_source_version_key__False ........ [[32mPASS[0m in 0.06s]
+[0m21:54:21  
+[0m21:54:21  Finished running 3 data tests in 0 hours 0 minutes and 1.94 seconds (1.94s).
+[0m21:54:21  
+[0m21:54:21  [32mCompleted successfully[0m
+[0m21:54:21  
+[0m21:54:21  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "stg_boond_projects",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:21:48.640Z",
+  "end": "2026-10-25T21:21:58.501Z",
+  "exit_code": 0,
+  "elapsed_seconds": 9.85899999999674
+}

@@ -1,0 +1,16 @@
+[0m21:19:52  Running with dbt=1.11.12
+[0m21:19:52  Registered adapter: clickhouse=1.10.1
+[0m21:19:53  Found 15 models, 15 data tests, 15 sources, 542 macros
+[0m21:19:53  The selection criterion 'tag:publication' does not match any enabled nodes
+[0m21:19:53  
+[0m21:19:53  Concurrency: 1 threads (target='dev')
+[0m21:19:53  
+[0m21:19:54  1 of 1 START test case_grain_stg_boond_actions_source_version_key__False ....... [RUN]
+[0m21:19:54  1 of 1 PASS case_grain_stg_boond_actions_source_version_key__False ............. [[32mPASS[0m in 0.31s]
+[0m21:19:54  
+[0m21:19:54  Finished running 1 test in 0 hours 0 minutes and 1.35 seconds (1.35s).
+[0m21:19:54  
+[0m21:19:54  [32mCompleted successfully[0m
+[0m21:19:54  
+[0m21:19:54  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

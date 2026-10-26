@@ -1,0 +1,196 @@
+Questions métier et questions critiques du case
+
+Deux parties distinctes : les questions consignées pour les métiers, puis quinze questions décisives approfondies pendant le travail. Les réponses de la seconde partie décrivent le dernier état du case ; elles ne valent pas validation par les métiers.
+
+PARTIE 1 - QUESTIONS PRÉPARÉES POUR LES MÉTIERS
+
+QM-01 | Passages entre étapes
+
+Quel est le workflow réel des besoins ? Peut-on sauter une étape, revenir en arrière, rouvrir un deal fermé ou revenir depuis nurturing ? Comment distinguer attente, refus, perte et abandon ?
+
+Enjeu : Les réponses déterminent le pipe ouvert, les conversions, les durées et les cohortes.
+
+QM-02 | Attribution à plusieurs canaux
+
+Lorsqu’un prospect passe par plusieurs canaux, quel canal reçoit le crédit pour l’acquisition du contact puis pour l’opportunité ? Retient-on un seul canal ou un partage ? À quel moment fixe-t-on cette attribution ?
+
+Enjeu : L’enjeu est de comparer les canaux sans double comptage et d’aligner les lectures Sales et Marketing.
+
+QM-03 | Définitions communes et arbitrage
+
+Qui valide les définitions partagées et qui tranche en cas de conflit Sales/Marketing ou entre équipes ? Comment valide-t-on les règles puis les résultats du cockpit ?
+
+Enjeu : Les conventions du case permettent d’avancer ; elles ne constituent pas une validation officielle par les métiers.
+
+QM-04 | MRR, dates, prorata et paiements
+
+Pour un abonnement qui commence le 15 mars et se termine le 15 avril, quelle est la date de fin effective du service et de la facturation ? Y a-t-il prorata, remboursement ou mois commencé dû ? Comment répartit-on le revenu entre mars et avril, et comment distingue-t-on cette répartition du MRR observé à chaque clôture ?
+
+Précisions à obtenir :
+- L’entrée dans le MRR se fait-elle à la signature, au début effectif du service ou au premier paiement ? Quel événement et quelle période définissent le MRR signé ?
+- La résiliation correspond-elle à une demande ou à la fin effective ? La date de fin est-elle inclusive ou exclusive ? Peut-elle signaler un renouvellement ou un changement d’offre ? Quel fuseau et quel instant de clôture retenir ?
+- Quels états de projet et de ligne définissent un abonnement actif ? Comment traiter essais, gratuités, pauses, impayés et annulations ?
+- Quel montant mensuel HT retenir après remises, et dans quelle devise ? Le montant fourni inclut-il déjà quantité × prix unitaire mensuel ?
+- Souhaite-t-on mesurer le revenu reconnu et les encaissements ? Quelles sources de factures, avoirs et règlements les prouvent et permettent leur rapprochement ?
+- Le New MRR désigne-t-il les nouveaux clients activés, les signatures ou une contribution incluant extensions, réductions, réactivations et churn ?
+- Si un scénario sans churn et sans New MRR est souhaité, que mesure-t-il et comment traite-t-il les autres mouvements ?
+
+Enjeu : Le registre répète certains points au fil des cycles : ils sont regroupés ici sans supprimer les sujets. Boond est retenu dans le case pour le MRR actif ; cela ne prouve ni paiement, ni règle de facturation. Les choix ultérieurs de clôture et de mouvements sont rappelés en partie 2.
+
+QM-05 | Sens des probabilités
+
+Que représente exactement ref.stage_probabilities.probability : la probabilité d’atteindre l’étape suivante, la probabilité de signer depuis l’étape actuelle, ou une autre convention ? Quelle population, quelle période et quelle méthode ont produit ces valeurs ? Quel usage est prévu dans le pipeline pondéré et qui les valide ?
+
+Enjeu : Une probabilité de transition, une probabilité de signature et un objectif mensuel sont trois notions distinctes.
+
+QM-06 | Entrée dans le pipeline qualifié
+
+Qu’est-ce qui valide la qualification du besoin, et quel événement marque son entrée dans le pipeline qualifié : qualification réussie, découverte, démo planifiée, démo réalisée ou autre validation ? Distingue-t-on cette entrée de la création CRM ?
+
+Enjeu : La frontière change les volumes générés, les cohortes et le début des durées. La création CRM ne prouve pas une qualification.
+
+RAW-E22-01 | Retour d’un client après churn
+
+Lorsqu’une société a arrêté tous ses abonnements puis revient, son MRR doit-il être classé en New MRR ou dans une catégorie Réactivation séparée ? Faut-il aussi la compter parmi les nouveaux clients, ou distinguer première acquisition et retour ?
+
+Enjeu : Le traitement monétaire et le compteur de premières acquisitions doivent être distingués.
+
+RAW-E22-02 | Variations par abonnement ou par société
+
+Un client augmente une ligne de 100 €/mois et réduit une autre de 40 €/mois. Veut-on afficher 100 € d’expansion et 40 € de contraction, ou seulement 60 € d’expansion nette au niveau du client ? Comment distinguer un remplacement d’abonnement d’une vraie hausse ou baisse ?
+
+Enjeu : Le calcul net par société et la lecture brute des lignes ne racontent pas les mêmes mouvements.
+
+RAW-E22-03 | Départs et retours dans le même mois
+
+Une société active fin janvier part le 10 février puis revient le 20 février au même montant. Faut-il afficher un départ et une réactivation dans le mois, ou uniquement la variation entre clôtures, qui ne montre aucun mouvement ? La même question se pose pour une arrivée suivie d’un départ avant clôture.
+
+Enjeu : Une photographie de fin de mois ne restitue pas tous les événements intervenus pendant le mois.
+
+RAW-E23-01 | Valeur et nom du MRR d’un upsell
+
+Si un abonnement passe de 100 à 150 €/mois, faut-il retenir le supplément de 50 € ou le total de 150 € pour le montant commercial signé de cet upsell ? Comment ce supplément est-il classé lors de l’activation : Expansion MRR séparée, ou composante d’un New MRR plus large ? Quel événement et quelle donnée prouvent le montant mensuel supplémentaire vendu ?
+
+Enjeu : Éviter de recompter l’abonnement initial et de compter deux fois le même apport dans New MRR et Expansion.
+
+PARTIE 2 - QUINZE QUESTIONS CRITIQUES APPROFONDIES
+
+01 | À quel moment commence le pipeline analysé ?
+
+Retenu / limite : Entrée à la création de l’opportunité dans Boond ; la qualification commerciale reste distincte. L’absence de formulaire retrouvé ne suffit pas à exclure un dossier, notamment un upsell.
+
+Apport : La population de départ devient explicite et ne dépend plus implicitement du SQL historique.
+
+Repères : D01 ; raw QM-06 ; clean DU-28.
+
+02 | Que signifie « démo » : un statut ou un rendez-vous tenu ?
+
+Retenu / limite : « In demo » compte les sociétés distinctes dans la phase commerciale Démo. L’objectif de démos porte sur les rendez-vous réellement tenus. Ni un statut ni une date d’agenda passée ne prouvent la tenue : le réalisé demeure indisponible faute de preuve.
+
+Apport : On évite de comparer des sociétés en stock à des séances réalisées pendant un mois.
+
+Repères : D03, D14 ; clean DU-29/DU-36 ; rapport d’exécution.
+
+03 | Quand reconnaît-on une signature, et que vaut son montant ?
+
+Retenu / limite : La première entrée au statut Signé (état 1) reconnaît la signature ; les formalités finalisées (état 14) ne créent pas une seconde vente. L’unité mensuelle du montant commercial n’est pas prouvée : aucun MRR signé officiel n’est calculé à partir de ce seul montant.
+
+Apport : Le volume de signatures et le revenu récurrent signé ont des exigences de preuve différentes.
+
+Repères : D02, D13 ; spécification §2.2.
+
+04 | Quelle source fait foi pour le MRR actif et les encaissements ?
+
+Retenu / limite : Boond, via les lignes d’abonnement reliées aux projets, alimente le MRR actif. Les deals HubSpot décrivent l’acquisition et la vente, pas la vie de l’abonnement. Les données fournies ne prouvent pas les paiements ; les encaissements sont exclus.
+
+Apport : On distingue valeur récurrente active, engagement commercial et argent effectivement reçu.
+
+Repères : D04, D06 ; raw Q2/QM-04.
+
+05 | À quelle date un abonnement est-il actif ?
+
+Retenu / limite : Photographie à la clôture mensuelle en Europe/Paris, sans prorata du MRR. Une ligne doit être En cours à la date observée et dans une période admissible ; le dernier jour est inclus. Une société est active si au moins une ligne l’est. Un montant nul connu peut rester actif.
+
+Apport : La règle d’activité est indépendante de la facturation et du montant ; elle reste une convention de case.
+
+Repères : D04, D07, D12.
+
+06 | Comment nommer New MRR, upsell et retour après churn ?
+
+Retenu / limite : Le total New MRR = composante New + composante Upsell. Le passage de 100 à 150 €/mois apporte 50 € supplémentaires à l’activation. Les retours après churn entrent dans New MRR, mais sont exclus du compteur de premières acquisitions. Une première acquisition exige une preuve et une couverture suffisantes.
+
+Apport : On évite les doubles comptes et la confusion entre nouveau revenu et tout premier client.
+
+Repères : D05, D27 ; clean DU-38 ; RAW-E22-01/RAW-E23-01.
+
+07 | À quel niveau mesurer expansion, contraction et churn ?
+
+Retenu / limite : Comparer le MRR total de chaque société entre deux clôtures. +100 € sur une ligne et -40 € sur une autre donnent +60 € nets pour cette société. Les pertes d’une société ne sont jamais compensées par les gains d’une autre. Les départs-retours intra-mois ne sont pas analysés en détail dans ce case.
+
+Apport : Les mouvements sont cohérents au niveau client ; la limite de la lecture entre clôtures reste visible.
+
+Repères : D05 ; RAW-E22-02/03 ; clean QC-12/13.
+
+08 | Qu’est-ce qu’une conversion lorsque le parcours comporte des retours ?
+
+Retenu / limite : Conserver les sauts, retours et passages réellement observés, sans imposer un tunnel linéaire. Abandonné et Non qualifié restent distincts de Perdu ; Nurturing reste ouvert. Un état ancien non classifiable demeure inconnu, sans être assimilé à une étape moderne.
+
+Apport : Un écart de volume entre deux étapes n’est plus interprété automatiquement comme une perte.
+
+Repères : D11, D17-D19, D30 ; raw QM-01.
+
+09 | Quand peut-on comparer les cohortes à J+30/J+60/J+90 ?
+
+Retenu / limite : L’horizon part de la création individuelle de chaque opportunité. Un résultat à horizon donné s’affiche après maturité de toute la cohorte. Maturité et observabilité sont distinctes : les inconnus et lacunes restent visibles, sans renormalisation silencieuse des taux.
+
+Apport : Les cohortes récentes ne sont pas pénalisées par un délai d’observation trop court.
+
+Repères : D09 ; spécification §4, règle de maturité.
+
+10 | Comment mesurer les durées et repérer la stagnation ?
+
+Retenu / limite : Chaque retour crée un passage distinct. Séparer durée des passages terminés et ancienneté de ceux en cours ; utiliser le temps calendaire, la médiane et le P90 recalculés après filtre. Le seuil par défaut de 21 jours est paramétrable et constitue un choix de case, pas une norme métier validée.
+
+Apport : Les dossiers toujours ouverts ne biaisent pas la lecture des durées terminées.
+
+Repères : D10, D25, D26.
+
+11 | Que peut-on réellement reconstituer avec l’historique CDC ?
+
+Retenu / limite : Conserver les versions et suppressions, dédupliquer, prévoir reprise inclusive et réconciliation complète. meta.ts peut dater une transition réellement observée comme proxy explicite, jamais inventer une étape absente. Le passé corrigé s’affiche par défaut et les révisions restent conservées.
+
+Apport : L’historisation rend les résultats explicables sans prétendre reconstruire un passé jamais capturé.
+
+Repères : D08, D15 ; spécification §4.2 ; inventaire staging.
+
+12 | Comment attribuer canaux et équipes sans fabriquer de précision ?
+
+Retenu / limite : Canal de l’opportunité à sa création uniquement s’il est observable. Pour les équipes, utiliser l’appartenance historique ; une ambiguïté reste inconnue. KAM n’est pas reclassée Espagne. Le portefeuille MRR/churn reste global, sans attribution arbitraire à l’équipe de vente.
+
+Apport : Les filtres n’introduisent ni double contribution ni historique reconstruit avec l’équipe actuelle.
+
+Repères : D06, D23-D25 ; raw QM-02.
+
+13 | Que représentent les probabilités et les objectifs mensuels ?
+
+Retenu / limite : Les coefficients servent à pondérer la signature finale selon le barème fourni, distinct des quatre objectifs mensuels par équipe. L’histoire recalculée avec le dernier barème capturé est nommée comme telle. Coefficient absent, montant non compatible ou équipe non résolue : réalisé/taux indisponibles, jamais zéro par défaut.
+
+Apport : On évite de confondre probabilité de transition, potentiel pondéré et atteinte d’une cible.
+
+Repères : D21-D23 ; raw QM-05 ; clean catalogue_indicateurs.md.
+
+14 | Pourquoi deux modules et des données de détail jusqu’aux dashboards ?
+
+Retenu / limite : Pipeline/parcours et Revenus/performance partagent leurs dimensions. Les grains fins et contributions sont conservés pour recalculer ratios, distincts et quantiles après filtre. Les datasets exposent la publication acceptée, avec des statuts de disponibilité ; un inconnu est NULL avec motif.
+
+Apport : La même définition alimente plusieurs vues, sans moyenner des taux ou des médianes déjà agrégés.
+
+Repères : clean DCI-16/17 ; spécification §3 ; branchement_dashboards.md.
+
+15 | Qu’est-ce qui est prouvé, choisi pour le case ou encore à tester ?
+
+Retenu / limite : Les décisions D16-D30 ont été prises par l’IA sous délégation explicite du candidat, pas validées individuellement par les métiers. Les rapports enregistrent les contrôles réalisés pendant l’implémentation. Le cycle final autonome de recette n’a pas été effectué ; la dernière refonte visuelle ne vaut pas nouvelle validation des données.
+
+Apport : Le relecteur peut distinguer une convention, une preuve d’exécution et une limite restante.
+
+Repères : spécification §7 ; rapport_execution.md ; superset/README_presentation.md ; demande du candidat.

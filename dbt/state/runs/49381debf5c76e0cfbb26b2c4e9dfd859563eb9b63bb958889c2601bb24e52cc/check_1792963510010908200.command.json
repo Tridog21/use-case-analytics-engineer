@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "tag:common tag:pipeline tag:revenue tag:mart",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:25:10.010Z",
+  "end": "2026-10-25T21:25:42.147Z",
+  "exit_code": 1,
+  "elapsed_seconds": 32.13999999999942
+}

@@ -1,0 +1,134 @@
+{
+  "model_run_id": "87f5ea1c2f619f17ce2c9543230def81273936559b0d61c5efe0b31a3a78018c",
+  "status": "success",
+  "start": "2026-10-25T22:15:20.245Z",
+  "phase": "build",
+  "commands": [
+    {
+      "command": [
+        "parse",
+        "--no-partial-parse"
+      ],
+      "start": "2026-10-25T22:15:20.343Z",
+      "end": "2026-10-25T22:15:30.330Z",
+      "exit_code": 0,
+      "elapsed_seconds": 9.98399999999674
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "tag:capture",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T22:15:30.440Z",
+      "end": "2026-10-25T22:15:41.078Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.639999999999418
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "tag:common",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T22:15:41.188Z",
+      "end": "2026-10-25T22:15:55.767Z",
+      "exit_code": 0,
+      "elapsed_seconds": 14.578000000001339
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "int_sales_objectives_month fct_sales_objectives_month",
+        "--threads",
+        "1",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:16:40.871Z",
+      "end": "2026-10-25T22:16:50.462Z",
+      "exit_code": 0,
+      "elapsed_seconds": 9.594000000004598,
+      "recovered_memory_attempts": 1
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "dtr_sales_events dtr_stage_visits",
+        "--threads",
+        "1",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:17:08.965Z",
+      "end": "2026-10-25T22:17:19.041Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.077999999994063,
+      "recovered_memory_attempts": 1
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "test_type:unit",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:21:08.684Z",
+      "end": "2026-10-25T22:22:35.121Z",
+      "exit_code": 0,
+      "elapsed_seconds": 86.43699999999808
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "T07_content_dim_company",
+        "--threads",
+        "1",
+        "--exclude",
+        "tag:publication test_type:unit"
+      ],
+      "start": "2026-10-25T22:23:07.900Z",
+      "end": "2026-10-25T22:23:15.392Z",
+      "exit_code": 0,
+      "elapsed_seconds": 7.485000000000582,
+      "recovered_memory_attempts": 1
+    }
+  ],
+  "code_hash": "b1f9e493f7b4c272e70f97219520a4d7bfee2bedc1a19f4b4c48002fd3fe2265",
+  "rule_version": "f27bb465ef37c8629e6c76c384ff7d4fcd0ef2a2b96b2776687f917e1382e8da",
+  "vars_hash": "21fc092a1d3423b7010134ef2b7ecc52ce843aeb08e8d4ae184c2550c755b7f5",
+  "input_cutoff_at": "2026-10-25T22:15:20.242Z",
+  "source_capture_keys": {
+    "hubspot.contacts": [
+      "2026-10-25T212226410Z_eab3f87bca",
+      "2026-10-25T215505768Z_15b0be88a0"
+    ],
+    "hubspot.deals": [
+      "2026-10-25T212244007Z_e3e0997104",
+      "2026-10-25T215529103Z_13205891e0"
+    ],
+    "case_reference.sales_targets": [
+      "2026-10-25T212301870Z_8b72bc74c8",
+      "2026-10-25T215550309Z_e4bfe66e4e"
+    ],
+    "case_reference.stage_probabilities": [
+      "2026-10-25T212321865Z_7a3700e5e2",
+      "2026-10-25T215611097Z_452d38a5b6"
+    ]
+  },
+  "fixture_code_hash": "74d1979b987a19cc4d1936823f38b20292c2fc00ce024b0e783f952053253e70",
+  "candidate_tests_passed": true,
+  "end": "2026-10-25T22:23:53.120Z"
+}

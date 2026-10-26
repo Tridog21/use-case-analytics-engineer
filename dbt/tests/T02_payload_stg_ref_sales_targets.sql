@@ -1,0 +1,2 @@
+{{ config(tags=['capture']) }}
+select source_version_key from {{ ref('stg_ref_sales_targets') }} where source_payload_hash!={{ typed_hash('source_payload_v1:case_reference.sales_targets', [{'name': 'src_month_date', 'type': 'Date', 'expr': 'src_month_date'}, {'name': 'src_segment', 'type': 'String', 'expr': 'src_segment'}, {'name': 'src_indicator', 'type': 'String', 'expr': 'src_indicator'}, {'name': 'src_target', 'type': 'Float64', 'expr': 'src_target'}]) }}

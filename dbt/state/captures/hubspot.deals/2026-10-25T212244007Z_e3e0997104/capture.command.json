@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "stg_hubspot_deals",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:22:44.009Z",
+  "end": "2026-10-25T21:22:54.757Z",
+  "exit_code": 0,
+  "elapsed_seconds": 10.75
+}

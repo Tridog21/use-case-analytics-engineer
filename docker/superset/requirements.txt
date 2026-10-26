@@ -1,0 +1,5 @@
+# Other dependencies are provided by the base image pinned by digest.
+clickhouse-connect==1.8.0
+psycopg2-binary==2.9.10
+backports-zstd==1.8.0
+lz4==4.4.5

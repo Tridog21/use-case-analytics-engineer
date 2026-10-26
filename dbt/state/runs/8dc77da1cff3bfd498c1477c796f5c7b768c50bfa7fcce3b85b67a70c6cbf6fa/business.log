@@ -1,0 +1,17 @@
+[0m22:41:02  Running with dbt=1.11.12
+[0m22:41:02  Registered adapter: clickhouse=1.10.1
+[0m22:41:03  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:41:03  
+[0m22:41:03  Concurrency: 1 threads (target='dev')
+[0m22:41:03  
+[0m22:41:05  1 of 2 START sql incremental model `dwh_pipeline`.`int_opportunity_followup` ... [RUN]
+[0m22:41:15  1 of 2 OK created sql incremental model `dwh_pipeline`.`int_opportunity_followup`  [[32mOK[0m in 9.87s]
+[0m22:41:15  2 of 2 START sql view model `dtm_pipeline`.`fct_opportunity_followup` .......... [RUN]
+[0m22:41:15  2 of 2 OK created sql view model `dtm_pipeline`.`fct_opportunity_followup` ..... [[32mOK[0m in 0.12s]
+[0m22:41:15  
+[0m22:41:15  Finished running 1 incremental model, 1 view model in 0 hours 0 minutes and 11.78 seconds (11.78s).
+[0m22:41:15  
+[0m22:41:15  [32mCompleted successfully[0m
+[0m22:41:15  
+[0m22:41:15  Done. PASS=2 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=2
+

@@ -1,0 +1,65 @@
+[0m21:32:44  Running with dbt=1.11.12
+[0m21:32:44  Registered adapter: clickhouse=1.10.1
+[0m21:32:45  Found 73 models, 176 data tests, 15 sources, 543 macros, 6 unit tests
+[0m21:32:45  
+[0m21:32:45  Concurrency: 1 threads (target='dev')
+[0m21:32:45  
+[0m21:32:46  1 of 26 START test T03_stg_boond_actions ....................................... [RUN]
+[0m21:32:47  1 of 26 PASS T03_stg_boond_actions ............................................. [[32mPASS[0m in 0.33s]
+[0m21:32:47  2 of 26 START test T03_stg_boond_agencies ...................................... [RUN]
+[0m21:32:47  2 of 26 PASS T03_stg_boond_agencies ............................................ [[32mPASS[0m in 0.05s]
+[0m21:32:47  3 of 26 START test T03_stg_boond_businessunits ................................. [RUN]
+[0m21:32:47  3 of 26 PASS T03_stg_boond_businessunits ....................................... [[32mPASS[0m in 0.06s]
+[0m21:32:47  4 of 26 START test T03_stg_boond_companies ..................................... [RUN]
+[0m21:32:47  4 of 26 PASS T03_stg_boond_companies ........................................... [[32mPASS[0m in 0.13s]
+[0m21:32:47  5 of 26 START test T03_stg_boond_contacts ...................................... [RUN]
+[0m21:32:47  5 of 26 PASS T03_stg_boond_contacts ............................................ [[32mPASS[0m in 0.06s]
+[0m21:32:47  6 of 26 START test T03_stg_boond_deliveries .................................... [RUN]
+[0m21:32:47  6 of 26 PASS T03_stg_boond_deliveries .......................................... [[32mPASS[0m in 0.06s]
+[0m21:32:47  7 of 26 START test T03_stg_boond_dictionaries .................................. [RUN]
+[0m21:32:47  7 of 26 PASS T03_stg_boond_dictionaries ........................................ [[32mPASS[0m in 0.06s]
+[0m21:32:47  8 of 26 START test T03_stg_boond_opportunities ................................. [RUN]
+[0m21:32:47  8 of 26 PASS T03_stg_boond_opportunities ....................................... [[32mPASS[0m in 0.06s]
+[0m21:32:47  9 of 26 START test T03_stg_boond_poles ......................................... [RUN]
+[0m21:32:47  9 of 26 PASS T03_stg_boond_poles ............................................... [[32mPASS[0m in 0.06s]
+[0m21:32:47  10 of 26 START test T03_stg_boond_projects ..................................... [RUN]
+[0m21:32:47  10 of 26 PASS T03_stg_boond_projects ........................................... [[32mPASS[0m in 0.05s]
+[0m21:32:47  11 of 26 START test T03_stg_boond_resources .................................... [RUN]
+[0m21:32:47  11 of 26 PASS T03_stg_boond_resources .......................................... [[32mPASS[0m in 0.06s]
+[0m21:32:47  12 of 26 START test case_grain_stg_boond_actions_source_version_key__False ..... [RUN]
+[0m21:32:47  12 of 26 PASS case_grain_stg_boond_actions_source_version_key__False ........... [[32mPASS[0m in 0.06s]
+[0m21:32:47  13 of 26 START test case_grain_stg_boond_agencies_source_version_key__False .... [RUN]
+[0m21:32:48  13 of 26 PASS case_grain_stg_boond_agencies_source_version_key__False .......... [[32mPASS[0m in 0.05s]
+[0m21:32:48  14 of 26 START test case_grain_stg_boond_businessunits_source_version_key__False  [RUN]
+[0m21:32:48  14 of 26 PASS case_grain_stg_boond_businessunits_source_version_key__False ..... [[32mPASS[0m in 0.06s]
+[0m21:32:48  15 of 26 START test case_grain_stg_boond_companies_source_version_key__False ... [RUN]
+[0m21:32:48  15 of 26 PASS case_grain_stg_boond_companies_source_version_key__False ......... [[32mPASS[0m in 0.06s]
+[0m21:32:48  16 of 26 START test case_grain_stg_boond_contacts_source_version_key__False .... [RUN]
+[0m21:32:48  16 of 26 PASS case_grain_stg_boond_contacts_source_version_key__False .......... [[32mPASS[0m in 0.06s]
+[0m21:32:48  17 of 26 START test case_grain_stg_boond_deliveries_source_version_key__False .. [RUN]
+[0m21:32:48  17 of 26 PASS case_grain_stg_boond_deliveries_source_version_key__False ........ [[32mPASS[0m in 0.06s]
+[0m21:32:48  18 of 26 START test case_grain_stg_boond_dictionaries_source_version_key__False  [RUN]
+[0m21:32:48  18 of 26 PASS case_grain_stg_boond_dictionaries_source_version_key__False ...... [[32mPASS[0m in 0.06s]
+[0m21:32:48  19 of 26 START test case_grain_stg_boond_opportunities_source_version_key__False  [RUN]
+[0m21:32:48  19 of 26 PASS case_grain_stg_boond_opportunities_source_version_key__False ..... [[32mPASS[0m in 0.06s]
+[0m21:32:48  20 of 26 START test case_grain_stg_boond_poles_source_version_key__False ....... [RUN]
+[0m21:32:48  20 of 26 PASS case_grain_stg_boond_poles_source_version_key__False ............. [[32mPASS[0m in 0.06s]
+[0m21:32:48  21 of 26 START test case_grain_stg_boond_projects_source_version_key__False .... [RUN]
+[0m21:32:48  21 of 26 PASS case_grain_stg_boond_projects_source_version_key__False .......... [[32mPASS[0m in 0.05s]
+[0m21:32:48  22 of 26 START test case_grain_stg_boond_resources_source_version_key__False ... [RUN]
+[0m21:32:48  22 of 26 PASS case_grain_stg_boond_resources_source_version_key__False ......... [[32mPASS[0m in 0.06s]
+[0m21:32:48  23 of 26 START test case_grain_stg_hubspot_contacts_source_version_key__False .. [RUN]
+[0m21:32:48  23 of 26 PASS case_grain_stg_hubspot_contacts_source_version_key__False ........ [[32mPASS[0m in 0.06s]
+[0m21:32:48  24 of 26 START test case_grain_stg_hubspot_deals_source_version_key__False ..... [RUN]
+[0m21:32:48  24 of 26 PASS case_grain_stg_hubspot_deals_source_version_key__False ........... [[32mPASS[0m in 0.06s]
+[0m21:32:48  25 of 26 START test case_grain_stg_ref_sales_targets_source_version_key__False . [RUN]
+[0m21:32:48  25 of 26 PASS case_grain_stg_ref_sales_targets_source_version_key__False ....... [[32mPASS[0m in 0.06s]
+[0m21:32:48  26 of 26 START test case_grain_stg_ref_stage_probabilities_source_version_key__False  [RUN]
+[0m21:32:48  26 of 26 PASS case_grain_stg_ref_stage_probabilities_source_version_key__False . [[32mPASS[0m in 0.06s]
+[0m21:32:48  
+[0m21:32:48  Finished running 26 data tests in 0 hours 0 minutes and 3.38 seconds (3.38s).
+[0m21:32:49  
+[0m21:32:49  [32mCompleted successfully[0m
+[0m21:32:49  
+[0m21:32:49  Done. PASS=26 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=26
+

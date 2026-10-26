@@ -1,0 +1,47 @@
+[0m22:16:53  Running with dbt=1.11.12
+[0m22:16:53  Registered adapter: clickhouse=1.10.1
+[0m22:16:55  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:16:55  
+[0m22:16:55  Concurrency: 1 threads (target='dev')
+[0m22:16:55  
+[0m22:16:56  1 of 10 START sql incremental model `dtr_sales`.`dtr_cohort_outcomes` .......... [RUN]
+[0m22:16:58  1 of 10 OK created sql incremental model `dtr_sales`.`dtr_cohort_outcomes` ..... [[32mOK[0m in 1.15s]
+[0m22:16:58  2 of 10 START sql incremental model `dtr_sales`.`dtr_company_mrr_month` ........ [RUN]
+[0m22:16:58  2 of 10 OK created sql incremental model `dtr_sales`.`dtr_company_mrr_month` ... [[32mOK[0m in 0.54s]
+[0m22:16:58  3 of 10 START sql incremental model `dtr_sales`.`dtr_demo_intervals` ........... [RUN]
+[0m22:16:58  3 of 10 OK created sql incremental model `dtr_sales`.`dtr_demo_intervals` ...... [[32mOK[0m in 0.32s]
+[0m22:16:58  4 of 10 START sql incremental model `dtr_sales`.`dtr_funnel_progress` .......... [RUN]
+[0m22:16:59  4 of 10 OK created sql incremental model `dtr_sales`.`dtr_funnel_progress` ..... [[32mOK[0m in 0.89s]
+[0m22:16:59  5 of 10 START sql incremental model `dtr_sales`.`dtr_opportunity_timeline` ..... [RUN]
+[0m22:17:02  5 of 10 OK created sql incremental model `dtr_sales`.`dtr_opportunity_timeline`  [[32mOK[0m in 2.88s]
+[0m22:17:02  6 of 10 START sql incremental model `dtr_sales`.`dtr_pipeline_periods` ......... [RUN]
+[0m22:17:03  6 of 10 OK created sql incremental model `dtr_sales`.`dtr_pipeline_periods` .... [[32mOK[0m in 0.76s]
+[0m22:17:03  7 of 10 START sql incremental model `dtr_sales`.`dtr_sales_actions` ............ [RUN]
+[0m22:17:05  7 of 10 OK created sql incremental model `dtr_sales`.`dtr_sales_actions` ....... [[32mOK[0m in 2.47s]
+[0m22:17:05  8 of 10 START sql incremental model `dtr_sales`.`dtr_sales_events` ............. [RUN]
+[0m22:17:06  8 of 10 ERROR creating sql incremental model `dtr_sales`.`dtr_sales_events` .... [[31mERROR[0m in 0.74s]
+[0m22:17:06  9 of 10 START sql incremental model `dtr_sales`.`dtr_sales_objectives_month` ... [RUN]
+[0m22:17:06  9 of 10 OK created sql incremental model `dtr_sales`.`dtr_sales_objectives_month`  [[32mOK[0m in 0.28s]
+[0m22:17:06  10 of 10 START sql incremental model `dtr_sales`.`dtr_stage_visits` ............ [RUN]
+[0m22:17:07  10 of 10 ERROR creating sql incremental model `dtr_sales`.`dtr_stage_visits` ... [[31mERROR[0m in 0.62s]
+[0m22:17:07  
+[0m22:17:07  Finished running 10 incremental models in 0 hours 0 minutes and 12.48 seconds (12.48s).
+[0m22:17:07  
+[0m22:17:07  [31mCompleted with 2 errors, 0 partial successes, and 0 warnings:[0m
+[0m22:17:07  
+[0m22:17:07  [31mFailure in model dtr_sales_events (models\reporting\dtr\dtr_sales_events.sql)[0m
+[0m22:17:07    Database Error in model dtr_sales_events (models\reporting\dtr\dtr_sales_events.sql)
+  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.72 GiB (attempt to allocate chunk of 12.00 MiB), current RSS: 2.05 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker: while executing 'FUNCTION toJSONString(materialize(tuple('dtr_sales_events:row_v1'_String, tuple('tenant_id'_String, 'String'_String, _CAST... :: 63) -> toJSONString(materialize(tuple('dtr_sales_events:row_v1'_String, tuple('tenant_id'_String, 'String'_... String : 179'. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+  compiled code at target\run\use_case\models\reporting\dtr\dtr_sales_events.sql
+[0m22:17:07  
+[0m22:17:07    compiled code at target\compiled\use_case\models\reporting\dtr\dtr_sales_events.sql
+[0m22:17:07  
+[0m22:17:07  [31mFailure in model dtr_stage_visits (models\reporting\dtr\dtr_stage_visits.sql)[0m
+[0m22:17:07    Database Error in model dtr_stage_visits (models\reporting\dtr\dtr_stage_visits.sql)
+  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.72 GiB (attempt to allocate chunk of 4.00 MiB), current RSS: 1.54 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker: (avg_value_size_hint = 72, avg_chars_size = 76.8, limit = 64): (while reading column employee_key): (while reading from part /var/lib/clickhouse/store/4d3/4d3f7aa7-99fa-4c08-9cdb-2cb96420d8b0/all_1_7_1/ in table dwh_pipeline.int_opportunity_periods (4d3f7aa7-99fa-4c08-9cdb-2cb96420d8b0) located on disk default of type local, from mark 0 with max_rows_to_read = 64, offset = 0): While reading part all_1_7_1: While executing MergeTreeSelect(pool: ReadPoolInOrder, algorithm: InOrder). (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+  compiled code at target\run\use_case\models\reporting\dtr\dtr_stage_visits.sql
+[0m22:17:07  
+[0m22:17:07    compiled code at target\compiled\use_case\models\reporting\dtr\dtr_stage_visits.sql
+[0m22:17:07  
+[0m22:17:07  Done. PASS=8 WARN=0 ERROR=2 SKIP=0 NO-OP=0 TOTAL=10
+

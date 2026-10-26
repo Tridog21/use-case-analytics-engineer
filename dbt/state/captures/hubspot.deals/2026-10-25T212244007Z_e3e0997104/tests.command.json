@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "stg_hubspot_deals",
+    "--exclude",
+    "tag:publication",
+    "--indirect-selection",
+    "cautious"
+  ],
+  "start": "2026-10-25T21:22:54.761Z",
+  "end": "2026-10-25T21:23:01.681Z",
+  "exit_code": 0,
+  "elapsed_seconds": 6.921999999998661
+}

@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-25T22:27:03.926Z",
+  "exit_code": 0,
+  "vars": {
+    "validation_schema_suffix": "_validation_fault_cd7dd7146eaf",
+    "publication_model_run_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "publication_at": "2026-10-25T20:00:00.000Z",
+    "input_cutoff_at": "2026-10-25T19:00:00.000Z",
+    "rule_version": "synthetic_fixture",
+    "publication_quality_json": "[]"
+  }
+}

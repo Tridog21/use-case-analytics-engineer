@@ -1,0 +1,9 @@
+{
+  "status": "success",
+  "at": "2026-10-25T22:27:31.206Z",
+  "nb_assertions": 8,
+  "nb_atomic_read_samples": 71,
+  "fixture_relation": "dwh_common_validation_fault_cd7dd7146eaf.int_publication",
+  "source_model": "dbt/models/intermediate/common/int_publication.sql",
+  "scope": "synthetic fixture only; no source or live publication changed"
+}

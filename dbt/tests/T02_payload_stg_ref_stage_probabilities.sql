@@ -1,0 +1,2 @@
+{{ config(tags=['capture']) }}
+select source_version_key from {{ ref('stg_ref_stage_probabilities') }} where source_payload_hash!={{ typed_hash('source_payload_v1:case_reference.stage_probabilities', [{'name': 'src_state_id', 'type': 'Int64', 'expr': 'src_state_id'}, {'name': 'src_segment', 'type': 'String', 'expr': 'src_segment'}, {'name': 'src_probability', 'type': 'Float64', 'expr': 'src_probability'}]) }}

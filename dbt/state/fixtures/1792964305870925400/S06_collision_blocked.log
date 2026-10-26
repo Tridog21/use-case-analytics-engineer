@@ -1,0 +1,20 @@
+[0m21:39:47  Running with dbt=1.11.12
+[0m21:39:47  Registered adapter: clickhouse=1.10.1
+[0m21:39:49  Found 73 models, 5 analyses, 182 data tests, 15 sources, 544 macros, 7 unit tests
+[0m21:39:49  
+[0m21:39:49  Concurrency: 1 threads (target='dev')
+[0m21:39:49  
+[0m21:39:50  1 of 1 START test T03_stg_boond_opportunities .................................. [RUN]
+[0m21:39:50  1 of 1 FAIL 1 T03_stg_boond_opportunities ...................................... [[31mFAIL 1[0m in 0.30s]
+[0m21:39:50  
+[0m21:39:50  Finished running 1 test in 0 hours 0 minutes and 1.76 seconds (1.76s).
+[0m21:39:51  
+[0m21:39:51  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m21:39:51  
+[0m21:39:51  [31mFailure in test T03_stg_boond_opportunities (tests\T03_stg_boond_opportunities.sql)[0m
+[0m21:39:51    Got 1 result, configured to fail if != 0
+[0m21:39:51  
+[0m21:39:51    compiled code at target\compiled\use_case\tests\T03_stg_boond_opportunities.sql
+[0m21:39:51  
+[0m21:39:51  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 NO-OP=0 TOTAL=1
+

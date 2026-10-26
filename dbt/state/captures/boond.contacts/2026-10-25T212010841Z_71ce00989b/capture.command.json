@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "stg_boond_contacts",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:20:10.843Z",
+  "end": "2026-10-25T21:20:19.829Z",
+  "exit_code": 0,
+  "elapsed_seconds": 8.98399999999674
+}

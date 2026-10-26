@@ -1,0 +1,12 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "assert_publication_quality_candidate",
+    "--no-populate-cache"
+  ],
+  "start": "2026-10-25T22:55:30.438Z",
+  "end": "2026-10-25T22:55:41.875Z",
+  "exit_code": 0,
+  "elapsed_seconds": 11.43699999999808
+}

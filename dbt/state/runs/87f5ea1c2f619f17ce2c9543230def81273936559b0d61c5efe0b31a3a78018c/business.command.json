@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "int_sales_objectives_month fct_sales_objectives_month",
+    "--threads",
+    "1",
+    "--exclude",
+    "tag:publication"
+  ],
+  "start": "2026-10-25T22:16:40.871Z",
+  "end": "2026-10-25T22:16:50.462Z",
+  "exit_code": 0,
+  "elapsed_seconds": 9.594000000004598
+}

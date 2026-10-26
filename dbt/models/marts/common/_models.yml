@@ -1,0 +1,1027 @@
+version: 2
+models:
+- name: dim_date
+  description: '**Grain métier :** Jour civil du calendrier Europe/Paris. **Grain physique :** `(model_run_id, record_key)`.
+    **Clé du grain :** `date_key` identifie le jour ; `record_key=H(calendar_date)` respecte son type String. Rafraîchissement
+    manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id001
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: date_key
+    data_type: UInt32
+    description: YYYYMMDD de calendar_date ; clé de date UInt32. record_key=H(calendar_date), String.
+  - name: calendar_date
+    data_type: Date
+    description: Jour civil généré.
+  - name: day_started_at
+    data_type: DateTime64(3,'UTC')
+    description: Minuit Europe/Paris converti en UTC ; tient compte des changements d’heure.
+  - name: next_day_started_at
+    data_type: DateTime64(3,'UTC')
+    description: Minuit local suivant converti en UTC ; intervalle [jour,jour suivant).
+  - name: week_started_date
+    data_type: Date
+    description: Lundi de la semaine ISO.
+  - name: iso_year
+    data_type: UInt16
+    description: Année ISO de la semaine.
+  - name: iso_week
+    data_type: UInt8
+    description: Semaine ISO 1–53.
+  - name: month_date
+    data_type: Date
+    description: Premier jour du mois civil.
+  - name: month_end_date
+    data_type: Date
+    description: Dernier jour du mois civil.
+  - name: next_month_started_at
+    data_type: DateTime64(3,'UTC')
+    description: Premier jour du mois suivant à minuit Paris, converti UTC ; borne exclusive de clôture.
+  - name: year
+    data_type: UInt16
+    description: Année civile.
+  - name: quarter
+    data_type: UInt8
+    description: Trimestre 1–4.
+  - name: day_of_week
+    data_type: UInt8
+    description: Lundi=1 … dimanche=7.
+  - name: is_week_end
+    data_type: Bool
+    description: day_of_week dans 6/7 ; descriptif, aucune exclusion des durées.
+  - name: is_month_end
+    data_type: Bool
+    description: calendar_date=month_end_date.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id001
+- name: dim_country
+  description: '**Grain métier :** Code pays source normalisé de présentation, avec mapping vers pays reconnu si
+    fourni. **Grain physique :** `(model_run_id, record_key)`. **Clé du grain :** `country_key` ; `record_key` en
+    est l’alias. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id002
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: country_key
+    data_type: String
+    description: H(source_country_code normalisé trim/upper) ; un seul membre par code source normalisé, reconnu
+      ou inconnu.
+  - name: country_code
+    data_type: Nullable(String)
+    description: Code normalisé explicitement mappé ; NULL pour vide/non reconnu.
+  - name: source_country_code
+    data_type: String
+    description: Valeur source normalisée trim/upper ; le brut exact reste préservé en staging.
+  - name: country_name
+    data_type: Nullable(String)
+    description: Libellé du mapping fourni avec le case ; NULL sans correspondance.
+  - name: mapping_status
+    data_type: String
+    description: mapped / blank / unmapped ; pas de déduction équipe depuis le pays.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id002
+- name: dim_company
+  description: '**Grain métier :** Société × version source observée. **Grain physique :** `(model_run_id, record_key)`.
+    **Clé du grain :** `company_version_key` ; `record_key` en est l’alias. Rafraîchissement manuel à la demande.
+    Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id003
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: company_key
+    data_type: String
+    description: H(tenant_id,company_id) ; identité stable.
+  - name: company_version_key
+    data_type: String
+    description: H(company_key,valid_from_at) ; version temporelle, sans model_run_id.
+  - name: tenant_id
+    data_type: String
+    description: src_tenant_id.
+  - name: company_id
+    data_type: Int64
+    description: Identifiant source conservé.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: src_published_at inclus, sans antidatation à la création.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Publication suivante exclue ; NULL en l’absence de suivante.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Dernière valeur src_is_deleted de cette version ; suppression technique, pas issue métier.
+  - name: company_name
+    data_type: String
+    description: src_name ; chaîne source conservée.
+  - name: company_state_id
+    data_type: Nullable(Int64)
+    description: src_state_id ; ne définit pas l’activité des abonnements.
+  - name: source_country_code
+    data_type: String
+    description: src_country.
+  - name: country_key
+    data_type: Nullable(String)
+    description: Clé dim_country, même run ; NULL si absence de mapping.
+  - name: staff
+    data_type: Nullable(Int64)
+    description: src_staff ; pas de tranche d’effectif inventée.
+  - name: pole_id
+    data_type: Nullable(Int64)
+    description: src_pole_id.
+  - name: pole_label
+    data_type: Nullable(String)
+    description: src_name de stg_boond_poles dans la version temporelle correspondante.
+  - name: main_manager_id
+    data_type: Nullable(Int64)
+    description: src_main_manager_id conservé à titre de contexte.
+  - name: agency_id
+    data_type: Nullable(Int64)
+    description: src_agency_id ; aucune équipe déduite.
+  - name: created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: src_created_at, distinct de valid_from_at.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id003
+- name: dim_employee
+  description: '**Grain métier :** Collaborateur × version observée. **Grain physique :** `(model_run_id, record_key)`.
+    **Clé du grain :** `employee_version_key` ; `record_key` en est l’alias. Rafraîchissement manuel à la demande.
+    Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id004
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: employee_key
+    data_type: String
+    description: H(tenant_id,employee_id) ; identité stable.
+  - name: employee_version_key
+    data_type: String
+    description: H(employee_key,valid_from_at) ; version temporelle, sans model_run_id.
+  - name: tenant_id
+    data_type: String
+    description: src_tenant_id.
+  - name: employee_id
+    data_type: Int64
+    description: Identifiant source conservé.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: src_published_at inclus, sans antidatation à la création.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Publication suivante exclue ; NULL en l’absence de suivante.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Dernière valeur src_is_deleted de cette version ; suppression technique, pas issue métier.
+  - name: employee_display_name
+    data_type: String
+    description: Assemblage de présentation trim(src_first_name,src_last_name), sans utiliser email comme identité.
+  - name: first_name
+    data_type: String
+    description: src_first_name.
+  - name: last_name
+    data_type: String
+    description: src_last_name.
+  - name: employee_title
+    data_type: String
+    description: src_title.
+  - name: employee_state_id
+    data_type: Nullable(Int64)
+    description: src_state_id.
+  - name: agency_id
+    data_type: Nullable(Int64)
+    description: src_agency_id.
+  - name: is_comparison_eligible
+    data_type: Nullable(Bool)
+    description: NULL jusqu’à définition du périmètre individuel et identification des comptes techniques.
+  - name: eligibility_status
+    data_type: String
+    description: not_decided pour la comparaison individuelle ; descriptive pour l’identité.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id004
+- name: dim_team
+  description: '**Grain métier :** Business unit × version observée, mapping Sales séparé. **Grain physique :**
+    `(model_run_id, record_key)`. **Clé du grain :** `team_version_key` ; `record_key` en est l’alias. Rafraîchissement
+    manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id005
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: team_key
+    data_type: String
+    description: H(tenant_id,team_id) ; identité stable.
+  - name: team_version_key
+    data_type: String
+    description: H(team_key,valid_from_at) ; version temporelle, sans model_run_id.
+  - name: tenant_id
+    data_type: String
+    description: src_tenant_id.
+  - name: team_id
+    data_type: Int64
+    description: Identifiant source conservé.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: src_published_at inclus, sans antidatation à la création.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Publication suivante exclue ; NULL en l’absence de suivante.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Dernière valeur src_is_deleted de cette version ; suppression technique, pas issue métier.
+  - name: team_name
+    data_type: String
+    description: src_name de businessunit.
+  - name: sales_segment
+    data_type: Nullable(String)
+    description: SMB / LA / ES uniquement si correspondance businessunit→segment explicitement fournie.
+  - name: mapping_status
+    data_type: String
+    description: mapped / unmapped / ambiguous ; pas de rapprochement approximatif du nom.
+  - name: is_sales_team
+    data_type: Nullable(Bool)
+    description: Vrai si mapping validé vers SMB/LA/ES ; NULL si pas de mapping.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id005
+- name: dim_stage
+  description: '**Grain métier :** Tenant × code du dictionnaire français × intervalle de version utile. **Grain
+    physique :** `(model_run_id, record_key)`. **Clé du grain :** `stage_version_key` ; `record_key` en est l’alias.
+    Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id006
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: stage_key
+    data_type: String
+    description: H(tenant_id,stage_id) ; identité stable du code.
+  - name: stage_version_key
+    data_type: String
+    description: H(stage_key,language,valid_from_at).
+  - name: tenant_id
+    data_type: String
+    description: src_tenant_id.
+  - name: stage_id
+    data_type: Int64
+    description: JSON.id du tableau src_setting_state_opportunity_json.
+  - name: stage_label
+    data_type: String
+    description: JSON.value, libellé source.
+  - name: language
+    data_type: String
+    description: fr retenu pour la restitution ; autres langues préservées dans le staging.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Publication de la version dictionnaire contenant le code, incluse.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Publication dictionnaire suivante exclue, même si le code disparaît alors.
+  - name: is_source_json_present
+    data_type: Bool
+    description: Champ JSON source non NULL ; absence ne devient pas tableau vide connu.
+  - name: is_source_json_valid
+    data_type: Bool
+    description: JSON syntaxiquement valide et de forme tableau ; faux/absence bloque les mesures dépendantes.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Suppression de la version dictionnaire ; aucun code courant recréé après sa suppression.
+  - name: documented_active
+    data_type: Nullable(Bool)
+    description: JSON.active ; propriété documentaire « en cours », distincte de l’éligibilité aux KPI.
+  - name: is_enabled_in_source
+    data_type: Nullable(Bool)
+    description: JSON.isEnabled ; un code désactivé dans l’interface reste dans l’histoire.
+  - name: documented_weighting_percent
+    data_type: Nullable(Int64)
+    description: JSON.weighting, descriptif ; aucune seconde pondération.
+  - name: state_reasons_json
+    data_type: Nullable(String)
+    description: JSON.reason sérialisé, conservé sans en faire un KPI.
+  - name: outcome_category
+    data_type: Nullable(String)
+    description: won pour 1/14 ; lost pour 13 ; abandoned pour 3 ; unqualified pour 2 ; open pour 20 ; autres codes
+      selon mapping explicite versionné.
+  - name: is_open
+    data_type: Nullable(Bool)
+    description: Dérivé du mapping analytique outcome_category, pas de isEnabled.
+  - name: mapping_status
+    data_type: String
+    description: mapped ou missing_stage_rule ; les anciens codes non classés restent inconnus.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id006
+- name: dim_sale_type
+  description: '**Grain métier :** Tenant × code du dictionnaire français × intervalle de version utile. **Grain
+    physique :** `(model_run_id, record_key)`. **Clé du grain :** `sale_type_version_key` ; `record_key` en est
+    l’alias. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id007
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: sale_type_key
+    data_type: String
+    description: H(tenant_id,sale_type_id) ; identité stable du code.
+  - name: sale_type_version_key
+    data_type: String
+    description: H(sale_type_key,language,valid_from_at).
+  - name: tenant_id
+    data_type: String
+    description: src_tenant_id.
+  - name: sale_type_id
+    data_type: Int64
+    description: JSON.id du tableau src_setting_type_of_project_json.
+  - name: sale_type_label
+    data_type: String
+    description: JSON.value, libellé source.
+  - name: language
+    data_type: String
+    description: fr retenu pour la restitution ; autres langues préservées dans le staging.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Publication de la version dictionnaire contenant le code, incluse.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Publication dictionnaire suivante exclue, même si le code disparaît alors.
+  - name: is_source_json_present
+    data_type: Bool
+    description: Champ JSON source non NULL ; absence ne devient pas tableau vide connu.
+  - name: is_source_json_valid
+    data_type: Bool
+    description: JSON syntaxiquement valide et de forme tableau ; faux/absence bloque les mesures dépendantes.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Suppression de la version dictionnaire ; aucun code courant recréé après sa suppression.
+  - name: sale_type_code
+    data_type: String
+    description: new_sale pour 4 ; upsell pour 7 ; training pour 2 ; other pour tout autre code.
+  - name: is_commercial_scope
+    data_type: Nullable(Bool)
+    description: true pour4/7, false pour2 et autres types hors périmètre commercial D22 ; tous restent conservés
+      en staging/histoire.
+  - name: is_objective_population_compatible
+    data_type: Nullable(Bool)
+    description: NULL tant que chaque cible n’a pas de population métier compatible.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id007
+- name: dim_channel
+  description: '**Grain métier :** Tenant × code du dictionnaire français × intervalle de version utile. **Grain
+    physique :** `(model_run_id, record_key)`. **Clé du grain :** `channel_version_key` ; `record_key` en est l’alias.
+    Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id008
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: channel_key
+    data_type: String
+    description: H(tenant_id,channel_id) ; identité stable du code.
+  - name: channel_version_key
+    data_type: String
+    description: H(channel_key,language,valid_from_at).
+  - name: tenant_id
+    data_type: String
+    description: src_tenant_id.
+  - name: channel_id
+    data_type: Int64
+    description: JSON.id du tableau src_setting_origin_json.
+  - name: channel_label
+    data_type: String
+    description: JSON.value, libellé source.
+  - name: language
+    data_type: String
+    description: fr retenu pour la restitution ; autres langues préservées dans le staging.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Publication de la version dictionnaire contenant le code, incluse.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Publication dictionnaire suivante exclue, même si le code disparaît alors.
+  - name: is_source_json_present
+    data_type: Bool
+    description: Champ JSON source non NULL ; absence ne devient pas tableau vide connu.
+  - name: is_source_json_valid
+    data_type: Bool
+    description: JSON syntaxiquement valide et de forme tableau ; faux/absence bloque les mesures dépendantes.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Suppression de la version dictionnaire ; aucun code courant recréé après sa suppression.
+  - name: channel_code
+    data_type: String
+    description: Code technique boond_origin_<id>, sans fusion de catégories non arbitrée.
+  - name: is_inbound
+    data_type: Nullable(Bool)
+    description: NULL avant liste explicite des codes Inbound.
+  - name: inbound_group
+    data_type: Nullable(String)
+    description: Inbound pour1/2/3 ; Outbound pour4/5 ; Other pour6–11 ; valeur non mappée NULL, selon D24.
+  - name: mapping_status
+    data_type: String
+    description: mapped selon D24 pour les codes connus ; unmapped si valeur absente/inconnue, sans fallback contact/HubSpot.
+  - name: attribution_rule
+    data_type: Nullable(String)
+    description: opportunity_origin_at_creation selon D24 ; NULL seulement si origine à création non observable.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id008
+- name: dim_action_type
+  description: '**Grain métier :** Tenant × code du dictionnaire français × intervalle de version utile. **Grain
+    physique :** `(model_run_id, record_key)`. **Clé du grain :** `action_type_version_key` ; `record_key` en est
+    l’alias. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id009
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: action_type_key
+    data_type: String
+    description: H(tenant_id,action_type_id) ; identité stable du code.
+  - name: action_type_version_key
+    data_type: String
+    description: H(action_type_key,language,valid_from_at).
+  - name: tenant_id
+    data_type: String
+    description: src_tenant_id.
+  - name: action_type_id
+    data_type: Int64
+    description: JSON.id du tableau src_setting_action_contact_json.
+  - name: action_type_label
+    data_type: String
+    description: JSON.value, libellé source.
+  - name: language
+    data_type: String
+    description: fr retenu pour la restitution ; autres langues préservées dans le staging.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Publication de la version dictionnaire contenant le code, incluse.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Publication dictionnaire suivante exclue, même si le code disparaît alors.
+  - name: is_source_json_present
+    data_type: Bool
+    description: Champ JSON source non NULL ; absence ne devient pas tableau vide connu.
+  - name: is_source_json_valid
+    data_type: Bool
+    description: JSON syntaxiquement valide et de forme tableau ; faux/absence bloque les mesures dépendantes.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Suppression de la version dictionnaire ; aucun code courant recréé après sa suppression.
+  - name: action_kind
+    data_type: String
+    description: demo_request pour 25 ; demo_first pour 60 ; demo_additional pour 68 ; cancellation pour 17 ; other
+      sinon.
+  - name: is_demo_request_type
+    data_type: Bool
+    description: action_type_id=25 dans le mapping versionné.
+  - name: is_demo_type
+    data_type: Bool
+    description: action_type_id dans 60/68 selon mapping documentaire.
+  - name: is_cancellation_type
+    data_type: Bool
+    description: action_type_id=17 ; ne prouve pas le rendez-vous annulé auquel il se rapporte.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id009
+- name: dim_followup_definition
+  description: '**Grain métier :** Définition de population/parcours × type commercial × horizon ou cible × version
+    de règle. **Grain physique :** `(model_run_id, record_key)`. **Clé du grain :** `followup_definition_version_key`
+    ; `record_key` en est l’alias. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication
+    contrôlée.'
+  config:
+    tags: &id010
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: followup_definition_id
+    data_type: String
+    description: Identifiant stable de définition configurée.
+  - name: tenant_id
+    data_type: String
+    description: Var source_tenant_id=demo_crm ; codes de parcours rattachés au tenant.
+  - name: followup_definition_key
+    data_type: String
+    description: H(tenant_id,followup_definition_id), identité stable.
+  - name: followup_definition_version_key
+    data_type: String
+    description: H(followup_definition_key,definition_rule_version), version de règle ; record_key en est alias.
+  - name: definition_rule_version
+    data_type: String
+    description: Version du contenu métier de cette définition, distincte de la version de build.
+  - name: followup_kind
+    data_type: String
+    description: cohort_outcome / funnel_reach / stage_transition.
+  - name: sale_type_id
+    data_type: Int64
+    description: Type auquel s’applique la définition ; nouvelles ventes et upsells séparés.
+  - name: source_stage_id
+    data_type: Nullable(Int64)
+    description: Étape d’ancrage pour une transition ; NULL pour création.
+  - name: target_stage_id
+    data_type: Nullable(Int64)
+    description: Étape cible ; NULL pour suivi d’issue globale.
+  - name: horizon_days
+    data_type: Nullable(UInt16)
+    description: 30,60,90 pour cohort_outcome ; horizon explicite pour transition ; NULL pour funnel à date.
+  - name: funnel_position
+    data_type: Nullable(UInt16)
+    description: Ordre explicite du parcours configuré, jamais ordre numérique des codes.
+  - name: previous_target_stage_id
+    data_type: Nullable(Int64)
+    description: Étape précédente du parcours configuré ; NULL première étape.
+  - name: anchor_rule
+    data_type: String
+    description: created_at pour cohorte/funnel ; first_admissible_stage_entry pour transition A→B activée selon
+      D17/D18, une première A observable par dossier.
+  - name: population_rule
+    data_type: String
+    description: Population/type explicitement configurés ; aucune définition universelle de lead.
+  - name: attribution_rule
+    data_type: String
+    description: Contexte d’entrée pour cohortes et génération ; convention de transition restant à préciser.
+  - name: maturity_rule
+    data_type: String
+    description: Tous les membres connus tenant/mois/type/définition/horizon ont atteint leur horizon ; calcul avant
+      filtres équipe/canal.
+  - name: is_enabled
+    data_type: Bool
+    description: 'true pour les définitions4/7 décidées D17/D18 : cohort_outcome,funnel_reach,stage_transition ;
+      false seulement pour une définition non retenue.'
+  - name: definition_status
+    data_type: String
+    description: ready / blocked ; explique la règle encore manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id010
+- name: dim_metric
+  description: '**Grain métier :** Un des quatre indicateurs ciblés. **Grain physique :** `(model_run_id, record_key)`.
+    **Clé du grain :** `metric_version_key` ; `record_key` en est l’alias. Rafraîchissement manuel à la demande.
+    Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id011
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: tenant_id
+    data_type: String
+    description: Var source_tenant_id=demo_crm pour le contexte de ce jeu.
+  - name: metric_key
+    data_type: String
+    description: H(tenant_id,metric_code), identité stable.
+  - name: metric_version_key
+    data_type: String
+    description: H(metric_key,definition_rule_version), version de définition ; record_key en est alias.
+  - name: definition_rule_version
+    data_type: String
+    description: Empreinte du contenu explicite de définition dans case_rules, sans timestamp de tentative.
+  - name: metric_code
+    data_type: String
+    description: mrr_signed / pipeline_generated / pipeline_weighted / demos.
+  - name: metric_label
+    data_type: String
+    description: MRR signé / Pipeline généré / Pipeline pondéré / Démos réalisées.
+  - name: value_unit
+    data_type: String
+    description: EUR pour les trois cibles monétaires documentées ; count pour demos. Cette unité de cible ne prouve
+      pas celle du réalisé pipeline.
+  - name: amount_basis
+    data_type: String
+    description: recurring_monthly_excluding_tax pour signé ; pipeline_amount_unconfirmed pour pipelines ; not_applicable
+      pour démos.
+  - name: aggregation_kind
+    data_type: String
+    description: monthly_flow pour signé/généré/démos ; month_end_stock pour pondéré.
+  - name: definition_status
+    data_type: String
+    description: blocked_amount_evidence / blocked_amount_unit / blocked_demo_proof selon mesure.
+  - name: is_team_targeted
+    data_type: Bool
+    description: Vrai pour les quatre mesures ; aucun objectif individuel ni portefeuille ajouté.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id011

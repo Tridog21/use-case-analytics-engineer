@@ -1,0 +1,16 @@
+[0m22:27:19  Running with dbt=1.11.12
+[0m22:27:19  Registered adapter: clickhouse=1.10.1
+[0m22:27:19  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m22:27:21  Found 1 model, 545 macros
+[0m22:27:21  
+[0m22:27:21  Concurrency: 1 threads (target='dev')
+[0m22:27:21  
+[0m22:27:22  1 of 1 START sql table model `dwh_common_validation_fault_cd7dd7146eaf`.`int_publication`  [RUN]
+[0m22:27:22  1 of 1 OK created sql table model `dwh_common_validation_fault_cd7dd7146eaf`.`int_publication`  [[32mOK[0m in 0.69s]
+[0m22:27:22  
+[0m22:27:22  Finished running 1 table model in 0 hours 0 minutes and 1.82 seconds (1.82s).
+[0m22:27:23  
+[0m22:27:23  [32mCompleted successfully[0m
+[0m22:27:23  
+[0m22:27:23  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

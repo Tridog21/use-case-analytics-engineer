@@ -1,0 +1,1 @@
+select toString(addDays(toDate('2021-09-01'),number)) as date_observation from numbers(dateDiff('day',toDate('2021-09-01'),toDate('2026-09-30'))+1)

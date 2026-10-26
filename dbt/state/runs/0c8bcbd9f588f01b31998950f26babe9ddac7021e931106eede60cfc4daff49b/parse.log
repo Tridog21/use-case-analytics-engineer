@@ -1,0 +1,4 @@
+[0m22:06:00  Running with dbt=1.11.12
+[0m22:06:00  Registered adapter: clickhouse=1.10.1
+[0m22:06:06  Performance info: C:\Users\orest\Desktop\use-case-analytics-engineer\use-case-analytics-engineer\dbt\target\perf_info.json
+

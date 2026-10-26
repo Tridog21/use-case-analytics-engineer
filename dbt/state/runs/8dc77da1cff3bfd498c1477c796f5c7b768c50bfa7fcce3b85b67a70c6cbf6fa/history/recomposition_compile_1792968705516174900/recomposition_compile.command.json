@@ -1,0 +1,13 @@
+{
+  "command": [
+    "compile",
+    "--select",
+    "tag:common tag:pipeline tag:revenue tag:mart tag:dtr",
+    "--exclude",
+    "tag:publication"
+  ],
+  "start": "2026-10-25T22:50:18.154Z",
+  "end": "2026-10-25T22:50:28.312Z",
+  "exit_code": 0,
+  "elapsed_seconds": 10.156999999999243
+}

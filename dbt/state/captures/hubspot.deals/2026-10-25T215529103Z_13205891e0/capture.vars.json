@@ -1,0 +1,11 @@
+{
+  "capture_key": "2026-10-25T215529103Z_13205891e0",
+  "capture_at": "2026-10-25T21:55:29.103Z",
+  "cdc_full_scan": true,
+  "cdc_overlap_hours": 48,
+  "source_capture_keys": {
+    "hubspot.deals": [
+      "2026-10-25T212244007Z_e3e0997104"
+    ]
+  }
+}

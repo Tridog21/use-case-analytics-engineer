@@ -1,0 +1,114 @@
+{
+  "source_capture_keys": {
+    "hubspot.contacts": [
+      "2026-10-25T212226410Z_eab3f87bca",
+      "2026-10-25T215505768Z_15b0be88a0"
+    ],
+    "hubspot.deals": [
+      "2026-10-25T212244007Z_e3e0997104",
+      "2026-10-25T215529103Z_13205891e0"
+    ],
+    "case_reference.sales_targets": [
+      "2026-10-25T212301870Z_8b72bc74c8",
+      "2026-10-25T215550309Z_e4bfe66e4e"
+    ],
+    "case_reference.stage_probabilities": [
+      "2026-10-25T212321865Z_7a3700e5e2",
+      "2026-10-25T215611097Z_452d38a5b6"
+    ]
+  },
+  "fingerprints": {
+    "stg_boond_opportunities": {
+      "keys_digest": "0651cc90e4719a64462f81b7d14a6313060acd62c6e0d297c150512e9c7744db",
+      "nb_keys": 7020,
+      "source_digest": "47afd3090430848aadd151837b90048003134ae3d16f6d2443e95e69e4ffecd1"
+    },
+    "stg_boond_actions": {
+      "keys_digest": "b508d794bc69bb638f9f5bf102e587e7342158430e9aa187e3f58ce2ac26dcbf",
+      "nb_keys": 8980,
+      "source_digest": "4a2f0faef366781a5c8879411f39e8a6a8735c7cb1d9a82fa883dfb314aa1c51"
+    },
+    "stg_boond_companies": {
+      "keys_digest": "b64e234d123f4f7f11aef5cff4d4d6393fde0b8e15510d240a8ca0d66dcbc467",
+      "nb_keys": 1464,
+      "source_digest": "b047d984bdc923774894fb33a267db1809a514bb30eff377abfbc97f9e52f3ed"
+    },
+    "stg_boond_contacts": {
+      "keys_digest": "049c87426fab70cfbfa1b4281bb64d34ee22eb3b1364860c206359cd04b5efd1",
+      "nb_keys": 2391,
+      "source_digest": "ed5262199b83553fe74e78132d5e62c7abd8c4c9ca2f551d1f8483109ff62694"
+    },
+    "stg_boond_resources": {
+      "keys_digest": "5f45991cd652063e2acd5caee605cdd6e884ec879afe1831cd06c56ffabe725c",
+      "nb_keys": 22,
+      "source_digest": "3799f4bc1f6bbe5f3365c0950ca79a67b0f6752eff61630641d38d6f1d15fe9a"
+    },
+    "stg_boond_businessunits": {
+      "keys_digest": "d6b06c634e2d1f9c8fac58acd0f8586e10d678949d66ee2376db6d3a527c6f26",
+      "nb_keys": 9,
+      "source_digest": "31c897be5595a0dd695fd231479b407ded680a56e1de6fd877eefe0cdd78fdaa"
+    },
+    "stg_boond_agencies": {
+      "keys_digest": "d966d9a2651974dee99b0153ba4a4a2a2aae12a9f3532259b7e997380000a869",
+      "nb_keys": 2,
+      "source_digest": "e18a8333273ba7da1cb7f9f99525fa0049f670cc8b81544f6bbeeb5a2ec7a771"
+    },
+    "stg_boond_poles": {
+      "keys_digest": "cc5e186459991ff93c6585ddbeb5e01a60c6823890028a7c0340444ffa613955",
+      "nb_keys": 6,
+      "source_digest": "51d9fe85253c3f8153016c3e3bb8a737bda8b773b1022558bad7af6b090d06d1"
+    },
+    "stg_boond_dictionaries": {
+      "keys_digest": "9fb5e305c5743bc103da144226645b6e0a6085cec1784c99e47e57964819fe9f",
+      "nb_keys": 6,
+      "source_digest": "3b24e6526f4096cea2c0057b707af668df26974111d60f662808de7ad509174c"
+    },
+    "stg_boond_projects": {
+      "keys_digest": "46b57b99b5e3f7fe168b022f00c640e8f3ab1d962d935d5f92b7cc2a0c53627b",
+      "nb_keys": 171,
+      "source_digest": "a5c4a9fcaa5e4946459ae5bb7b1e4887d8c034f3a96c34e2431864142eccf878"
+    },
+    "stg_boond_deliveries": {
+      "keys_digest": "4be2a0dc25e0f46100267aac18b867912b3f939650980ec00bc6b4996670a98a",
+      "nb_keys": 326,
+      "source_digest": "f0678babe8015157e87e9ce3ed35dff8f7c3c3701555fcab94ec89f7f1623b98"
+    },
+    "stg_hubspot_contacts": {
+      "keys_digest": "fb9c725cafa59da909bfb957ba3df3505489964c9c6d80f42dfec488f98021a9",
+      "nb_keys": 2254,
+      "source_digest": "b17a8d47261d5f9dda815d6135689d46199b516571a0da15c720bd9d60cdf12b"
+    },
+    "stg_hubspot_deals": {
+      "keys_digest": "e3bbc1859d52a94fe595a1d842cbdb8956348cff7bff315158f89c4926904730",
+      "nb_keys": 1190,
+      "source_digest": "59bbcd6329bb88fe51b829c64af42f07cc7eaa911e68ed51bd6cd8b70880eedb"
+    },
+    "stg_ref_sales_targets": {
+      "keys_digest": "b09d16b87609f2874a41611fc39bdf60f75a1151b059a5b1b390f6543ba2213c",
+      "nb_keys": 144,
+      "source_digest": "6c29a09639e02dc0defe27332102c21f44d7b1cee75b2e71b364b727b745b51e"
+    },
+    "stg_ref_stage_probabilities": {
+      "keys_digest": "fe8883758288e774534a543e295266ad569c0fce61b1e1d45b0b0ab667007ef2",
+      "nb_keys": 33,
+      "source_digest": "599a0ef8492039278de7a2e489b15bd386303f725a815bf97120c91f1c6db8b7"
+    }
+  },
+  "jobs": [
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.opportunities\\2026-10-25T215113317Z_d7f2ad46d8\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.actions\\2026-10-25T215135520Z_df859897aa\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.companies\\2026-10-25T215156435Z_8df634d238\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.contacts\\2026-10-25T215216923Z_379f1342b6\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.ressources\\2026-10-25T215239069Z_2bfa2a4789\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.businessunits\\2026-10-25T215259310Z_ed11efed47\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.agencies\\2026-10-25T215320673Z_3850fbffa5\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.poles\\2026-10-25T215341208Z_0f25a9e61c\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.dictionaries\\2026-10-25T215402141Z_3f43984e7e\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.projects\\2026-10-25T215422495Z_552184af7c\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\boond.deliveries\\2026-10-25T215443845Z_9b2e7db7f9\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\hubspot.contacts\\2026-10-25T215505768Z_15b0be88a0\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\hubspot.deals\\2026-10-25T215529103Z_13205891e0\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\case_reference.sales_targets\\2026-10-25T215550309Z_e4bfe66e4e\\manifest.json",
+    "C:\\Users\\orest\\Desktop\\use-case-analytics-engineer\\use-case-analytics-engineer\\dbt\\state\\captures\\case_reference.stage_probabilities\\2026-10-25T215611097Z_452d38a5b6\\manifest.json"
+  ]
+}

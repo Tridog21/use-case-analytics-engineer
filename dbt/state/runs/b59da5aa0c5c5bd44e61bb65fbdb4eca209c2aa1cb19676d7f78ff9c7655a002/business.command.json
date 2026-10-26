@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "int_opportunity_followup fct_opportunity_followup",
+    "--threads",
+    "1",
+    "--exclude",
+    "tag:publication"
+  ],
+  "start": "2026-10-25T22:33:18.966Z",
+  "end": "2026-10-25T22:33:32.277Z",
+  "exit_code": 1,
+  "elapsed_seconds": 13.31199999999808
+}

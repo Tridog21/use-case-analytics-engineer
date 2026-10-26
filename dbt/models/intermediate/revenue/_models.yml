@@ -1,0 +1,832 @@
+version: 2
+models:
+- name: int_subscription_periods
+  description: '**Grain métier :** Ligne d’abonnement × intervalle d’attributs et rattachement projet observés.
+    **Grain physique :** (model_run_id,record_key) ; record_key=subscription_period_key. Rafraîchissement manuel
+    à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id001
+    - revenue
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: subscription_period_key
+    data_type: String
+    description: H(subscription_key,valid_from_at).
+  - name: tenant_id
+    data_type: String
+    description: Tenant ligne/projet.
+  - name: line_id
+    data_type: Int64
+    description: src_id deliveries.
+  - name: line_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: src_created_at de la livraison ; conserver les valeurs source, pas premier meta.ts.
+  - name: is_creation_date_reliable
+    data_type: Bool
+    description: true seulement si création nonNULL constante entre versions, aucun CDC antérieur à cette création
+      et aucun début de service antérieur contradictoire ; false sinon, pas de correction de la source.
+  - name: subscription_key
+    data_type: String
+    description: H(tenant_id,line_id) ; pas continuité inventée entre lignes.
+  - name: project_id
+    data_type: Nullable(Int64)
+    description: src_project_id.
+  - name: project_key
+    data_type: Nullable(String)
+    description: H(tenant_id,project_id).
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: src_company_id du projet à date.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité société.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version société sur tranche.
+  - name: opportunity_id
+    data_type: Nullable(Int64)
+    description: src_opportunity_id projet, lien direct descriptif.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Début d’observation/contexte inclus.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Fin exclue.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Suppression ligne conservée.
+  - name: is_project_deleted
+    data_type: Nullable(Bool)
+    description: Suppression technique projet, pas résiliation.
+  - name: service_started_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: src_started_at ligne.
+  - name: service_ended_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: src_ended_at ligne ; jour local de fin inclus.
+  - name: service_start_date
+    data_type: Nullable(Date)
+    description: Date Paris début.
+  - name: service_end_exclusive_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Minuit Paris lendemain du jour de fin converti UTC ; NULL fin absente.
+  - name: line_state_id
+    data_type: Nullable(Int64)
+    description: src_state_id ;1=En cours selon règle choisie.
+  - name: project_type_id
+    data_type: Nullable(Int64)
+    description: src_type_id projet descriptif ; activité selon état/période D12, sans filtre project_type=4 ni
+      exclusion d’expansion.
+  - name: project_started_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Début projet séparé.
+  - name: project_ended_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Fin projet séparée.
+  - name: quantity
+    data_type: Nullable(Decimal(38,4))
+    description: JSON subscriptionQuantityCharged valide, NULL sinon.
+  - name: unit_monthly_price
+    data_type: Nullable(Decimal(38,4))
+    description: JSON subscriptionPriceExcludingTax valide.
+  - name: line_monthly_amount
+    data_type: Nullable(Decimal(38,4))
+    description: 'src_average_daily_price_excluding_tax : montant mensuel TOTAL incluant quantité, converti Decimal.'
+  - name: recomputed_quantity_price_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Produit quantity×unit_monthly_price à échelle intermédiaire8, contrôle dépassement et absence de
+      perte avant représentation finale ; contrôle uniquement, jamais contribution supplémentaire.
+  - name: currency_code
+    data_type: Nullable(String)
+    description: EUR par hypothèse explicite du case D20 ; cette devise ne prouve ni mensualité ni engagement du
+      montant commercial.
+  - name: monetary_status
+    data_type: String
+    description: monthly_amount_known_currency_unknown / ready / missing_amount / invalid_amount.
+  - name: continuity_key
+    data_type: Nullable(String)
+    description: Continuité remplacement entre lignes uniquement si prouvée, NULL actuellement.
+  - name: activity_rule_status
+    data_type: String
+    description: line_state_1_and_service_dates ; état/dates manquants indéterminés.
+  - name: source_delivery_version_key
+    data_type: String
+    description: Version source ligne.
+  - name: source_project_version_key
+    data_type: Nullable(String)
+    description: Version projet au même instant.
+  - name: coverage_start_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Début déclaré.
+  - name: coverage_end_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Fin déclarée.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Complétude des versions/liens déclarée.
+  - name: calculation_status
+    data_type: String
+    description: ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Cause précise stable ; NULL si aucune dépendance manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id001
+- name: int_subscription_changes
+  description: '**Grain métier :** Ligne × changement observé ou borne métier candidate. **Grain physique :** (model_run_id,record_key)
+    ; record_key=subscription_change_key. Rafraîchissement manuel à la demande. Histoire et révisions conservées
+    ; publication contrôlée.'
+  config:
+    tags: &id002
+    - revenue
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: subscription_change_key
+    data_type: String
+    description: H(subscription_key,trigger_kind,trigger_origin_key).
+  - name: tenant_id
+    data_type: String
+    description: Tenant.
+  - name: subscription_key
+    data_type: String
+    description: Identité ligne.
+  - name: line_id
+    data_type: Int64
+    description: ID ligne.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Société si connue/cohérente.
+  - name: continuity_key
+    data_type: Nullable(String)
+    description: Rapprochement lignes si prouvé.
+  - name: before_period_key
+    data_type: Nullable(String)
+    description: Période précédente.
+  - name: after_period_key
+    data_type: Nullable(String)
+    description: Période suivante.
+  - name: observed_change_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Publication CDC ; NULL si échéance seule.
+  - name: effective_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date d’effet métier prouvée ; NULL sinon.
+  - name: trigger_kind
+    data_type: String
+    description: cdc_attribute_change / service_start_boundary / service_end_boundary.
+  - name: trigger_origin_key
+    data_type: String
+    description: Version/bornes motivant candidat.
+  - name: amount_before
+    data_type: Nullable(Decimal(38,4))
+    description: Montant mensuel avant.
+  - name: amount_after
+    data_type: Nullable(Decimal(38,4))
+    description: Montant mensuel après.
+  - name: delta_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Après−avant si tous deux connus.
+  - name: is_active_before
+    data_type: Nullable(Bool)
+    description: Activité avant la borne.
+  - name: is_active_after
+    data_type: Nullable(Bool)
+    description: Activité après, indépendante montant.
+  - name: change_quality
+    data_type: String
+    description: observed_change / scheduled_boundary / incomplete_pair / missing_continuity.
+  - name: calculation_status
+    data_type: String
+    description: ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Cause précise stable ; NULL si aucune dépendance manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id002
+- name: int_subscription_month_end
+  description: '**Grain métier :** Ligne connue × fin de mois, contribution observable ou inconnue explicite. **Grain
+    physique :** (model_run_id,record_key) ; record_key=subscription_month_key. Rafraîchissement manuel à la demande.
+    Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id003
+    - revenue
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: subscription_month_key
+    data_type: String
+    description: H(subscription_key,month_date).
+  - name: tenant_id
+    data_type: String
+    description: Tenant.
+  - name: subscription_key
+    data_type: String
+    description: Identité ligne.
+  - name: line_id
+    data_type: Int64
+    description: ID ligne.
+  - name: line_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Identité ligne issue de int_subscription_periods, indépendamment du succès de la jointure à une
+      période de clôture.
+  - name: is_creation_date_reliable
+    data_type: Bool
+    description: true seulement si création nonNULL constante entre versions, aucun CDC antérieur à cette création
+      et aucun début de service antérieur contradictoire ; false sinon, pas de correction de la source.
+  - name: is_before_creation
+    data_type: Nullable(Bool)
+    description: Avant la création prouvée à la clôture ; NULL si preuve insuffisante. Une date contradictoire ne
+      prouve aucune absence.
+  - name: project_id
+    data_type: Nullable(Int64)
+    description: Projet à clôture.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Société à clôture.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité société.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version société à clôture.
+  - name: month_date
+    data_type: Date
+    description: Premier jour mois Paris.
+  - name: month_end_date
+    data_type: Date
+    description: Dernier jour mois Paris.
+  - name: closing_exclusive_at
+    data_type: DateTime64(3,'UTC')
+    description: Minuit Paris premier jour suivant converti UTC, photo juste avant.
+  - name: closing_date_key
+    data_type: UInt32
+    description: YYYYMMDD de month_end_date.
+  - name: source_subscription_period_key
+    data_type: Nullable(String)
+    description: Période observée à clôture ; NULL non observable.
+  - name: is_observable
+    data_type: Nullable(Bool)
+    description: Versions/liens nécessaires connus à clôture.
+  - name: is_active
+    data_type: Nullable(Bool)
+    description: État1+période ; indépendant MRR>0.
+  - name: quantity
+    data_type: Nullable(Decimal(38,4))
+    description: Quantité source.
+  - name: unit_monthly_price
+    data_type: Nullable(Decimal(38,4))
+    description: Prix mensuel unitaire.
+  - name: line_monthly_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Montant mensuel total.
+  - name: candidate_active_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Montant ligne actif ;0 si inactif prouvé ;NULL si inconnu.
+  - name: sum_active_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Somme officielle des lignes admissibles en EUR sous hypothèses D16/D20 ;NULL si activité/montant
+      ou inventaire requis inconnus, sans prorata.
+  - name: currency_code
+    data_type: Nullable(String)
+    description: EUR par hypothèse explicite du case D20 ; cette devise ne prouve ni mensualité ni engagement du
+      montant commercial.
+  - name: monetary_status
+    data_type: String
+    description: ready / currency_unconfirmed / missing_amount / unknown_activity.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Couverture clôture/liens déclarée.
+  - name: calculation_status
+    data_type: String
+    description: ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Cause précise stable ; NULL si aucune dépendance manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id003
+- name: int_client_activity_context
+  description: '**Grain métier :** Société × mois, comparaison de deux clôtures. **Grain physique :** (model_run_id,record_key)
+    ; record_key=client_context_key. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication
+    contrôlée.'
+  config:
+    tags: &id004
+    - revenue
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: client_context_key
+    data_type: String
+    description: H(company_key,month_date).
+  - name: tenant_id
+    data_type: String
+    description: Tenant.
+  - name: company_key
+    data_type: String
+    description: Société résolue ; orphelins contrôlés, pas société fictive.
+  - name: company_id
+    data_type: Int64
+    description: ID société.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version société à clôture courante.
+  - name: month_date
+    data_type: Date
+    description: Mois étudié.
+  - name: month_end_date
+    data_type: Date
+    description: Clôture courante.
+  - name: previous_month_end_date
+    data_type: Date
+    description: Clôture précédente.
+  - name: is_active_before
+    data_type: Nullable(Bool)
+    description: Au moins une ligne active ;false seulement inventaire complet sansactive ;sinon NULL.
+  - name: is_active_after
+    data_type: Nullable(Bool)
+    description: Même logique après.
+  - name: nb_active_lines_before
+    data_type: Nullable(UInt64)
+    description: Nombre lignes actives avant si connu.
+  - name: nb_active_lines_after
+    data_type: Nullable(UInt64)
+    description: Nombre lignes actives après.
+  - name: candidate_mrr_before
+    data_type: Nullable(Decimal(38,4))
+    description: Somme candidats avant si toutes contributions nécessaires connues.
+  - name: candidate_mrr_after
+    data_type: Nullable(Decimal(38,4))
+    description: Somme candidats après sans ignorer NULL.
+  - name: mrr_before
+    data_type: Nullable(Decimal(38,4))
+    description: Somme officielle avant devise prouvée.
+  - name: mrr_after
+    data_type: Nullable(Decimal(38,4))
+    description: Somme officielle après devise prouvée.
+  - name: nb_expected_lines_before
+    data_type: UInt64
+    description: Nombre de lignes candidates connues attendues avant ; la couverture source complète reste une déclaration
+      séparée.
+  - name: nb_expected_lines_after
+    data_type: UInt64
+    description: Nombre de lignes candidates connues attendues après.
+  - name: nb_known_active_states_before
+    data_type: UInt64
+    description: Nombre de lignes dont is_active est évalué avant, sans compter NULL comme false.
+  - name: nb_known_active_states_after
+    data_type: UInt64
+    description: Même compte après.
+  - name: nb_known_mrr_lines_before
+    data_type: UInt64
+    description: Nombre de contributions monétaires requises connues avant.
+  - name: nb_known_mrr_lines_after
+    data_type: UInt64
+    description: Même compte après.
+  - name: nb_uncalculable_lines_before
+    data_type: UInt64
+    description: Lignes activité/montant/rattachement inconnu avant.
+  - name: nb_uncalculable_lines_after
+    data_type: UInt64
+    description: Même compte après.
+  - name: first_known_active_date
+    data_type: Nullable(Date)
+    description: Première clôture active observée, pas activation réelle certaine.
+  - name: first_acquisition_status
+    data_type: String
+    description: first_proven / return_proven / unknown.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Deux clôtures et inventaires déclarés complets.
+  - name: is_comparable
+    data_type: Nullable(Bool)
+    description: Même périmètre/devise et deux clôtures observables.
+  - name: calculation_status
+    data_type: String
+    description: ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Cause précise stable ; NULL si aucune dépendance manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id004
+- name: int_mrr_movements
+  description: '**Grain métier :** Société × mois × composante nette ; stable/inconnu conservés pour comptages clients.
+    **Grain physique :** (model_run_id,record_key) ; record_key=movement_contribution_key. Rafraîchissement manuel
+    à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id005
+    - revenue
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: movement_contribution_key
+    data_type: String
+    description: H(company_key,month_date,movement_kind).
+  - name: tenant_id
+    data_type: String
+    description: Tenant.
+  - name: client_context_key
+    data_type: String
+    description: Contexte société/mois.
+  - name: company_id
+    data_type: Int64
+    description: ID société.
+  - name: company_key
+    data_type: String
+    description: Identité société.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version à clôture.
+  - name: month_date
+    data_type: Date
+    description: Mois.
+  - name: month_end_date
+    data_type: Date
+    description: Clôture courante.
+  - name: previous_month_end_date
+    data_type: Date
+    description: Clôture précédente.
+  - name: movement_kind
+    data_type: String
+    description: new / upsell / departure / contraction / stable / unknown.
+  - name: new_mrr_component
+    data_type: Nullable(String)
+    description: New entrants/retours ;Upsell hausse restants ;NULL autres.
+  - name: sum_new_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: MRR après entrant ;max(après−avant,0) hausse restant ;NULL noncomparable. Aucune ligne total en
+      plus.
+  - name: sum_departure_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: MRR avant sortant ;0 autres cas comparables.
+  - name: sum_contraction_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: max(avant−après,0) restant baisse ;0 autres cas comparables.
+  - name: sum_candidate_new_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Mêmeformule sur candidats,diagnostic devise inconnue.
+  - name: sum_candidate_departure_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Départs candidats.
+  - name: sum_candidate_contraction_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Baisses candidates.
+  - name: is_portfolio_entrant
+    data_type: Nullable(Bool)
+    description: Actifaprès/inactifavant,retours inclus.
+  - name: is_departure
+    data_type: Nullable(Bool)
+    description: Actifavant/inactifaprès.
+  - name: is_contraction
+    data_type: Nullable(Bool)
+    description: Actifdeux clôtures et baissenette.
+  - name: is_active_before
+    data_type: Nullable(Bool)
+    description: Activitéavant.
+  - name: is_active_after
+    data_type: Nullable(Bool)
+    description: Activitéaprès.
+  - name: first_acquisition_status
+    data_type: String
+    description: Statut contexte,non déduit entrant seul.
+  - name: is_comparable
+    data_type: Nullable(Bool)
+    description: Deux clôtures/périmètre/devise compatibles.
+  - name: commercial_link_status
+    data_type: String
+    description: not_required_for_financial_classification / proven / missing.
+  - name: source_lineage_status
+    data_type: String
+    description: Clôtures et lignages expliquent montant sans le répéter par ligne.
+  - name: calculation_status
+    data_type: String
+    description: ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Cause précise stable ; NULL si aucune dépendance manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id005
+- name: int_sales_objectives_month
+  description: '**Grain métier :** Mois × segment Sales × indicateur ; cible aprèsagrégation du réalisé. **Grain
+    physique :** (model_run_id,record_key) ; record_key=objective_month_key. Rafraîchissement manuel à la demande.
+    Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id006
+    - revenue
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: objective_month_key
+    data_type: String
+    description: H(tenant_id,month_date,source_segment,metric_code).
+  - name: tenant_id
+    data_type: String
+    description: Var source_tenant_id=demo_crm,contexte explicite de ce jeu.
+  - name: month_date
+    data_type: Date
+    description: src_month_date,premierjourParis.
+  - name: month_end_date
+    data_type: Date
+    description: Dernierjourmois.
+  - name: closing_exclusive_at
+    data_type: DateTime64(3,'UTC')
+    description: MinuitParis mois suivant reconvertiUTC.
+  - name: source_segment
+    data_type: String
+    description: src_segment SMB/LA/ES.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Équipe si mappingunivoque.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version à date pertinente.
+  - name: metric_code
+    data_type: String
+    description: src_indicator,quatre codes.
+  - name: metric_key
+    data_type: String
+    description: Identité dim_metric.
+  - name: metric_version_key
+    data_type: String
+    description: Version définition mesure.
+  - name: target_version_key
+    data_type: String
+    description: source_version_key captureobjectif choisie.
+  - name: target_value
+    data_type: Nullable(Decimal(38,4))
+    description: src_target convertiDecimal,aucuneventilationpersonnelle.
+  - name: actual_value
+    data_type: Nullable(Decimal(38,4))
+    description: RéaliséOFFICIEL compatible ;NULL sans preuves montant/unité/tenue.
+  - name: candidate_actual_value
+    data_type: Nullable(Decimal(38,4))
+    description: Diagnostic réalisé source si possible,jamais substitutofficiel.
+  - name: value_unit
+    data_type: String
+    description: Unitémesure ;compatibilitécible/réalisé àprouver.
+  - name: variance_value
+    data_type: Nullable(Decimal(38,4))
+    description: actual_value−target_value sicalculable/compatible.
+  - name: attainment_numerator
+    data_type: Nullable(Decimal(38,4))
+    description: actual_value sicompatible.
+  - name: attainment_denominator
+    data_type: Nullable(Decimal(38,4))
+    description: target_value sicompatible et>0 ;sinon NULL.
+  - name: attainment_rate
+    data_type: Nullable(Float64)
+    description: actual/target si>0 etcompatible,sinon NULL.
+  - name: is_population_compatible
+    data_type: Nullable(Bool)
+    description: Population/type/période/unité compatibles ;NULL sinondéfinies.
+  - name: nb_source_contributions
+    data_type: Nullable(UInt64)
+    description: Contributionsdistinctes avant somme.
+  - name: nb_uncalculable_contributions
+    data_type: Nullable(UInt64)
+    description: Contributionsrequises inconnues ;NULL si absence de preuve globale empêche de les dénombrer.
+  - name: is_month_closed
+    data_type: Bool
+    description: Clôtureexclusive<=cutoff.
+  - name: is_team_calculable
+    data_type: Bool
+    description: Mapping équipeunivoque.
+  - name: target_selection_status
+    data_type: String
+    description: capture_selected / ambiguous_target / missing_target.
+  - name: calculation_status
+    data_type: String
+    description: ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Cause précise stable ; NULL si aucune dépendance manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id006

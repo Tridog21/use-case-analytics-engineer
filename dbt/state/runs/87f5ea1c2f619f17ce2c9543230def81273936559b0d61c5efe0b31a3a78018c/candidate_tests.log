@@ -1,0 +1,15 @@
+[0m22:23:10  Running with dbt=1.11.12
+[0m22:23:10  Registered adapter: clickhouse=1.10.1
+[0m22:23:12  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:23:12  
+[0m22:23:12  Concurrency: 1 threads (target='dev')
+[0m22:23:12  
+[0m22:23:13  1 of 1 START test T07_content_dim_company ...................................... [RUN]
+[0m22:23:14  1 of 1 PASS T07_content_dim_company ............................................ [[32mPASS[0m in 0.49s]
+[0m22:23:14  
+[0m22:23:14  Finished running 1 test in 0 hours 0 minutes and 2.02 seconds (2.02s).
+[0m22:23:14  
+[0m22:23:14  [32mCompleted successfully[0m
+[0m22:23:14  
+[0m22:23:14  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

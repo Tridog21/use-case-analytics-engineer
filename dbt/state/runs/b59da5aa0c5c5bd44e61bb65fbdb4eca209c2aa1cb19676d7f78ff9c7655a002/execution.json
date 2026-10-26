@@ -1,0 +1,73 @@
+{
+  "model_run_id": "b59da5aa0c5c5bd44e61bb65fbdb4eca209c2aa1cb19676d7f78ff9c7655a002",
+  "status": "failed",
+  "start": "2026-10-25T22:31:29.139Z",
+  "phase": "build",
+  "commands": [
+    {
+      "command": [
+        "parse",
+        "--no-partial-parse"
+      ],
+      "start": "2026-10-25T22:31:29.234Z",
+      "end": "2026-10-25T22:31:39.450Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.218999999997322
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "tag:capture",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T22:31:39.558Z",
+      "end": "2026-10-25T22:31:50.104Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.546000000002095
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "int_crm_identity_links",
+        "--threads",
+        "1",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:32:04.068Z",
+      "end": "2026-10-25T22:32:14.409Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.343000000000757,
+      "recovered_memory_attempts": 1
+    }
+  ],
+  "code_hash": "6b75c6b1ec4f349142f38b066ceed4401d206b1d711d926eb40527b1ead4f839",
+  "rule_version": "0ccde51ad1f654db658d7902dd776a1ec1e2e770ef1c6f1f66f1764ddbae355c",
+  "vars_hash": "f56de5e2e8523f388cab63eb731bad620222b0a0fd6e798a2e154d0ecf6ca8ec",
+  "input_cutoff_at": "2026-10-25T22:31:29.135Z",
+  "source_capture_keys": {
+    "hubspot.contacts": [
+      "2026-10-25T212226410Z_eab3f87bca",
+      "2026-10-25T215505768Z_15b0be88a0"
+    ],
+    "hubspot.deals": [
+      "2026-10-25T212244007Z_e3e0997104",
+      "2026-10-25T215529103Z_13205891e0"
+    ],
+    "case_reference.sales_targets": [
+      "2026-10-25T212301870Z_8b72bc74c8",
+      "2026-10-25T215550309Z_e4bfe66e4e"
+    ],
+    "case_reference.stage_probabilities": [
+      "2026-10-25T212321865Z_7a3700e5e2",
+      "2026-10-25T215611097Z_452d38a5b6"
+    ]
+  },
+  "end": "2026-10-25T22:33:32.421Z",
+  "error": "\u001b[0m22:33:21  Running with dbt=1.11.12\n\u001b[0m22:33:22  Registered adapter: clickhouse=1.10.1\n\u001b[0m22:33:23  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests\n\u001b[0m22:33:23  \n\u001b[0m22:33:23  Concurrency: 1 threads (target='dev')\n\u001b[0m22:33:23  \n\u001b[0m22:33:25  1 of 2 START sql incremental model `dwh_pipeline`.`int_opportunity_followup` ... [RUN]\n\u001b[0m22:33:31  1 of 2 ERROR creating sql incremental model `dwh_pipeline`.`int_opportunity_followup`  [\u001b[31mERROR\u001b[0m in 5.87s]\n\u001b[0m22:33:31  2 of 2 SKIP relation dtm_pipeline.fct_opportunity_followup ..................... [\u001b[33mSKIP\u001b[0m]\n\u001b[0m22:33:31  \n\u001b[0m22:33:31  Finished running 1 incremental model, 1 view model in 0 hours 0 minutes and 7.73 seconds (7.73s).\n\u001b[0m22:33:31  \n\u001b[0m22:33:31  \u001b[31mCompleted with 1 error, 0 partial successes, and 0 warnings:\u001b[0m\n\u001b[0m22:33:31  \n\u001b[0m22:33:31  \u001b[31mFailure in model int_opportunity_followup (models\\intermediate\\pipeline\\int_opportunity_followup.sql)\u001b[0m\n\u001b[0m22:33:31    Database Error in model int_opportunity_followup (models\\intermediate\\pipeline\\int_opportunity_followup.sql)\n  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.72 GiB (attempt to allocate chunk of 4.93 MiB), current RSS: 1.53 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker: while executing 'FUNCTION toJSONString(materialize(tuple('int_opportunity_followup:row_v1'_String, tuple('source_published_at'_String, 'Nul... :: 111) -> toJSONString(materialize(tuple('int_opportunity_followup:row_v1'_String, tuple('source_published_at'... String : 107'. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)\n  compiled code at target\\run\\use_case\\models\\intermediate\\pipeline\\int_opportunity_followup.sql\n\u001b[0m22:33:31  \n\u001b[0m22:33:31    compiled code at target\\compiled\\use_case\\models\\intermediate\\pipeline\\int_opportunity_followup.sql\n\u001b[0m22:33:31  \n\u001b[0m22:33:31  Done. PASS=0 WARN=0 ERROR=1 SKIP=1 NO-OP=0 TOTAL=2\n"
+}

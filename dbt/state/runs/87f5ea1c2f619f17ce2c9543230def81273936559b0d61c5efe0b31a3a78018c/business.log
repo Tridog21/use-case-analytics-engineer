@@ -1,0 +1,17 @@
+[0m22:16:44  Running with dbt=1.11.12
+[0m22:16:44  Registered adapter: clickhouse=1.10.1
+[0m22:16:45  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:16:45  
+[0m22:16:45  Concurrency: 1 threads (target='dev')
+[0m22:16:45  
+[0m22:16:47  1 of 2 START sql incremental model `dwh_revenue`.`int_sales_objectives_month` .. [RUN]
+[0m22:16:49  1 of 2 OK created sql incremental model `dwh_revenue`.`int_sales_objectives_month`  [[32mOK[0m in 1.29s]
+[0m22:16:49  2 of 2 START sql view model `dtm_revenue`.`fct_sales_objectives_month` ......... [RUN]
+[0m22:16:49  2 of 2 OK created sql view model `dtm_revenue`.`fct_sales_objectives_month` .... [[32mOK[0m in 0.11s]
+[0m22:16:49  
+[0m22:16:49  Finished running 1 incremental model, 1 view model in 0 hours 0 minutes and 3.39 seconds (3.39s).
+[0m22:16:49  
+[0m22:16:49  [32mCompleted successfully[0m
+[0m22:16:49  
+[0m22:16:49  Done. PASS=2 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=2
+

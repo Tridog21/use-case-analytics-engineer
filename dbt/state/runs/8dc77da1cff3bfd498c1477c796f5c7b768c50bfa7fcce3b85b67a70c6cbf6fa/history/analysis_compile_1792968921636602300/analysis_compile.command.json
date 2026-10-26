@@ -1,0 +1,11 @@
+{
+  "command": [
+    "compile",
+    "--select",
+    "resource_type:analysis"
+  ],
+  "start": "2026-10-25T22:53:02.765Z",
+  "end": "2026-10-25T22:53:09.456Z",
+  "exit_code": 2,
+  "elapsed_seconds": 6.686999999998079
+}

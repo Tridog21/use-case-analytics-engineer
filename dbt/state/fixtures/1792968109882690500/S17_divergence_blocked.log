@@ -1,0 +1,23 @@
+[0m22:45:27  Running with dbt=1.11.12
+[0m22:45:27  Registered adapter: clickhouse=1.10.1
+[0m22:45:28  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m22:45:33  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:45:33  
+[0m22:45:33  Concurrency: 1 threads (target='dev')
+[0m22:45:33  
+[0m22:45:35  1 of 1 START sql incremental model `dtm_common_validation_1792968109882690500`.`dim_metric`  [RUN]
+[0m22:45:36  1 of 1 ERROR creating sql incremental model `dtm_common_validation_1792968109882690500`.`dim_metric`  [[31mERROR[0m in 0.59s]
+[0m22:45:36  
+[0m22:45:36  Finished running 1 incremental model in 0 hours 0 minutes and 2.27 seconds (2.27s).
+[0m22:45:36  
+[0m22:45:36  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m22:45:36  
+[0m22:45:36  [31mFailure in model dim_metric (models\marts\common\dim_metric.sql)[0m
+[0m22:45:36    Database Error in model dim_metric (models\marts\common\dim_metric.sql)
+  Received ClickHouse exception, code: 395, server response: Code: 395. DB::Exception: Immutable run content diverged: while executing 'FUNCTION if(isNull(__table8.record_key) :: 25, 1_Bool :: 22, notEquals(throwIf(notEquals(__table1.row_hash, __table8.row_hash), 'Immutable run content diverged'_... :: 23) -> if(isNull(__table8.record_key), 1_Bool, notEquals(throwIf(notEquals(__table1.row_hash, __table8.row_... Nullable(Bool) : 24'. (FUNCTION_THROW_IF_VALUE_IS_NON_ZERO) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+  compiled code at target\run\use_case\models\marts\common\dim_metric.sql
+[0m22:45:36  
+[0m22:45:36    compiled code at target\compiled\use_case\models\marts\common\dim_metric.sql
+[0m22:45:36  
+[0m22:45:36  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 NO-OP=0 TOTAL=1
+

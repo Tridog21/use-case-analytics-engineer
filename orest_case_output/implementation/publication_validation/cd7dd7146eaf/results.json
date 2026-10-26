@@ -1,0 +1,88 @@
+[
+  {
+    "test": "S22_zero_rows",
+    "actual": [],
+    "expected": [],
+    "status": "pass"
+  },
+  {
+    "test": "S24_A_monoline",
+    "actual": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "expected": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "status": "pass"
+  },
+  {
+    "test": "S21_old_pointer_preserved",
+    "actual": [
+      [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "001132f886bced87b2f983d71f61759cfb897e0c3a8c43550845c4a3188ff7f6"
+      ]
+    ],
+    "expected": [
+      [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "001132f886bced87b2f983d71f61759cfb897e0c3a8c43550845c4a3188ff7f6"
+      ]
+    ],
+    "status": "pass"
+  },
+  {
+    "test": "S25_pointer_read_after_error",
+    "actual": [
+      "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    ],
+    "expected": [
+      "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    ],
+    "status": "pass"
+  },
+  {
+    "test": "S25_reader_errors",
+    "actual": [],
+    "expected": [],
+    "status": "pass"
+  },
+  {
+    "test": "S25_atomic_read_samples",
+    "actual": true,
+    "expected": true,
+    "status": "pass"
+  },
+  {
+    "test": "S25_idempotent_resume",
+    "actual": [
+      [
+        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "258a333aeac57d81346a42412ccfb4e6fad0727500acb2dd42f3c78ce1abdc47"
+      ]
+    ],
+    "expected": [
+      [
+        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "258a333aeac57d81346a42412ccfb4e6fad0727500acb2dd42f3c78ce1abdc47"
+      ]
+    ],
+    "status": "pass"
+  },
+  {
+    "test": "S24_rollback",
+    "actual": [
+      [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "001132f886bced87b2f983d71f61759cfb897e0c3a8c43550845c4a3188ff7f6"
+      ]
+    ],
+    "expected": [
+      [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "001132f886bced87b2f983d71f61759cfb897e0c3a8c43550845c4a3188ff7f6"
+      ]
+    ],
+    "status": "pass"
+  }
+]

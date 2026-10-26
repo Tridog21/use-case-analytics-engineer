@@ -1,0 +1,16 @@
+[0m21:58:47  Running with dbt=1.11.12
+[0m21:58:47  Registered adapter: clickhouse=1.10.1
+[0m21:58:48  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m21:58:53  Found 73 models, 10 analyses, 296 data tests, 15 sources, 544 macros, 12 unit tests
+[0m21:58:53  
+[0m21:58:53  Concurrency: 1 threads (target='dev')
+[0m21:58:53  
+[0m21:58:55  1 of 1 START sql incremental model `stg_boond_validation_1792965524266112200`.`stg_boond_opportunities`  [RUN]
+[0m21:58:56  1 of 1 OK created sql incremental model `stg_boond_validation_1792965524266112200`.`stg_boond_opportunities`  [[32mOK[0m in 0.56s]
+[0m21:58:56  
+[0m21:58:56  Finished running 1 incremental model in 0 hours 0 minutes and 2.33 seconds (2.33s).
+[0m21:58:56  
+[0m21:58:56  [32mCompleted successfully[0m
+[0m21:58:56  
+[0m21:58:56  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

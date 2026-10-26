@@ -1,0 +1,8 @@
+{
+  "validation_schema_suffix": "_validation_1792966639167740000_empty",
+  "boond_source_schema": "stg_validation_1792966639167740000",
+  "capture_key": "collision",
+  "capture_at": "2026-10-25T22:18:32.083Z",
+  "cdc_full_scan": false,
+  "cdc_overlap_hours": 1
+}

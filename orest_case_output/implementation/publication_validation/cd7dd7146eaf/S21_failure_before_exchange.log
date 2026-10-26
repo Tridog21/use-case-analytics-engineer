@@ -1,0 +1,7 @@
+[0m22:27:06  Running with dbt=1.11.12
+[0m22:27:07  Registered adapter: clickhouse=1.10.1
+[0m22:27:07  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m22:27:08  Encountered an error:
+Compilation Error in model int_publication (models\int_publication.sql)
+  injected_before_exchange
+

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "tag:common tag:pipeline tag:revenue tag:mart tag:dtr",
+    "--exclude",
+    "tag:publication test_type:unit"
+  ],
+  "start": "2026-10-25T22:47:42.697Z",
+  "end": "2026-10-25T22:48:15.085Z",
+  "exit_code": 1,
+  "elapsed_seconds": 32.39100000000326
+}

@@ -1,0 +1,17 @@
+[0m22:17:11  Running with dbt=1.11.12
+[0m22:17:12  Registered adapter: clickhouse=1.10.1
+[0m22:17:13  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:17:13  
+[0m22:17:13  Concurrency: 1 threads (target='dev')
+[0m22:17:13  
+[0m22:17:15  1 of 2 START sql incremental model `dtr_sales`.`dtr_sales_events` .............. [RUN]
+[0m22:17:16  1 of 2 OK created sql incremental model `dtr_sales`.`dtr_sales_events` ......... [[32mOK[0m in 1.26s]
+[0m22:17:16  2 of 2 START sql incremental model `dtr_sales`.`dtr_stage_visits` .............. [RUN]
+[0m22:17:17  2 of 2 OK created sql incremental model `dtr_sales`.`dtr_stage_visits` ......... [[32mOK[0m in 1.16s]
+[0m22:17:17  
+[0m22:17:17  Finished running 2 incremental models in 0 hours 0 minutes and 4.26 seconds (4.26s).
+[0m22:17:18  
+[0m22:17:18  [32mCompleted successfully[0m
+[0m22:17:18  
+[0m22:17:18  Done. PASS=2 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=2
+

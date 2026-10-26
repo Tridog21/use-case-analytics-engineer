@@ -1,0 +1,187 @@
+{
+  "dim_date": {
+    "nb_expected": 2039,
+    "nb_loaded": 2039,
+    "digest": "6df42115c195b643f3ead15c95d39cfbf43adbe1260bc336d674fb3fed257a89"
+  },
+  "dim_country": {
+    "nb_expected": 4,
+    "nb_loaded": 4,
+    "digest": "3612c01f78448b7cd3a614bae9ec4c47aca278eaa4e135867951e27651c69926"
+  },
+  "dim_company": {
+    "nb_expected": 1546,
+    "nb_loaded": 1546,
+    "digest": "fd4ae6b020a1270b9e78395e7841c6a4dc9b8c57cf84dcdd2ad9290fb6737ebe"
+  },
+  "dim_employee": {
+    "nb_expected": 22,
+    "nb_loaded": 22,
+    "digest": "127e0b0798c51a76d79458ae27486cb3ffc816c9117b2855ceb0aa0c83f672f7"
+  },
+  "dim_team": {
+    "nb_expected": 9,
+    "nb_loaded": 9,
+    "digest": "921492ccf1604037459a77581c4a38fa4817a6201fbd1235e882746324deab3d"
+  },
+  "dim_stage": {
+    "nb_expected": 68,
+    "nb_loaded": 68,
+    "digest": "334e4f47191ebb8a4ec02e7526a3e194d7007c207038e0a98bf357b8b01ee171"
+  },
+  "dim_sale_type": {
+    "nb_expected": 9,
+    "nb_loaded": 9,
+    "digest": "ce8551a9c35b6a4526337325c3734d42b41a2b46e14b5d295fc9773dd2c27dcf"
+  },
+  "dim_channel": {
+    "nb_expected": 33,
+    "nb_loaded": 33,
+    "digest": "6056d0d4abd86ff25bb52524f44d5c5e5b26e021aaa247f61739523e5871db75"
+  },
+  "dim_action_type": {
+    "nb_expected": 33,
+    "nb_loaded": 33,
+    "digest": "6c7c51ef92d42fa7898d8ebae4a3614d98bdbdc9a0caff3081035a240579bd57"
+  },
+  "dim_followup_definition": {
+    "nb_expected": 26,
+    "nb_loaded": 26,
+    "digest": "f798d990956aec4cb698793cbf661e3d36e4195bfc4cc0265a1211000a663099"
+  },
+  "dim_metric": {
+    "nb_expected": 4,
+    "nb_loaded": 4,
+    "digest": "6b98912f07701a7b3cc65eac297b87884cd154d26c220759d2a528c6f4669f46"
+  },
+  "int_crm_identity_links": {
+    "nb_expected": 38177,
+    "nb_loaded": 38177,
+    "digest": "cea27ae3941d7738d6acfc9c2e8c740209e8ff003c44789fe266e81da1f14c65"
+  },
+  "int_team_membership_periods": {
+    "nb_expected": 35,
+    "nb_loaded": 35,
+    "digest": "c86605165f3360d7de24d196f9419a9bc232c79749897e0de72fe6a77cc9d890"
+  },
+  "int_signature_probabilities": {
+    "nb_expected": 33,
+    "nb_loaded": 33,
+    "digest": "6a7461dde711fb76e4a4d6f5ae87eb5236d33e1a49f79bc0faba2dbe33a62bdc"
+  },
+  "int_opportunity_stage_visits": {
+    "nb_expected": 5778,
+    "nb_loaded": 5778,
+    "digest": "8886ff9573ce9addb7c952635303ec52916772bd4ec9fb7846c740989834600b"
+  },
+  "int_opportunity_periods": {
+    "nb_expected": 9728,
+    "nb_loaded": 9728,
+    "digest": "f195f3c75f3d2c08ac206005fb97c60168860fda446834b72b3b825bb3a45a9c"
+  },
+  "int_opportunity_events": {
+    "nb_expected": 12437,
+    "nb_loaded": 12437,
+    "digest": "cace55e3f8a18b7543bea09443c7a961f4b6694a40d23d2d617d836dad90622e"
+  },
+  "int_opportunity_followup": {
+    "nb_expected": 20978,
+    "nb_loaded": 20978,
+    "digest": "d052566163c2edb850f376cb66b16cd8968c2933b59a081d7a2f51aef129c5fe"
+  },
+  "int_actions_prepared": {
+    "nb_expected": 27659,
+    "nb_loaded": 27659,
+    "digest": "856a422c43b29a4842827127b03d428e397bdc3f6f75b2625ce957d969914624"
+  },
+  "int_demo_intervals": {
+    "nb_expected": 0,
+    "nb_loaded": 0,
+    "digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "int_visit_responsibility": {
+    "nb_expected": 9702,
+    "nb_loaded": 9702,
+    "digest": "2fffa55acd88189c202ab0f881cf15a028f24bc965cc94408d4f24c12e1e47f2"
+  },
+  "int_subscription_periods": {
+    "nb_expected": 362,
+    "nb_loaded": 362,
+    "digest": "9378951a011395e9cac03540b618049a0d507527c18632567b8789a5e4801a62"
+  },
+  "int_subscription_changes": {
+    "nb_expected": 593,
+    "nb_loaded": 593,
+    "digest": "95f2401853b6e42ab813a970c8ecfd9dcdefad898b254450bcf91db306ca650c"
+  },
+  "int_subscription_month_end": {
+    "nb_expected": 13268,
+    "nb_loaded": 13268,
+    "digest": "4206d3200a7e4e58040d78d038e17378dde5706f94790c5522c95aeb20980265"
+  },
+  "int_client_activity_context": {
+    "nb_expected": 3090,
+    "nb_loaded": 3090,
+    "digest": "3094a3e00d0c8b37028d2c9844043bc54c47d154f7d35c946494b80df27fc9ff"
+  },
+  "int_mrr_movements": {
+    "nb_expected": 3090,
+    "nb_loaded": 3090,
+    "digest": "9bb8d05dfdd2e1cdd4d5fb2b3b9612638e500e249de19fca9ba1730aed448217"
+  },
+  "int_sales_objectives_month": {
+    "nb_expected": 144,
+    "nb_loaded": 144,
+    "digest": "7a1d4daf99ae363fe011d22753da429464fe09290dca632a52a16779714ff856"
+  },
+  "dtr_sales_objectives_month": {
+    "nb_expected": 144,
+    "nb_loaded": 144,
+    "digest": "a3a279b9c188d12957773bc52f015effde1eeb6886a2d2cd36348c2ad86b9d60"
+  },
+  "dtr_funnel_progress": {
+    "nb_expected": 9158,
+    "nb_loaded": 9158,
+    "digest": "dd13688c62e58f6ea49bfb47363e7ceb44184f16fdd92af566af529363cc73a1"
+  },
+  "dtr_company_mrr_month": {
+    "nb_expected": 3090,
+    "nb_loaded": 3090,
+    "digest": "877392dcfa4d12c2630d54421991139ba91e7cd6a0c45365742cd859c3df64d9"
+  },
+  "dtr_stage_visits": {
+    "nb_expected": 5778,
+    "nb_loaded": 5778,
+    "digest": "a803d4ee945adf9999cea981b832e89c17a41bfde8d765b8596fe95f76b566e1"
+  },
+  "dtr_cohort_outcomes": {
+    "nb_expected": 3993,
+    "nb_loaded": 3993,
+    "digest": "43d71efcaef3b3b0ec7ae249b8e796f709ebf8d70846adc9a6f76dfba1275f13"
+  },
+  "dtr_opportunity_timeline": {
+    "nb_expected": 37645,
+    "nb_loaded": 37645,
+    "digest": "f2e7282d913ca93f30caea8dd7d56e95c62c2e5ea6598d86a62f82e0605a1a24"
+  },
+  "dtr_pipeline_periods": {
+    "nb_expected": 9728,
+    "nb_loaded": 9728,
+    "digest": "7d0a5743d10314d2048b9f767fec8191d3b3dd20492f1a427699a2c18167cdd8"
+  },
+  "dtr_sales_events": {
+    "nb_expected": 12437,
+    "nb_loaded": 12437,
+    "digest": "0604149c248ce209bbfe97a73dc89286649098197c9feb73db70373143c3780e"
+  },
+  "dtr_sales_actions": {
+    "nb_expected": 8864,
+    "nb_loaded": 8864,
+    "digest": "04801a2ceff3095ffa4e5f885da29088d9cd2900fb98c661c719bb2b0aedb715"
+  },
+  "dtr_demo_intervals": {
+    "nb_expected": 0,
+    "nb_loaded": 0,
+    "digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  }
+}

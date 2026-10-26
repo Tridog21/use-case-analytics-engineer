@@ -1,0 +1,7 @@
+[0m22:51:48  Running with dbt=1.11.12
+[0m22:51:48  Registered adapter: clickhouse=1.10.1
+[0m22:51:49  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:51:49  
+[0m22:51:49  Concurrency: 1 threads (target='dev')
+[0m22:51:49  
+

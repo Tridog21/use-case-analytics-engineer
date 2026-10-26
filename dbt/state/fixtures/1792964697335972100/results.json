@@ -1,0 +1,100 @@
+[
+  {
+    "test": "S01_first_load",
+    "actual": 2,
+    "expected": 2,
+    "status": "pass"
+  },
+  {
+    "test": "S03_exact_rerun",
+    "actual": 2,
+    "expected": 2,
+    "status": "pass"
+  },
+  {
+    "test": "S09_inside_window",
+    "actual": 3,
+    "expected": 3,
+    "status": "pass"
+  },
+  {
+    "test": "S10_outside_reconciliation",
+    "actual": 4,
+    "expected": 4,
+    "status": "pass"
+  },
+  {
+    "test": "S07_tombstone",
+    "actual": 1,
+    "expected": 1,
+    "status": "pass"
+  },
+  {
+    "test": "S11_partial_replay",
+    "actual": 5,
+    "expected": 5,
+    "status": "pass"
+  },
+  {
+    "test": "S06_payloads_preserved",
+    "actual": 2,
+    "expected": 2,
+    "status": "pass"
+  },
+  {
+    "test": "S13_A_B_A",
+    "actual": [
+      [
+        100.0
+      ],
+      [
+        200.0
+      ],
+      [
+        100.0
+      ]
+    ],
+    "expected": [
+      [
+        100.0
+      ],
+      [
+        200.0
+      ],
+      [
+        100.0
+      ]
+    ],
+    "status": "pass"
+  },
+  {
+    "test": "S13_idempotent",
+    "actual": 3,
+    "expected": 3,
+    "status": "pass"
+  },
+  {
+    "test": "S14_tombstone",
+    "actual": false,
+    "expected": false,
+    "status": "pass"
+  },
+  {
+    "test": "S02_empty_target",
+    "actual": 6,
+    "expected": 6,
+    "status": "pass"
+  },
+  {
+    "test": "S16_no_copy",
+    "actual": 4,
+    "expected": 4,
+    "status": "pass"
+  },
+  {
+    "test": "S17_completed",
+    "actual": 4,
+    "expected": 4,
+    "status": "pass"
+  }
+]

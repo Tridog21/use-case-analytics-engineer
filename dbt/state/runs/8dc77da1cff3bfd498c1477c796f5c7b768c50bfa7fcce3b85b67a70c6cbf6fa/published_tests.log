@@ -1,0 +1,15 @@
+[0m22:56:02  Running with dbt=1.11.12
+[0m22:56:02  Registered adapter: clickhouse=1.10.1
+[0m22:56:03  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:56:03  
+[0m22:56:03  Concurrency: 1 threads (target='dev')
+[0m22:56:03  
+[0m22:56:03  1 of 1 START test assert_published_datasets_one_run ............................ [RUN]
+[0m22:56:04  1 of 1 PASS assert_published_datasets_one_run .................................. [[32mPASS[0m in 1.03s]
+[0m22:56:04  
+[0m22:56:04  Finished running 1 test in 0 hours 0 minutes and 1.03 seconds (1.03s).
+[0m22:56:04  
+[0m22:56:04  [32mCompleted successfully[0m
+[0m22:56:04  
+[0m22:56:04  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

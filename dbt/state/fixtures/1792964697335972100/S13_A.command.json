@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "stg_ref_sales_targets",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:46:24.667Z",
+  "end": "2026-10-25T21:46:36.448Z",
+  "exit_code": 0,
+  "elapsed_seconds": 11.781000000002678
+}

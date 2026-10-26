@@ -1,0 +1,2 @@
+{{ config(tags=['common']) }}
+with sequenced as (select record_key,valid_from_at,lagInFrame(valid_to_at) over w as prior_end,row_number() over w as row_rank from {{ ref('dim_action_type') }} where model_run_id={{ ch_literal(var('test_model_run_id','')) }} window w as (partition by tenant_id,language,action_type_id order by valid_from_at rows between unbounded preceding and unbounded following)) select record_key from sequenced where row_rank>1 and (prior_end is null or prior_end>valid_from_at)

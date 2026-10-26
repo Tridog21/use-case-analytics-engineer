@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "tag:capture",
+    "--exclude",
+    "tag:publication",
+    "--indirect-selection",
+    "cautious"
+  ],
+  "start": "2026-10-25T22:15:30.440Z",
+  "end": "2026-10-25T22:15:41.078Z",
+  "exit_code": 0,
+  "elapsed_seconds": 10.639999999999418
+}

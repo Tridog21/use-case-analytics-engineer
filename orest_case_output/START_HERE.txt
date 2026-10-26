@@ -1,0 +1,161 @@
+Restitution du cas Analytics Engineer
+
+Bonjour,
+
+Voici l’ensemble des éléments que j’ai pu produire pour ce cas pratique. J’ai trouvé le sujet très intéressant : il est à la fois clair et riche en informations à exploiter, tout en couvrant un périmètre large et en soulevant de nombreuses questions, parfois implicites, qu’il faut traiter pour produire un résultat de qualité.
+
+Cette richesse m’a placé devant un choix difficile.
+
+D’un côté, le point d’arrivée est assez clair. Le besoin est exprimé par l’équipe Sales, mais ses implications peuvent concerner le Marketing, le Produit et la Tech. Il s’agit de pouvoir analyser le tunnel d’acquisition pour agir sur les étapes où les pertes ou la stagnation sont trop importantes, et suivre leur évolution. À cela s’ajoutent le suivi et l’analyse du MRR, complémentaires à l’analyse du pipeline.
+
+J’ai également compris ce sujet comme un exercice de conception d’architecture et de modélisation des données de bout en bout, destiné à répondre à ces besoins et à les traduire en dashboards ou en maquettes. À mes yeux, l’objectif est surtout d’évaluer ma capacité à construire une solution complète et à en maîtriser toutes les étapes, de la compréhension du besoin à la validation des résultats.
+
+L’approche qui me semblait pertinente consistait à construire une couche commune regroupant les informations partagées, puis à organiser le modèle en modules thématiques : parcours et actions dans le funnel, revenus et MRR, notamment. Plusieurs dashboards permettraient ensuite de couvrir les besoins exprimés par les métiers.
+
+Cependant, le temps disponible ne me permettait pas de tout produire au niveau de qualité souhaité. Il fallait donc décider sur quoi mettre l’accent et quelles limites accepter dans le rendu final.
+
+J’ai choisi un compromis :
+
+• Parcourir l’ensemble du cycle de développement, du discovery aux dashboards connectés, sans mener la phase finale complète de tests et de recette, faute de temps. Cette phase fait normalement partie de ma démarche et je l’aurais réalisée avec davantage de temps. J’ai documenté autant que possible mon travail : vous trouverez les échanges avec l’IA pour chaque étape — raw intent, clean intent, spécification technique et implémentation — ainsi que les analyses, hypothèses et visuels conservés. L’objectif était d’approfondir le sujet, de préciser les KPI, le périmètre et les règles métier implicites, puis de construire un contexte suffisamment précis pour guider l’IA dans la spécification et l’implémentation.
+
+• Produire un livrable concret à chaque étape, même imparfait. Je souhaitais aller jusqu’à une restitution consultable, tout en montrant ma façon d’utiliser l’IA, de structurer le travail et de faire évoluer les propositions au fil des échanges.
+
+Ce choix a toutefois une contrepartie importante. Je n’ai pas eu le temps d’explorer les données de toutes les tables avec suffisamment de profondeur, ni de vérifier suffisamment les résultats obtenus. Des contrôles ont été exécutés pendant l’implémentation, mais ils ne remplacent pas la revue complète que j’aurais souhaité mener.
+
+L’architecture du modèle a également été largement construite avec l’IA, à partir du contexte que j’ai préparé, de mes orientations et des modifications que j’ai demandées. Même si j’ai participé à sa conception, elle reste la partie du case que je maîtrise le moins et que je considère comme la plus fragile de mon rendu.
+
+Je préfère être transparent sur cette limite. Avec davantage de temps, j’aurais consacré une part plus importante du travail à la conception et à la revue de l’architecture, puis à la validation des résultats. J’ai fait cet arbitrage pour aller au bout d’une réalisation concrète et vous présenter une base de discussion tangible.
+
+Merci pour le temps consacré à la lecture de ce travail et pour l’opportunité de réfléchir à ce sujet. Je serai heureux d’échanger avec vous sur les choix effectués, les limites du rendu et les pistes d’amélioration lors de la restitution.
+
+Orest
+
+Guide rapide de lecture
+
+Lecture rapide (10 à 15 minutes) : lire cette restitution, parcourir les trois maquettes dans clean_intent/maquettes/, puis ouvrir implementation/rapport_execution.md pour les résultats et les limites. Pour tester la navigation dans les dashboards, suivre PREPARATION_RECRUTEUR.pdf.
+
+Lecture approfondie : suivre les étapes 1 à 4 ci-dessous. Chaque dossier contient recap_etape.pdf et historique_discussion.pdf. Les historiques sont des pièces de traçabilité, à consulter pour retrouver une décision ; ils ne sont pas nécessaires à une première lecture. Les versions .txt permettent une recherche ou une modification simple.
+
+Les quatre chats numérotés constituent le périmètre de cette restitution. Les dossiers dbt/ et superset/, placés à la racine du dépôt, contiennent les livrables exécutables de l’étape 4. La conservation de ces emplacements évite de casser les scripts.
+
+1. Raw intent - cadrer le problème
+
+Point de départ
+
+Un cockpit commercial demandé par la VP Sales, des définitions divergentes entre Sales et Marketing, une maquette et un SQL historique à comprendre.
+
+Travail réalisé
+
+Le candidat a structuré le contexte, formulé les questions puis précisé ses choix au fil des échanges. L’IA a aidé à confronter les consignes, décomposer le SQL existant et organiser les besoins, hypothèses et preuves. Le catalogue recense les attentes sans les réduire prématurément à ce qui semble calculable.
+
+Décisions et clarifications
+
+Distinction entre opportunité, société, contact et action ; entre MRR actif, signé, nouveau revenu et encaissement. Boond est retenu pour les abonnements actifs. Les parcours de nouvelles ventes et d’upsell sont distingués. Le désaccord sur l’entrée dans le pipeline reste explicite et documenté.
+
+Valeur pour le case
+
+Une base commune permet de discuter les mêmes concepts avant de produire des chiffres. L’analyse du SQL rend visibles ses définitions implicites et ses limites. Les questions métier ont un emplacement unique et les hypothèses ne sont pas présentées comme des faits.
+
+Livrables à ouvrir
+
+raw_intent.md ; questions_metiers.md ; analyse_pipeline_actuel.md ; etat_des_lieux_Q10.md ; analyse_funnel_upsell.md ; cycle_hypotheses/.
+
+Limite de cette étape
+
+Il s’agit d’un cadrage. L’analyse historique ne constitue ni une optimisation SQL livrée, ni un benchmark. Des preuves préparées ailleurs sont citées dans ce chat ; les discussions non numérotées ne sont pas ajoutées à l’historique.
+
+2. Clean intent - stabiliser les définitions et l’architecture
+
+Point de départ
+
+Transformer le cadrage et ses itérations en une cible lisible par un relecteur et suffisamment précise pour préparer la spécification.
+
+Travail réalisé
+
+Les échanges ont consolidé une version humaine et une version détaillée pour l’IA, le catalogue de KPI, les décisions et les questions ouvertes. Le candidat a demandé de repartir des champs nécessaires et de leurs sources avant de reconstruire l’architecture. L’IA a établi les correspondances ClickHouse et l’inventaire staging.
+
+Décisions et clarifications
+
+Deux modules, Pipeline/parcours et Revenus/performance, partagent leurs dimensions. Les données restent assez fines pour recalculer ratios et durées après filtre. L’historisation concerne toute la chaîne. Le stock de sociétés en démo est distingué des rendez-vous réellement tenus. Trois maquettes structurent la restitution : Synthèse, Durées et Cohortes.
+
+Valeur pour le case
+
+Le besoin devient une cible cohérente, traçable jusqu’aux sources. Les maquettes relient les indicateurs aux usages attendus ; l’architecture limite les doublons entre analyses du parcours et du revenu.
+
+Livrables à ouvrir
+
+intent.md ; liste_kpi_humaine.md ; catalogue_indicateurs.md ; questions_decisions.md ; correspondance_champs_clickhouse.md ; inventaire_sources_staging.md ; architecture_modele_proposition.md ; maquettes/.
+
+Limite de cette étape
+
+Une règle décidée pour le case n’équivaut pas à une validation par les métiers. Les conventions techniques préparées en fin de chat sont classées dans spec_technique/00_conventions.md, où elles seront utilisées.
+
+3. Spécification technique - rendre l’exécution vérifiable
+
+Point de départ
+
+Traduire le clean intent en contrats de modèles, règles de calcul, stratégie d’historisation et critères d’acceptation utilisables par un agent d’implémentation.
+
+Travail réalisé
+
+L’IA a confronté l’architecture aux données en lecture seule, détaillé les modèles et proposé les arbitrages. Le candidat a répondu aux premières questions puis lui a confié les choix restants, consignés comme hypothèses de case. La version v0.2 et le prompt d’implémentation formalisent le périmètre retenu.
+
+Décisions et clarifications
+
+Quinze sources et 179 colonnes sont à conserver. Les conventions couvrent calendrier Europe/Paris, cohortes matures, médiane/P90, retours d’étape, corrections et révisions. Les registres CDC conservent les suppressions et prévoient déduplication, reprise et réconciliation. Les montants sans unité prouvée et les démos sans preuve restent indisponibles, avec motif.
+
+Valeur pour le case
+
+L’exécution dispose de grains, clés, types, règles et contrôles explicites. Les incertitudes sont localisées au lieu d’être comblées silencieusement. La publication des datasets dépend de contrôles définis à l’avance.
+
+Livrables à ouvrir
+
+00_conventions.md ; 01_specification_technique.md ; 02_catalogue_modeles.md ; 03_execution_tests.md ; prompt_implementation.md.
+
+Limite de cette étape
+
+Les tests décrits sont des critères à exécuter, pas une preuve de réussite. Les contrôles exploratoires réalisés ici doivent être distingués des résultats de l’implémentation.
+
+4. Implémentation - produire et rendre consultable
+
+Point de départ
+
+Exécuter la spécification v0.2, publier les datasets et construire les trois dashboards dans Superset.
+
+Travail réalisé
+
+Les modèles, macros, contrats et outils d’exécution sont dans dbt/. Un mécanisme de capture, construction, contrôle et publication a été implémenté. Après demande du candidat, les vues ont été publiées, puis les dashboards Synthèse, Durées et Cohortes construits. Une dernière itération a repris leur présentation et leur proximité avec les maquettes.
+
+Résultats documentés
+
+Le rapport d’exécution enregistre une publication acceptée, 73 relations contrôlées et 37 recompositions persistées comparées. Il présente notamment 13 tests unitaires et 232 tests du candidat réussis. Les documents Superset enregistrent 21 datasets, 38 graphiques et, avant la dernière refonte visuelle, 38 requêtes de graphiques et 25 contrôles ciblés réussis.
+
+Valeur pour le case
+
+La chaîne aboutit à des objets consultables et à des preuves d’exécution. Les indicateurs incomplets ou non calculables sont explicités ; une absence de preuve n’est pas transformée en zéro. Le générateur permet de recréer les dashboards sur une installation locale.
+
+Livrables à ouvrir
+
+rapport_execution.md ; decisions_techniques.md ; branchement_dashboards.md ; resultats_execution.json ; publication_validation/. Code et assets : ../../dbt/ et ../../superset/.
+
+Limites et étape 5
+
+Ces résultats sont des preuves historiques des contrôles effectués pendant l’implémentation. Le cycle final autonome de tests/recette prévu par le candidat n’a pas été mené. La dernière refonte visuelle n’a pas donné lieu à une nouvelle validation des données. La préparation de ce dossier ne relance aucun calcul métier ni test de données.
+
+Accès aux livrables et points à finaliser
+
+Pour les dashboards
+
+Les maquettes statiques sont consultables immédiatement dans clean_intent/maquettes/. Pour les dashboards Superset réels, suivre PREPARATION_RECRUTEUR.pdf. La reproduction nécessite le dépôt complet. Les captures et rapports témoignent d’un état local ; ils ne remplacent pas une installation vérifiée sur une nouvelle machine.
+
+Ce que les preuves permettent d’affirmer
+
+Les rapports enregistrent des exécutions réussies et les essais antérieurs. Ils ne certifient pas la performance à gros volume, la complétude de toutes les données métier ou une recette indépendante de la dernière version visuelle.
+
+Éléments encore à finaliser avec le candidat
+
+Le document opérationnel de communication demandé dans l’énoncé (messages à envoyer, destinataires, calendrier et réponse à « Je l’ai quand ? ») n’a pas été trouvé sous forme de livrable autonome dans les quatre étapes. Les questions métier existent, mais ne remplacent pas ce document. L’analyse du SQL historique est livrée ; aucune optimisation ou comparaison de performance n’est revendiquée.
+
+Traçabilité
+
+Les PDF d’historique reprennent les messages accessibles sans résumé ; les questionnaires et pièces jointes utilisateur récupérables sont inclus. Les journaux ia_assistant_story.md préexistants sont conservés comme traces synthétiques. Les références historiques et les décisions dépassées restent dans les historiques ; pour la cible finale, commencer par la spécification v0.2 et les rapports d’implémentation.

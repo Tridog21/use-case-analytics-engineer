@@ -1,0 +1,367 @@
+{
+  "stg_boond_opportunities": {
+    "nb_columns": 32,
+    "nb_rows": 7020,
+    "evaluation_checksum": 10711818776523043683
+  },
+  "stg_boond_actions": {
+    "nb_columns": 23,
+    "nb_rows": 8980,
+    "evaluation_checksum": 10817248693340870716
+  },
+  "stg_boond_companies": {
+    "nb_columns": 21,
+    "nb_rows": 1464,
+    "evaluation_checksum": 725886519417930745
+  },
+  "stg_boond_contacts": {
+    "nb_columns": 21,
+    "nb_rows": 2391,
+    "evaluation_checksum": 1123128234483704119
+  },
+  "stg_boond_resources": {
+    "nb_columns": 19,
+    "nb_rows": 22,
+    "evaluation_checksum": 9781834988995894124
+  },
+  "stg_boond_businessunits": {
+    "nb_columns": 15,
+    "nb_rows": 9,
+    "evaluation_checksum": 5814006450315276672
+  },
+  "stg_boond_agencies": {
+    "nb_columns": 14,
+    "nb_rows": 2,
+    "evaluation_checksum": 12823931168981666231
+  },
+  "stg_boond_poles": {
+    "nb_columns": 14,
+    "nb_rows": 6,
+    "evaluation_checksum": 17794114545292614786
+  },
+  "stg_boond_dictionaries": {
+    "nb_columns": 19,
+    "nb_rows": 6,
+    "evaluation_checksum": 5145545834317168934
+  },
+  "stg_boond_projects": {
+    "nb_columns": 20,
+    "nb_rows": 171,
+    "evaluation_checksum": 4459613818619510436
+  },
+  "stg_boond_deliveries": {
+    "nb_columns": 20,
+    "nb_rows": 326,
+    "evaluation_checksum": 7085414050318680128
+  },
+  "stg_hubspot_contacts": {
+    "nb_columns": 22,
+    "nb_rows": 2254,
+    "evaluation_checksum": 6477501025931682756
+  },
+  "stg_hubspot_deals": {
+    "nb_columns": 23,
+    "nb_rows": 1190,
+    "evaluation_checksum": 5704049994000077282
+  },
+  "stg_ref_sales_targets": {
+    "nb_columns": 11,
+    "nb_rows": 144,
+    "evaluation_checksum": 12751257026080311766
+  },
+  "stg_ref_stage_probabilities": {
+    "nb_columns": 10,
+    "nb_rows": 33,
+    "evaluation_checksum": 14381244462988825702
+  },
+  "dim_date": {
+    "nb_columns": 24,
+    "nb_rows": 2039,
+    "evaluation_checksum": 7759923166328004721
+  },
+  "dim_country": {
+    "nb_columns": 14,
+    "nb_rows": 4,
+    "evaluation_checksum": 6176109045993422314
+  },
+  "dim_company": {
+    "nb_columns": 26,
+    "nb_rows": 1546,
+    "evaluation_checksum": 10524726308981405590
+  },
+  "dim_employee": {
+    "nb_columns": 24,
+    "nb_rows": 22,
+    "evaluation_checksum": 9460515771744050830
+  },
+  "dim_team": {
+    "nb_columns": 20,
+    "nb_rows": 9,
+    "evaluation_checksum": 15138034642927885525
+  },
+  "dim_stage": {
+    "nb_columns": 27,
+    "nb_rows": 68,
+    "evaluation_checksum": 135478581383609198
+  },
+  "dim_sale_type": {
+    "nb_columns": 23,
+    "nb_rows": 9,
+    "evaluation_checksum": 11111870032771584800
+  },
+  "dim_channel": {
+    "nb_columns": 25,
+    "nb_rows": 33,
+    "evaluation_checksum": 11489318275170298978
+  },
+  "dim_action_type": {
+    "nb_columns": 24,
+    "nb_rows": 33,
+    "evaluation_checksum": 2752001121819107371
+  },
+  "dim_followup_definition": {
+    "nb_columns": 27,
+    "nb_rows": 26,
+    "evaluation_checksum": 15587454039479393029
+  },
+  "dim_metric": {
+    "nb_columns": 20,
+    "nb_rows": 4,
+    "evaluation_checksum": 13682533977232143309
+  },
+  "int_crm_identity_links": {
+    "nb_columns": 25,
+    "nb_rows": 38177,
+    "evaluation_checksum": 9166236921492359114
+  },
+  "int_team_membership_periods": {
+    "nb_columns": 25,
+    "nb_rows": 35,
+    "evaluation_checksum": 1544033745909233596
+  },
+  "int_signature_probabilities": {
+    "nb_columns": 23,
+    "nb_rows": 33,
+    "evaluation_checksum": 7909042600188316112
+  },
+  "int_opportunity_stage_visits": {
+    "nb_columns": 36,
+    "nb_rows": 5778,
+    "evaluation_checksum": 12492024046527172220
+  },
+  "int_opportunity_periods": {
+    "nb_columns": 63,
+    "nb_rows": 9728,
+    "evaluation_checksum": 3695923401726859846
+  },
+  "int_opportunity_events": {
+    "nb_columns": 58,
+    "nb_rows": 12437,
+    "evaluation_checksum": 15340046925374394378
+  },
+  "int_opportunity_followup": {
+    "nb_columns": 73,
+    "nb_rows": 20978,
+    "evaluation_checksum": 17985367506308544229
+  },
+  "int_actions_prepared": {
+    "nb_columns": 47,
+    "nb_rows": 27659,
+    "evaluation_checksum": 18064832968999541949
+  },
+  "int_demo_intervals": {
+    "nb_columns": 36,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "int_visit_responsibility": {
+    "nb_columns": 25,
+    "nb_rows": 9702,
+    "evaluation_checksum": 12252949792364402776
+  },
+  "int_subscription_periods": {
+    "nb_columns": 48,
+    "nb_rows": 362,
+    "evaluation_checksum": 9469334916929393950
+  },
+  "int_subscription_changes": {
+    "nb_columns": 29,
+    "nb_rows": 593,
+    "evaluation_checksum": 869849450067990110
+  },
+  "int_subscription_month_end": {
+    "nb_columns": 37,
+    "nb_rows": 13268,
+    "evaluation_checksum": 13109824935459731650
+  },
+  "int_client_activity_context": {
+    "nb_columns": 39,
+    "nb_rows": 3090,
+    "evaluation_checksum": 14092523854860175626
+  },
+  "int_mrr_movements": {
+    "nb_columns": 37,
+    "nb_rows": 3090,
+    "evaluation_checksum": 8099537947045995782
+  },
+  "int_sales_objectives_month": {
+    "nb_columns": 37,
+    "nb_rows": 144,
+    "evaluation_checksum": 14163268233780753140
+  },
+  "fct_opportunity_period": {
+    "nb_columns": 67,
+    "nb_rows": 9728,
+    "evaluation_checksum": 12952900210323710332
+  },
+  "fct_stage_visit": {
+    "nb_columns": 56,
+    "nb_rows": 5778,
+    "evaluation_checksum": 685178620999892323
+  },
+  "fct_opportunity_event": {
+    "nb_columns": 61,
+    "nb_rows": 12437,
+    "evaluation_checksum": 13565507324434816921
+  },
+  "fct_opportunity_followup": {
+    "nb_columns": 78,
+    "nb_rows": 20978,
+    "evaluation_checksum": 6358443433009901458
+  },
+  "fct_action": {
+    "nb_columns": 50,
+    "nb_rows": 27659,
+    "evaluation_checksum": 14418187940192894291
+  },
+  "fct_demo_interval": {
+    "nb_columns": 38,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "fct_mrr_movement": {
+    "nb_columns": 40,
+    "nb_rows": 3090,
+    "evaluation_checksum": 9709733051450162975
+  },
+  "fct_subscription_month_end": {
+    "nb_columns": 38,
+    "nb_rows": 13268,
+    "evaluation_checksum": 16410525506503438121
+  },
+  "fct_sales_objectives_month": {
+    "nb_columns": 39,
+    "nb_rows": 144,
+    "evaluation_checksum": 15703740985790851567
+  },
+  "dtr_sales_objectives_month": {
+    "nb_columns": 27,
+    "nb_rows": 144,
+    "evaluation_checksum": 16017309366061431301
+  },
+  "dataset_sales_objectives_month": {
+    "nb_columns": 27,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_funnel_progress": {
+    "nb_columns": 57,
+    "nb_rows": 9158,
+    "evaluation_checksum": 9681074938629001415
+  },
+  "dataset_funnel_progress": {
+    "nb_columns": 57,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_company_mrr_month": {
+    "nb_columns": 36,
+    "nb_rows": 3090,
+    "evaluation_checksum": 6314663144096918325
+  },
+  "dataset_company_mrr_month": {
+    "nb_columns": 36,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_stage_visits": {
+    "nb_columns": 50,
+    "nb_rows": 5778,
+    "evaluation_checksum": 10214988090710706134
+  },
+  "dataset_stage_visits": {
+    "nb_columns": 50,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_cohort_outcomes": {
+    "nb_columns": 58,
+    "nb_rows": 3993,
+    "evaluation_checksum": 17835224935840502809
+  },
+  "dataset_cohort_outcomes": {
+    "nb_columns": 58,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_opportunity_timeline": {
+    "nb_columns": 44,
+    "nb_rows": 37645,
+    "evaluation_checksum": 2180566322511263418
+  },
+  "dataset_opportunity_timeline": {
+    "nb_columns": 44,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_pipeline_periods": {
+    "nb_columns": 56,
+    "nb_rows": 9728,
+    "evaluation_checksum": 5542029121515240778
+  },
+  "dataset_pipeline_periods": {
+    "nb_columns": 56,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_sales_events": {
+    "nb_columns": 56,
+    "nb_rows": 12437,
+    "evaluation_checksum": 8846865059840700077
+  },
+  "dataset_sales_events": {
+    "nb_columns": 56,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_sales_actions": {
+    "nb_columns": 51,
+    "nb_rows": 8864,
+    "evaluation_checksum": 16240808331110642862
+  },
+  "dataset_sales_actions": {
+    "nb_columns": 51,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dtr_demo_intervals": {
+    "nb_columns": 38,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dataset_demo_intervals": {
+    "nb_columns": 38,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "int_publication": {
+    "nb_columns": 6,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  },
+  "dataset_publication_status": {
+    "nb_columns": 13,
+    "nb_rows": 0,
+    "evaluation_checksum": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "dtr_opportunity_timeline dtr_pipeline_periods",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:35:37.918Z",
+  "end": "2026-10-25T21:35:48.141Z",
+  "exit_code": 1,
+  "elapsed_seconds": 10.219000000004598
+}

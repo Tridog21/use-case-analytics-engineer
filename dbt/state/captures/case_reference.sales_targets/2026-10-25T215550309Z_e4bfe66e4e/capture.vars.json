@@ -1,0 +1,11 @@
+{
+  "capture_key": "2026-10-25T215550309Z_e4bfe66e4e",
+  "capture_at": "2026-10-25T21:55:50.309Z",
+  "cdc_full_scan": true,
+  "cdc_overlap_hours": 48,
+  "source_capture_keys": {
+    "case_reference.sales_targets": [
+      "2026-10-25T212301870Z_8b72bc74c8"
+    ]
+  }
+}

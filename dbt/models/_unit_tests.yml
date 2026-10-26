@@ -1,0 +1,631 @@
+version: 2
+unit_tests:
+- name: T13_T37_T58_observed_visits_returns_deletion
+  model: int_opportunity_stage_visits
+  overrides: &id001
+    macros:
+      is_incremental: false
+    vars:
+      model_run_id: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      rule_version: fixture
+      calculated_at: '2026-10-01T00:00:00.000Z'
+      input_cutoff_at: '2026-10-01T00:00:00.000Z'
+      case_as_of_boundary_at: '2026-09-30T22:00:00.000Z'
+  given:
+  - input: ref('stg_boond_opportunities')
+    format: sql
+    fixture: visits_input
+  expect:
+    rows:
+    - stage_id: 22
+      visit_rank: 1
+      entered_at: null
+      exited_at: '2026-01-01 11:00:00.123'
+      completed_duration_seconds: null
+    - stage_id: 24
+      visit_rank: 2
+      entered_at: '2026-01-01 11:00:00.123'
+      exited_at: '2026-01-01 12:00:00.123'
+      completed_duration_seconds: 3600
+    - stage_id: 22
+      visit_rank: 3
+      entered_at: '2026-01-01 12:00:00.123'
+      exited_at: null
+      completed_duration_seconds: null
+    - stage_id: 22
+      visit_rank: 5
+      entered_at: null
+      exited_at: '2026-01-01 15:00:00.123'
+      completed_duration_seconds: null
+    - stage_id: 1
+      visit_rank: 6
+      entered_at: '2026-01-01 15:00:00.123'
+      exited_at: '2026-01-01 16:00:00.123'
+      completed_duration_seconds: 3600
+    - stage_id: 14
+      visit_rank: 7
+      entered_at: '2026-01-01 16:00:00.123'
+      exited_at: null
+      completed_duration_seconds: null
+- name: T30_T31_T33_T34_T52_net_company_mrr
+  model: int_mrr_movements
+  overrides: *id001
+  given:
+  - input: ref('int_client_activity_context')
+    format: sql
+    fixture: mrr_context_input
+  - input: ref('int_subscription_changes')
+    rows: []
+  - input: ref('int_crm_identity_links')
+    rows: []
+  expect:
+    rows:
+    - company_id: 0
+      movement_kind: upsell
+      sum_new_mrr: 50
+      sum_departure_mrr: 0
+      sum_contraction_mrr: 0
+    - company_id: 1
+      movement_kind: contraction
+      sum_new_mrr: 0
+      sum_departure_mrr: 0
+      sum_contraction_mrr: 30
+    - company_id: 2
+      movement_kind: departure
+      sum_new_mrr: 0
+      sum_departure_mrr: 100
+      sum_contraction_mrr: 0
+    - company_id: 3
+      movement_kind: new
+      sum_new_mrr: 80
+      sum_departure_mrr: 0
+      sum_contraction_mrr: 0
+    - company_id: 4
+      movement_kind: stable
+      sum_new_mrr: 0
+      sum_departure_mrr: 0
+      sum_contraction_mrr: 0
+    - company_id: 5
+      movement_kind: stable
+      sum_new_mrr: 0
+      sum_departure_mrr: 0
+      sum_contraction_mrr: 0
+    - company_id: 6
+      movement_kind: unknown
+      sum_new_mrr: null
+      sum_departure_mrr: null
+      sum_contraction_mrr: null
+- name: T43_T57_old_states_never_infer_modern_stage
+  model: dim_stage
+  overrides: *id001
+  given:
+  - input: ref('stg_boond_dictionaries')
+    format: sql
+    fixture: dictionaries_input
+  expect:
+    rows:
+    - stage_id: 0
+      outcome_category: open
+    - stage_id: 1
+      outcome_category: won
+    - stage_id: 2
+      outcome_category: unqualified
+    - stage_id: 3
+      outcome_category: abandoned
+    - stage_id: 7
+      outcome_category: unqualified
+    - stage_id: 9
+      outcome_category: abandoned
+    - stage_id: 10
+      outcome_category: unknown
+    - stage_id: 13
+      outcome_category: lost
+    - stage_id: 14
+      outcome_category: won
+    - stage_id: 19
+      outcome_category: unknown
+    - stage_id: 20
+      outcome_category: open
+    - stage_id: 21
+      outcome_category: open
+    - stage_id: 22
+      outcome_category: open
+    - stage_id: 23
+      outcome_category: open
+    - stage_id: 24
+      outcome_category: open
+    - stage_id: 25
+      outcome_category: open
+    - stage_id: 26
+      outcome_category: open
+    - stage_id: 27
+      outcome_category: lost
+    - stage_id: 28
+      outcome_category: open
+    - stage_id: 30
+      outcome_category: open
+    - stage_id: 31
+      outcome_category: open
+    - stage_id: 32
+      outcome_category: open
+    - stage_id: 33
+      outcome_category: open
+    - stage_id: 34
+      outcome_category: open
+    - stage_id: 35
+      outcome_category: open
+    - stage_id: 999
+      outcome_category: unknown
+- name: T56_inbound_outbound_other_no_marketing_fallback
+  model: dim_channel
+  overrides: *id001
+  given:
+  - input: ref('stg_boond_dictionaries')
+    format: sql
+    fixture: dictionaries_input
+  expect:
+    rows:
+    - channel_id: 1
+      is_inbound: true
+      inbound_group: Inbound
+    - channel_id: 2
+      is_inbound: true
+      inbound_group: Inbound
+    - channel_id: 3
+      is_inbound: true
+      inbound_group: Inbound
+    - channel_id: 4
+      is_inbound: false
+      inbound_group: Outbound
+    - channel_id: 5
+      is_inbound: false
+      inbound_group: Outbound
+    - channel_id: 6
+      is_inbound: false
+      inbound_group: Other
+    - channel_id: 7
+      is_inbound: false
+      inbound_group: Other
+    - channel_id: 8
+      is_inbound: false
+      inbound_group: Other
+    - channel_id: 9
+      is_inbound: false
+      inbound_group: Other
+    - channel_id: 10
+      is_inbound: false
+      inbound_group: Other
+    - channel_id: 11
+      is_inbound: false
+      inbound_group: Other
+    - channel_id: 12
+      is_inbound: null
+      inbound_group: null
+- name: T54_commercial_scope_training_preserved
+  model: dim_sale_type
+  overrides: *id001
+  given:
+  - input: ref('stg_boond_dictionaries')
+    format: sql
+    fixture: dictionaries_input
+  expect:
+    rows:
+    - sale_type_id: 2
+      is_commercial_scope: false
+    - sale_type_id: 4
+      is_commercial_scope: true
+    - sale_type_id: 7
+      is_commercial_scope: true
+    - sale_type_id: 99
+      is_commercial_scope: false
+- name: T55_KAM_never_ES
+  model: dim_team
+  overrides: *id001
+  given:
+  - input: ref('stg_boond_businessunits')
+    format: sql
+    fixture: teams_input
+  - input: ref('stg_ref_sales_targets')
+    rows: []
+  expect:
+    rows:
+    - team_id: 12
+      sales_segment: LA
+      is_sales_team: true
+    - team_id: 13
+      sales_segment: SMB
+      is_sales_team: true
+    - team_id: 15
+      sales_segment: null
+      is_sales_team: false
+    - team_id: 99
+      sales_segment: null
+      is_sales_team: null
+- name: T13_T28_T30_T51_zero_inclusive_end_birth_and_2099
+  model: int_subscription_month_end
+  overrides:
+    macros:
+      is_incremental: false
+    vars:
+      model_run_id: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      rule_version: fixture
+      calculated_at: '2026-10-01T00:00:00.000Z'
+      input_cutoff_at: '2026-10-01T00:00:00.000Z'
+      case_as_of_boundary_at: '2026-10-31T23:00:00.000Z'
+  given:
+  - input: ref('int_subscription_periods')
+    format: sql
+    fixture: subscription_periods_input
+  - input: ref('dim_date')
+    format: sql
+    fixture: months_input
+  expect:
+    rows:
+    - line_id: 1
+      month_date: '2026-09-01'
+      is_active: true
+      sum_active_mrr: 100
+    - line_id: 2
+      month_date: '2026-09-01'
+      is_active: true
+      sum_active_mrr: 0
+    - line_id: 3
+      month_date: '2026-09-01'
+      is_active: false
+      sum_active_mrr: 0
+    - line_id: 4
+      month_date: '2026-09-01'
+      is_active: true
+      sum_active_mrr: 50
+    - line_id: 5
+      month_date: '2026-09-01'
+      is_active: true
+      sum_active_mrr: 25
+    - line_id: 1
+      month_date: '2026-10-01'
+      is_active: false
+      sum_active_mrr: 0
+    - line_id: 2
+      month_date: '2026-10-01'
+      is_active: true
+      sum_active_mrr: 0
+    - line_id: 3
+      month_date: '2026-10-01'
+      is_active: null
+      sum_active_mrr: null
+    - line_id: 4
+      month_date: '2026-10-01'
+      is_active: true
+      sum_active_mrr: 50
+    - line_id: 5
+      month_date: '2026-10-01'
+      is_active: true
+      sum_active_mrr: 25
+- name: T20_T58_T59_first_signature_and_terminal_not_absorbing
+  model: int_opportunity_events
+  overrides: *id001
+  given:
+  - input: ref('int_opportunity_stage_visits')
+    format: sql
+    fixture: events_visits_input
+  - input: ref('int_opportunity_periods')
+    format: sql
+    fixture: events_periods_input
+  - input: ref('int_crm_identity_links')
+    rows: []
+  - input: ref('dim_date')
+    rows: []
+  expect:
+    rows:
+    - opportunity_id: 1
+      event_type: stage_entered
+      event_at: '2026-01-01 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: stage_exited
+      event_at: '2026-01-02 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: stage_entered
+      event_at: '2026-01-02 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: stage_exited
+      event_at: '2026-01-03 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: signed
+      event_at: '2026-01-02 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: 86400.0
+    - opportunity_id: 1
+      event_type: stage_entered
+      event_at: '2026-01-03 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: stage_exited
+      event_at: '2026-01-04 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: stage_entered
+      event_at: '2026-01-04 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: stage_exited
+      event_at: '2026-01-05 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: stage_entered
+      event_at: '2026-01-05 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: signed
+      event_at: '2026-01-05 00:00:00.000'
+      nb_events: 0
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 1
+      event_type: pipeline_created
+      event_at: '2026-01-01 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 2
+      event_type: stage_entered
+      event_at: null
+      nb_events: null
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 2
+      event_type: stage_exited
+      event_at: '2026-01-02 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 2
+      event_type: stage_entered
+      event_at: '2026-01-02 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 2
+      event_type: stage_exited
+      event_at: '2026-01-03 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 2
+      event_type: stage_entered
+      event_at: '2026-01-03 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 2
+      event_type: signed
+      event_at: '2026-01-03 00:00:00.000'
+      nb_events: 0
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 2
+      event_type: pipeline_created
+      event_at: '2026-01-01 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: stage_entered
+      event_at: '2026-01-01 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: stage_exited
+      event_at: '2026-01-02 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: stage_entered
+      event_at: '2026-01-02 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: stage_exited
+      event_at: '2026-01-03 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: lost
+      event_at: '2026-01-02 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: 86400.0
+    - opportunity_id: 3
+      event_type: stage_entered
+      event_at: '2026-01-03 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: stage_exited
+      event_at: '2026-01-04 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: stage_entered
+      event_at: '2026-01-04 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: signed
+      event_at: '2026-01-04 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+    - opportunity_id: 3
+      event_type: pipeline_created
+      event_at: '2026-01-01 00:00:00.000'
+      nb_events: 1
+      completed_cycle_duration_seconds: null
+- name: T60_B_before_A_and_returns_do_not_duplicate_transitions
+  model: int_opportunity_followup
+  overrides: *id001
+  given:
+  - input: ref('int_opportunity_periods')
+    format: sql
+    fixture: transitions_periods
+  - input: ref('int_opportunity_stage_visits')
+    format: sql
+    fixture: transitions_visits
+  - input: ref('dim_followup_definition')
+    format: sql
+    fixture: transitions_definitions
+  - input: ref('int_opportunity_events')
+    rows: []
+  expect:
+    rows:
+    - opportunity_id: 1
+      anchor_at: '2026-01-03 00:00:00.000'
+      first_reached_at: null
+      reached_target: false
+      converted_contribution: 0
+    - opportunity_id: 2
+      anchor_at: '2026-01-03 00:00:00.000'
+      first_reached_at: '2026-01-04 00:00:00.000'
+      reached_target: true
+      converted_contribution: 1
+    - opportunity_id: 3
+      anchor_at: '2026-01-02 00:00:00.000'
+      first_reached_at: '2026-01-03 00:00:00.000'
+      reached_target: true
+      converted_contribution: 1
+- name: T41_T42_T44_T58_cohort_horizon_reopened_DST_and_censoring
+  model: int_opportunity_followup
+  overrides: *id001
+  given:
+  - input: ref('int_opportunity_periods')
+    format: sql
+    fixture: cohort_periods
+  - input: ref('int_opportunity_stage_visits')
+    format: sql
+    fixture: cohort_visits
+  - input: ref('dim_followup_definition')
+    format: sql
+    fixture: cohort_definitions
+  - input: ref('int_opportunity_events')
+    rows: []
+  expect:
+    rows:
+    - opportunity_id: 1
+      horizon_days: 30
+      issue_at_horizon: open
+      is_cohort_mature: true
+      denominator_contribution: 1
+      horizon_at: '2026-08-31 10:00:00.000'
+    - opportunity_id: 1
+      horizon_days: 60
+      issue_at_horizon: null
+      is_cohort_mature: false
+      denominator_contribution: null
+      horizon_at: '2026-09-30 10:00:00.000'
+    - opportunity_id: 2
+      horizon_days: 30
+      issue_at_horizon: won
+      is_cohort_mature: true
+      denominator_contribution: 1
+      horizon_at: '2026-09-30 10:00:00.000'
+    - opportunity_id: 2
+      horizon_days: 60
+      issue_at_horizon: null
+      is_cohort_mature: false
+      denominator_contribution: null
+      horizon_at: '2026-10-30 11:00:00.000'
+    - opportunity_id: 3
+      horizon_days: 30
+      issue_at_horizon: open
+      is_cohort_mature: true
+      denominator_contribution: 1
+      horizon_at: '2026-03-31 10:00:00.000'
+    - opportunity_id: 3
+      horizon_days: 60
+      issue_at_horizon: open
+      is_cohort_mature: true
+      denominator_contribution: 1
+      horizon_at: '2026-04-30 10:00:00.000'
+    - opportunity_id: 4
+      horizon_days: 30
+      issue_at_horizon: unknown
+      is_cohort_mature: true
+      denominator_contribution: 1
+      horizon_at: '2026-07-31 10:00:00.000'
+    - opportunity_id: 4
+      horizon_days: 60
+      issue_at_horizon: won
+      is_cohort_mature: true
+      denominator_contribution: 1
+      horizon_at: '2026-08-30 10:00:00.000'
+- name: T61_transfer_preserves_visit_and_entry_team
+  model: fct_stage_visit
+  overrides: *id001
+  given:
+  - input: ref('int_opportunity_stage_visits')
+    format: sql
+    fixture: transfer_visit
+  - input: ref('int_opportunity_periods')
+    format: sql
+    fixture: transfer_periods
+  - input: ref('dim_stage')
+    rows: []
+  - input: ref('dim_company')
+    rows: []
+  - input: ref('dim_sale_type')
+    rows: []
+  - input: ref('dim_channel')
+    rows: []
+  - input: ref('dim_employee')
+    rows: []
+  - input: ref('dim_team')
+    rows: []
+  - input: ref('dim_date')
+    rows: []
+  expect:
+    rows:
+    - visit_key: v1
+      entry_team_key: LA
+      entry_employee_key: employeeA
+      completed_duration_seconds: 172800.0
+      is_team_filter_available: true
+- name: T10_outside_calendar_nullable_role_key
+  model: fct_subscription_month_end
+  overrides: *id001
+  given:
+  - input: ref('int_subscription_month_end')
+    format: sql
+    fixture: calendar_month_edge
+  - input: ref('dim_date')
+    format: sql
+    fixture: calendar_day_edge
+  expect:
+    rows:
+    - month_date: '2026-08-01'
+      month_date_key: null
+- name: T16_multiple_memberships_remain_unattributed
+  model: int_team_membership_periods
+  overrides: *id001
+  given:
+  - input: ref('stg_boond_businessunits')
+    format: sql
+    fixture: multi_bu
+  - input: ref('dim_employee')
+    format: sql
+    fixture: multi_employees
+  - input: ref('dim_team')
+    format: sql
+    fixture: multi_teams
+  expect:
+    rows:
+    - employee_id: 1
+      team_id: 12
+      nb_simultaneous_memberships: 2
+      membership_status: multiple
+      is_sales_attribution_eligible: false
+    - employee_id: 1
+      team_id: 13
+      nb_simultaneous_memberships: 2
+      membership_status: multiple
+      is_sales_attribution_eligible: false

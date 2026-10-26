@@ -1,0 +1,16 @@
+[0m22:57:05  Running with dbt=1.11.12
+[0m22:57:05  Registered adapter: clickhouse=1.10.1
+[0m22:57:06  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m22:57:11  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:57:11  
+[0m22:57:11  Concurrency: 1 threads (target='dev')
+[0m22:57:11  
+[0m22:57:11  1 of 1 START test case_grain_int_subscription_month_end_record_version_key__True  [RUN]
+[0m22:57:12  1 of 1 PASS case_grain_int_subscription_month_end_record_version_key__True ..... [[32mPASS[0m in 0.86s]
+[0m22:57:12  
+[0m22:57:12  Finished running 1 test in 0 hours 0 minutes and 0.87 seconds (0.87s).
+[0m22:57:12  
+[0m22:57:12  [32mCompleted successfully[0m
+[0m22:57:12  
+[0m22:57:12  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

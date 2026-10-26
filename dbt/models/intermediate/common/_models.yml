@@ -1,0 +1,232 @@
+version: 2
+models:
+- name: int_crm_identity_links
+  description: '**Grain métier :** Lien direct entre deux identités source × intervalle observé. **Grain physique
+    :** (model_run_id,record_key) ; record_key=link_key. Rafraîchissement manuel à la demande. Histoire et révisions
+    conservées ; publication contrôlée.'
+  config:
+    tags: &id001
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: link_key
+    data_type: String
+    description: H(tenant_id,source_system,source_object,source_id,target_system,target_object,target_id,valid_from_at).
+  - name: tenant_id
+    data_type: String
+    description: Tenant Boond ; HubSpot associé par var source_tenant_id=demo_crm pour ce jeu mono-tenant seulement.
+  - name: source_system
+    data_type: String
+    description: boond ou hubspot.
+  - name: source_object
+    data_type: String
+    description: opportunity / action / contact / project / deal.
+  - name: source_id
+    data_type: String
+    description: ID exact converti String pour l’union des systèmes.
+  - name: target_system
+    data_type: String
+    description: boond ou hubspot.
+  - name: target_object
+    data_type: String
+    description: Type exact de cible documentée.
+  - name: target_id
+    data_type: Nullable(String)
+    description: ID exact ; NULL si ID source invalide ou absent.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Publication CDC ou observation de capture HubSpot incluse.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Version source suivante exclue.
+  - name: link_method
+    data_type: String
+    description: direct_relationship / boond_id_property / unresolved_contact_candidate.
+  - name: link_status
+    data_type: String
+    description: verified_reference / orphan / invalid_id / ambiguous / missing.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Suppression/archivage technique de l’objet source dans cette version.
+  - name: target_exists_at_reference
+    data_type: Nullable(Bool)
+    description: Vrai/faux après contrôle à la date de référence ; NULL si couverture cible absente.
+  - name: calculation_status
+    data_type: String
+    description: ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Cause précise stable ; NULL si aucune dépendance manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id001
+- name: int_team_membership_periods
+  description: '**Grain métier :** Collaborateur × businessunit × tranche de présence et de version dimensionnelle.
+    **Grain physique :** (model_run_id,record_key) ; record_key=membership_period_key. Rafraîchissement manuel à
+    la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id002
+    - common
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Empreinte SHA256 commune de la recomposition : manifeste des entrées figées, code, référentiels
+      et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Identité String H(tuple du grain décrit, domaine/version explicite), sans model_run_id ; égale
+      la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date), jamais date_key
+      UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: H(model_run_id,record_key) ; unicité physique de la révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et types préservés) ; exclut les
+      métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant de calcul du lot ; fixe pour un même model_run_id, jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte immuable du code et des règles appliquées ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Date limite de connaissance de la recomposition ; les entrées exactes sont figées par le manifeste,
+      pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Maximum de publication CDC des versions contribuant à la ligne ; NULL pour un référentiel exclusivement
+      généré. Les entrées de règles non fournies proviennent du futur dbt/config/case_rules.yml fusionné dans vars,
+      sans seed ou source implicite. Ce maximum ne remplace aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Clés des versions sources contributrices, triées et sans répétition ; union des lignages amont.
+      Liste vide pour une ligne exclusivement générée.
+  - name: membership_period_key
+    data_type: String
+    description: H(tenant_id,employee_id,team_id,valid_from_at).
+  - name: tenant_id
+    data_type: String
+    description: src_tenant_id.
+  - name: employee_id
+    data_type: Int64
+    description: id de chaque élément src_included_managers_json.
+  - name: employee_key
+    data_type: String
+    description: Identité dim_employee.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Version employé sur toute la tranche, NULL si orphelin.
+  - name: team_id
+    data_type: Int64
+    description: src_id de businessunit.
+  - name: team_key
+    data_type: String
+    description: Identité dim_team.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Version dim_team sur toute la tranche.
+  - name: sales_segment
+    data_type: Nullable(String)
+    description: Segment du mapping équipe, s’il existe.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Maximum des bornes de présence et de versions employé/équipe.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Minimum des fins correspondantes ; fin exclue.
+  - name: nb_simultaneous_memberships
+    data_type: UInt16
+    description: Nombre d’équipes observées pour cet employé sur la tranche atomique.
+  - name: membership_status
+    data_type: String
+    description: unique / multiple / orphan_employee / unmapped_sales_segment.
+  - name: is_sales_attribution_eligible
+    data_type: Bool
+    description: Une seule appartenance admissible, dimensions connues et segment mappé.
+  - name: calculation_status
+    data_type: String
+    description: ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Cause précise stable ; NULL si aucune dépendance manquante.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id002
+- name: int_publication
+  description: int_publication Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication
+    contrôlée.
+  config:
+    tags: &id003
+    - publication
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: Run candidat validé ; empreinte immuable correspondant aux entrées, règles et paramètres, pas identifiant
+      aléatoire d'une tentative.
+  - name: publication_key
+    data_type: String
+    description: SHA256 de run et published_at ; identifie la bascule.
+  - name: published_at
+    data_type: DateTime64(3,'UTC')
+    description: Var publication_at figée après tests ; pas une date métier.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Cutoff d'import du run, distinct de couverture métier.
+  - name: rule_version
+    data_type: String
+    description: Empreinte code/règles du run accepté.
+  - name: quality_json
+    data_type: String
+    description: Tableau JSON validé, une entrée par measure_id du registre ci-dessous, y compris familles sans
+      aucune ligne de détail.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: publication_key
+        run_scoped: false
+      config:
+        tags: *id003

@@ -1,0 +1,2 @@
+# Linux entrypoint scripts must survive a Windows clone without CRLF conversion.
+docker/superset/*.sh text eol=lf

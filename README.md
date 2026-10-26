@@ -1,4 +1,16 @@
+> **Rendu du candidat - commencer ici : [START_HERE.pdf](orest_case_output/START_HERE.pdf)**
+>
+> Présentation, guide de lecture et synthèse des quatre étapes. [Accès aux dashboards](orest_case_output/PREPARATION_RECRUTEUR.pdf) · [Questions métier](orest_case_output/raw_intent/QUESTIONS_METIERS_ET_CRITIQUES.pdf) · [Vérification du dossier](orest_case_output/VERIFICATION_ENVOI.txt).
+>
+> Des contrôles ont été exécutés pendant l’implémentation ; la recette finale complète n’a pas été menée. Les limites sont détaillées dans le rendu. L’énoncé original est conservé ci-dessous.
+
+---
+
 # Cas pratique : Senior Analytics Engineer
+
+> **Environnement ajouté pour le rendu :** [installer et utiliser Superset en local](docs/superset.md).
+> Démarrage Windows depuis cette racine : `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-superset.ps1`.
+> L’installation configure la connexion ClickHouse ; les modèles et dashboards métier restent à construire.
 
 Bienvenue et merci de prendre le temps de te pencher sur ce cas pratique. On sait que ça représente un vrai investissement de ta part et on a hâte de voir ce que tu en feras.
 

@@ -1,0 +1,23 @@
+[0m22:27:12  Running with dbt=1.11.12
+[0m22:27:12  Registered adapter: clickhouse=1.10.1
+[0m22:27:12  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m22:27:13  Found 1 model, 545 macros
+[0m22:27:13  
+[0m22:27:13  Concurrency: 1 threads (target='dev')
+[0m22:27:13  
+[0m22:27:15  1 of 1 START sql table model `dwh_common_validation_fault_cd7dd7146eaf`.`int_publication`  [RUN]
+[0m22:27:15  1 of 1 ERROR creating sql table model `dwh_common_validation_fault_cd7dd7146eaf`.`int_publication`  [[31mERROR[0m in 0.59s]
+[0m22:27:15  
+[0m22:27:15  Finished running 1 table model in 0 hours 0 minutes and 1.72 seconds (1.72s).
+[0m22:27:15  
+[0m22:27:15  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m22:27:15  
+[0m22:27:15  [31mFailure in model int_publication (models\int_publication.sql)[0m
+[0m22:27:15    Database Error in model int_publication (models\int_publication.sql)
+  Received ClickHouse exception, code: 395, server response: Code: 395. DB::Exception: injected_after_exchange: while executing 'FUNCTION throwIf(1_UInt8 :: 1, 'injected_after_exchange'_String :: 2) -> throwIf(1_UInt8, 'injected_after_exchange'_String) UInt8 : 3'. (FUNCTION_THROW_IF_VALUE_IS_NON_ZERO) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+  compiled code at target\run\publication_validation\models\int_publication.sql
+[0m22:27:15  
+[0m22:27:15    compiled code at target\compiled\publication_validation\models\int_publication.sql
+[0m22:27:15  
+[0m22:27:15  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 NO-OP=0 TOTAL=1
+

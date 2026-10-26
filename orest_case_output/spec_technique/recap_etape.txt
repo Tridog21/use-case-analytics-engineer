@@ -1,0 +1,31 @@
+3. Spécification technique - rendre l’exécution vérifiable
+
+
+Point de départ
+
+Traduire le clean intent en contrats de modèles, règles de calcul, stratégie d’historisation et critères d’acceptation utilisables par un agent d’implémentation.
+
+
+Travail réalisé
+
+L’IA a confronté l’architecture aux données en lecture seule, détaillé les modèles et proposé les arbitrages. Le candidat a répondu aux premières questions puis lui a confié les choix restants, consignés comme hypothèses de case. La version v0.2 et le prompt d’implémentation formalisent le périmètre retenu.
+
+
+Décisions et clarifications
+
+Quinze sources et 179 colonnes sont à conserver. Les conventions couvrent calendrier Europe/Paris, cohortes matures, médiane/P90, retours d’étape, corrections et révisions. Les registres CDC conservent les suppressions et prévoient déduplication, reprise et réconciliation. Les montants sans unité prouvée et les démos sans preuve restent indisponibles, avec motif.
+
+
+Valeur pour le case
+
+L’exécution dispose de grains, clés, types, règles et contrôles explicites. Les incertitudes sont localisées au lieu d’être comblées silencieusement. La publication des datasets dépend de contrôles définis à l’avance.
+
+
+Livrables à ouvrir
+
+00_conventions.md ; 01_specification_technique.md ; 02_catalogue_modeles.md ; 03_execution_tests.md ; prompt_implementation.md.
+
+
+Limite de cette étape
+
+Les tests décrits sont des critères à exécuter, pas une preuve de réussite. Les contrôles exploratoires réalisés ici doivent être distingués des résultats de l’implémentation.

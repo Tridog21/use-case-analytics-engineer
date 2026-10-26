@@ -1,0 +1,1429 @@
+version: 2
+models:
+- name: fct_opportunity_period
+  description: '**Grain métier :** Opportunité × intervalle de contexte stable. **Clé :** period_key ; record_key=H(tuple
+    du grain), identique à la clé hashée amont. **Grain de révision :** (model_run_id,record_key). Rafraîchissement
+    manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id001
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_opportunity_periods.model_run_id ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste
+      des entrées figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_opportunity_periods.record_key ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version explicite),
+      sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date),
+      jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_opportunity_periods.record_version_key ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la
+      révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_opportunity_periods.row_hash ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche,
+      NULL et types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_opportunity_periods.calculated_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id,
+      jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_opportunity_periods.rule_version ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées ; dérivée
+      du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_opportunity_periods.input_cutoff_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ; les entrées
+      exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_opportunity_periods.source_published_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant
+      à la ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent
+      du futur dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace
+      aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_opportunity_periods.source_version_keys ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et
+      sans répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_opportunity_periods.tenant_id ; Identité du tenant src_tenant_id.
+  - name: opportunity_id
+    data_type: Int64
+    description: Projection explicite de int_opportunity_periods.opportunity_id ; src_id du besoin Boond.
+  - name: opportunity_key
+    data_type: String
+    description: Projection explicite de int_opportunity_periods.opportunity_key ; H(tenant_id,opportunity_id),
+      identité stable intermodèles.
+  - name: period_key
+    data_type: String
+    description: Projection explicite de int_opportunity_periods.period_key ; H(opportunity_key,valid_from_at).
+  - name: visit_key
+    data_type: String
+    description: Projection explicite de int_opportunity_periods.visit_key ; Passage courant.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_opportunity_periods.valid_from_at ; Borne CDC/contexte incluse.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_periods.valid_to_at ; Borne suivante exclue.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Projection explicite de int_opportunity_periods.is_source_deleted ; src_is_deleted, sélection des
+      versions avant exclusion.
+  - name: created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_periods.created_at ; src_created_at ; pas antidatation
+      de l’état.
+  - name: cohort_month
+    data_type: Nullable(Date)
+    description: Projection explicite de int_opportunity_periods.cohort_month ; Mois de création Paris.
+  - name: stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_periods.stage_id ; État source.
+  - name: stage_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.stage_key ; Identité étape.
+  - name: stage_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.stage_version_key ; Version dim_stage valable sur
+      toute tranche.
+  - name: outcome_category
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.outcome_category ; Classe analytique, NULL si code
+      non mappé.
+  - name: is_open
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_periods.is_open ; Classe open ; suppression et inconnu
+      distincts.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_periods.company_id ; Société Boond au moment de référence.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.company_key ; H(tenant_id,company_id) si société
+      connue.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.company_version_key ; Version dim_company à la
+      date de référence ; jointure sur même run.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_periods.sale_type_id ; Type commercial de la version du
+      besoin.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.sale_type_key ; Identité stable du code type.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.sale_type_version_key ; Version dim_sale_type au
+      moment de référence.
+  - name: employee_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_periods.employee_id ; Responsable principal Boond à la
+      date pertinente.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.employee_key ; Identité stable du responsable.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.employee_version_key ; Version de dim_employee
+      à la date pertinente.
+  - name: team_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_periods.team_id ; Équipe businessunit seulement si attribution
+      univoque.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.team_key ; Identité stable d’équipe ; NULL si ambiguë
+      ou inconnue.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.team_version_key ; Version dim_team pertinente
+      à la date.
+  - name: sales_segment
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.sales_segment ; SMB / LA / ES si mapping fourni
+      ; NULL sinon.
+  - name: is_team_calculable
+    data_type: Bool
+    description: Projection explicite de int_opportunity_periods.is_team_calculable ; Vrai si une seule équipe est
+      historiquement résolue ; KAM reste connue même sans segment de cible D23.
+  - name: acquisition_channel_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.acquisition_channel_key ; Canal officiel fixé à
+      création ; NULL avant règle QM-02.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.channel_version_key ; Version de dim_channel applicable
+      à l’acquisition.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.channel_candidate_code ; Code origine Boond à création,
+      converti String ; candidat descriptif seulement.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: Projection explicite de int_opportunity_periods.is_channel_calculable ; Vrai seulement si règle
+      canal et mapping appliqués sans ambiguïté.
+  - name: attribution_status
+    data_type: String
+    description: Projection explicite de int_opportunity_periods.attribution_status ; resolved / missing_team_mapping
+      / multiple_teams / missing_channel_rule ; détails conservés.
+  - name: pipeline_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_opportunity_periods.pipeline_amount ; src_estimated_amount_excluding_tax
+      converti chaîne→Decimal(38,4), sans mensualisation.
+  - name: amount_basis
+    data_type: String
+    description: Projection explicite de int_opportunity_periods.amount_basis ; crm_estimated_unconfirmed tant que
+      nature inconnue.
+  - name: currency_code
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.currency_code ; EUR par hypothèse explicite du
+      case D20 ; cette devise ne prouve ni mensualité ni engagement du montant commercial.
+  - name: source_weighting_percent
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_periods.source_weighting_percent ; src_weighting_percent
+      descriptif.
+  - name: source_weighted_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_opportunity_periods.source_weighted_amount ; src_weighted_amount_excluding_tax
+      descriptif.
+  - name: signature_probability
+    data_type: Nullable(Decimal(18,8))
+    description: Projection explicite de int_opportunity_periods.signature_probability ; Coefficient de ref.stage_probabilities
+      choisi selon D21 ; NULL seulement si état/segment non couvert, pas de fallback Boond.
+  - name: probability_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.probability_version_key ; Version ref si utilisée.
+  - name: weighted_pipeline_amount
+    data_type: Nullable(Decimal(38,4))
+    description: 'Projection explicite de int_opportunity_periods.weighted_pipeline_amount ; Produit intermédiaire
+      Decimal(38,12) à proba Decimal(18,8), contrôle dépassement et égalité exacte au cast retour depuis Decimal(38,4).
+      Aucune perte d’échelle admise : sinon résultat NULL, insufficient_decimal_scale et publication de cette mesure
+      bloquée jusqu’à migration de précision. Aucun arrondi intermédiaire ni double pondération.'
+  - name: expected_close_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_periods.expected_close_at ; src_closing_at saisi, pas signature
+      réelle.
+  - name: stage_entered_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_periods.stage_entered_at ; entered_at passage, NULL si
+      censuré.
+  - name: stage_first_observed_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_opportunity_periods.stage_first_observed_at ; Présence observée dans
+      passage.
+  - name: stagnation_threshold_days
+    data_type: Nullable(Float64)
+    description: Projection explicite de int_opportunity_periods.stagnation_threshold_days ; 21jours continus par
+      défaut, dépassement strict>, paramétrable par étape/type D26 ; NULL uniquement si alerte explicitement désactivée.
+  - name: stagnant_from_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_periods.stagnant_from_at ; Début passage + seuil en jours
+      continus si connus.
+  - name: is_pipeline_eligible
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_periods.is_pipeline_eligible ; true pour type4/7 et état
+      ouvert D22/D30 ; false si explicitement hors population ; NULL si type/état source inconnu.
+  - name: source_opportunity_version_key
+    data_type: String
+    description: Projection explicite de int_opportunity_periods.source_opportunity_version_key ; Version source
+      portant attributs.
+  - name: coverage_start_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_periods.coverage_start_at ; Début déclaré.
+  - name: coverage_end_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_periods.coverage_end_at ; Fin déclarée.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_periods.is_history_complete ; Complétude déclarée de la
+      fenêtre.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_opportunity_periods.calculation_status ; ready / partial / blocked
+      / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_periods.status_reason ; Cause précise stable ; NULL si
+      aucune dépendance manquante.
+  - name: created_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris created_at ; NULL si inconnue.
+  - name: period_start_date_key
+    data_type: UInt32
+    description: Date Paris valid_from_at.
+  - name: expected_closing_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris expected_close_at si dans calendrier ; date de prévision, pas signature.
+  - name: stage_entered_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris stage_entered_at, NULL censurée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id001
+- name: fct_stage_visit
+  description: '**Grain métier :** Opportunité × passage continu dans une étape. **Clé :** visit_key ; record_key=H(tuple
+    du grain), identique à la clé hashée amont. **Grain de révision :** (model_run_id,record_key). Rafraîchissement
+    manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id002
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_opportunity_stage_visits.model_run_id ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste
+      des entrées figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_opportunity_stage_visits.record_key ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version
+      explicite), sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise
+      H(calendar_date), jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_opportunity_stage_visits.record_version_key ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la
+      révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_opportunity_stage_visits.row_hash ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche,
+      NULL et types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_opportunity_stage_visits.calculated_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id,
+      jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_opportunity_stage_visits.rule_version ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées
+      ; dérivée du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_opportunity_stage_visits.input_cutoff_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ;
+      les entrées exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_opportunity_stage_visits.source_published_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant
+      à la ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent
+      du futur dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace
+      aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_opportunity_stage_visits.source_version_keys ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et
+      sans répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_opportunity_stage_visits.tenant_id ; Identité du tenant src_tenant_id.
+  - name: opportunity_id
+    data_type: Int64
+    description: Projection explicite de int_opportunity_stage_visits.opportunity_id ; src_id du besoin Boond.
+  - name: opportunity_key
+    data_type: String
+    description: Projection explicite de int_opportunity_stage_visits.opportunity_key ; H(tenant_id,opportunity_id),
+      identité stable intermodèles.
+  - name: visit_key
+    data_type: String
+    description: Projection explicite de int_opportunity_stage_visits.visit_key ; H(opportunity_key,first_observed_at,first_source_version_key).
+  - name: stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_stage_visits.stage_id ; src_state_id du groupe consécutif.
+  - name: visit_rank
+    data_type: UInt32
+    description: Projection explicite de int_opportunity_stage_visits.visit_rank ; Rang chronologique, jamais ordre
+      des codes.
+  - name: first_observed_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_opportunity_stage_visits.first_observed_at ; Première publication prouvant
+      présence dans cet état.
+  - name: last_observed_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_opportunity_stage_visits.last_observed_at ; Dernière publication du
+      même passage.
+  - name: entered_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_stage_visits.entered_at ; Entrée datée ou proxy CDC d’une
+      transition observée ; NULL premier état avancé censuré.
+  - name: exited_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_stage_visits.exited_at ; Transition suivante observée ;
+      NULL en cours/suppression sans sortie métier.
+  - name: observation_ended_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_stage_visits.observation_ended_at ; Fin technique d’observation,
+      distincte de exited_at.
+  - name: previous_stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_stage_visits.previous_stage_id ; État précédent observé
+      hors lacune.
+  - name: next_stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_stage_visits.next_stage_id ; État suivant observé hors
+      lacune.
+  - name: first_source_version_key
+    data_type: String
+    description: Projection explicite de int_opportunity_stage_visits.first_source_version_key ; Version source
+      initiale du groupe.
+  - name: last_source_version_key
+    data_type: String
+    description: Projection explicite de int_opportunity_stage_visits.last_source_version_key ; Version source finale
+      du groupe.
+  - name: event_time_basis
+    data_type: String
+    description: Projection explicite de int_opportunity_stage_visits.event_time_basis ; cdc_transition_proxy /
+      business_proven / left_censored / observation_only.
+  - name: is_left_censored
+    data_type: Bool
+    description: Projection explicite de int_opportunity_stage_visits.is_left_censored ; Début du passage non observable.
+  - name: is_right_censored
+    data_type: Bool
+    description: Projection explicite de int_opportunity_stage_visits.is_right_censored ; Sortie admissible non
+      observée.
+  - name: is_open_visit
+    data_type: Bool
+    description: Projection explicite de int_opportunity_stage_visits.is_open_visit ; Pas de transition/suppression
+      suivante ; différent d’étape commercialement ouverte.
+  - name: has_observation_gap
+    data_type: Bool
+    description: Projection explicite de int_opportunity_stage_visits.has_observation_gap ; Lacune ou suppression/réapparition
+      séparant passages.
+  - name: completed_duration_seconds
+    data_type: Nullable(Float64)
+    description: Projection explicite de int_opportunity_stage_visits.completed_duration_seconds ; Différence millisecondes
+      UTC/1000 pour passage terminé avec début admissible ; NULL sinon.
+  - name: completed_duration_days
+    data_type: Nullable(Float64)
+    description: Projection explicite de int_opportunity_stage_visits.completed_duration_days ; completed_duration_seconds/86400.
+  - name: coverage_start_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_stage_visits.coverage_start_at ; Couverture déclarée ;
+      première observation seule ne prouve pas exhaustivité.
+  - name: coverage_end_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_stage_visits.coverage_end_at ; Fin déclarée ; jamais max(updateDate)
+      futur.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_stage_visits.is_history_complete ; Couverture de fenêtre
+      vérifiée/configurée ; NULL si non établie.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_opportunity_stage_visits.calculation_status ; ready / partial / blocked
+      / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_stage_visits.status_reason ; Cause précise stable ; NULL
+      si aucune dépendance manquante.
+  - name: stage_key
+    data_type: Nullable(String)
+    description: Identité de l’étape.
+  - name: stage_version_key
+    data_type: Nullable(String)
+    description: Version dim_stage à first_observed_at ; libellé d’observation, pas état courant réappliqué.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Société au contexte d’entrée si connu, sinon première observation avec réserve explicite.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Identité société du contexte.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Version de société de ce contexte.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Type commercial du contexte.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Identité type.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Version type au contexte.
+  - name: acquisition_channel_key
+    data_type: Nullable(String)
+    description: Canal d’acquisition officiel, NULL sans règle.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Version canal.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Origine Boond candidate conservée.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: Règle canal effectivement résolue.
+  - name: entry_employee_key
+    data_type: Nullable(String)
+    description: Responsable observé à entrée admissible ; NULL si entrée non datée.
+  - name: entry_employee_version_key
+    data_type: Nullable(String)
+    description: Version responsable à entrée admissible.
+  - name: entry_team_key
+    data_type: Nullable(String)
+    description: Équipe d’entrée résolue si datée/mappée.
+  - name: entry_team_version_key
+    data_type: Nullable(String)
+    description: Version équipe à entrée.
+  - name: entry_context_time_basis
+    data_type: String
+    description: entered_at / first_observed_at_only / unknown ; les champs entry_* restent NULL si seule première
+      observation censurée.
+  - name: is_team_filter_available
+    data_type: Bool
+    description: true si équipe à entrée du passage connue D25 ; false si attribution non observable.
+  - name: entered_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris entrée, NULL censurée.
+  - name: exited_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris sortie, NULL encore en cours/non prouvée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id002
+- name: fct_opportunity_event
+  description: '**Grain métier :** Opportunité × événement distinct et rôle de contribution. **Clé :** event_key
+    ; record_key=H(tuple du grain), identique à la clé hashée amont. **Grain de révision :** (model_run_id,record_key).
+    Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id003
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_opportunity_events.model_run_id ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste
+      des entrées figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_opportunity_events.record_key ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version explicite),
+      sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date),
+      jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_opportunity_events.record_version_key ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la
+      révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_opportunity_events.row_hash ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche, NULL
+      et types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_opportunity_events.calculated_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id,
+      jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_opportunity_events.rule_version ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées ; dérivée
+      du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_opportunity_events.input_cutoff_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ; les entrées
+      exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_opportunity_events.source_published_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant
+      à la ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent
+      du futur dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace
+      aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_opportunity_events.source_version_keys ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et
+      sans répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_opportunity_events.tenant_id ; Identité du tenant src_tenant_id.
+  - name: opportunity_id
+    data_type: Int64
+    description: Projection explicite de int_opportunity_events.opportunity_id ; src_id du besoin Boond.
+  - name: opportunity_key
+    data_type: String
+    description: Projection explicite de int_opportunity_events.opportunity_key ; H(tenant_id,opportunity_id), identité
+      stable intermodèles.
+  - name: event_key
+    data_type: String
+    description: Projection explicite de int_opportunity_events.event_key ; H(opportunity_key,event_type,event_origin_key).
+  - name: event_origin_key
+    data_type: String
+    description: Projection explicite de int_opportunity_events.event_origin_key ; Clé création source ou visit_key
+      de transition.
+  - name: visit_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.visit_key ; Passage si pertinent.
+  - name: event_type
+    data_type: String
+    description: Projection explicite de int_opportunity_events.event_type ; pipeline_created / stage_entered /
+      stage_exited / signed / lost / abandoned / unqualified.
+  - name: event_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_events.event_at ; Date métier création ou transition/proxy
+      admissible ; NULL sans preuve.
+  - name: event_observed_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_opportunity_events.event_observed_at ; Publication prouvant la trace
+      ; différente de date métier.
+  - name: event_time_basis
+    data_type: String
+    description: Projection explicite de int_opportunity_events.event_time_basis ; business_created / cdc_transition_proxy
+      / unknown.
+  - name: event_date_key
+    data_type: Nullable(UInt32)
+    description: Projection explicite de int_opportunity_events.event_date_key ; Date Paris de event_at.
+  - name: from_stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_events.from_stage_id ; Étape quittée.
+  - name: to_stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_events.to_stage_id ; Étape rejointe.
+  - name: from_stage_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.from_stage_version_key ; Version étape avant transition.
+  - name: to_stage_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.to_stage_version_key ; Version étape à entrée.
+  - name: created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_events.created_at ; Création Boond.
+  - name: cohort_month
+    data_type: Nullable(Date)
+    description: Projection explicite de int_opportunity_events.cohort_month ; Mois création Paris.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_events.company_id ; Société Boond au moment de référence.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.company_key ; H(tenant_id,company_id) si société
+      connue.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.company_version_key ; Version dim_company à la date
+      de référence ; jointure sur même run.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_events.sale_type_id ; Type commercial de la version du
+      besoin.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.sale_type_key ; Identité stable du code type.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.sale_type_version_key ; Version dim_sale_type au
+      moment de référence.
+  - name: employee_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_events.employee_id ; Responsable principal Boond à la date
+      pertinente.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.employee_key ; Identité stable du responsable.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.employee_version_key ; Version de dim_employee à
+      la date pertinente.
+  - name: team_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_events.team_id ; Équipe businessunit seulement si attribution
+      univoque.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.team_key ; Identité stable d’équipe ; NULL si ambiguë
+      ou inconnue.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.team_version_key ; Version dim_team pertinente à
+      la date.
+  - name: sales_segment
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.sales_segment ; SMB / LA / ES si mapping fourni
+      ; NULL sinon.
+  - name: is_team_calculable
+    data_type: Bool
+    description: Projection explicite de int_opportunity_events.is_team_calculable ; Vrai si une seule équipe est
+      historiquement résolue ; KAM reste connue même sans segment de cible D23.
+  - name: acquisition_channel_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.acquisition_channel_key ; Canal officiel fixé à
+      création ; NULL avant règle QM-02.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.channel_version_key ; Version de dim_channel applicable
+      à l’acquisition.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.channel_candidate_code ; Code origine Boond à création,
+      converti String ; candidat descriptif seulement.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: Projection explicite de int_opportunity_events.is_channel_calculable ; Vrai seulement si règle
+      canal et mapping appliqués sans ambiguïté.
+  - name: attribution_status
+    data_type: String
+    description: Projection explicite de int_opportunity_events.attribution_status ; resolved / missing_team_mapping
+      / multiple_teams / missing_channel_rule ; détails conservés.
+  - name: is_event_time_accepted
+    data_type: Nullable(Bool)
+    description: Projection explicite int_opportunity_events.is_event_time_accepted ; Vrai pour date métier prouvée
+      OU transition CDC réellement observée admise par D15 ; NULL si événement non datable/borne inconnue. Conserver
+      cdc_transition_proxy, sans le présenter comme une date métier certifiée.
+  - name: nb_events
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_events.nb_events ; 1 si événement/population et date admissibles
+      ;0 explicitement non comptable ;NULL si date non admissible ou éligibilité inconnue. Le proxy CDC observé
+      est accepté par D15.
+  - name: generated_pipeline_amount_candidate
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_opportunity_events.generated_pipeline_amount_candidate ; Valeur à création
+      réellement observable ; NULL si première observation tardive.
+  - name: sum_generated_pipeline_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_opportunity_events.sum_generated_pipeline_amount ; Contribution commerciale
+      générée admissible ; nature/unité signalées, pas MRR.
+  - name: sum_signed_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_opportunity_events.sum_signed_mrr ; NULL sans preuve mensualité récurrente
+      signée ; supplément seul upsell.
+  - name: amount_basis
+    data_type: String
+    description: Projection explicite de int_opportunity_events.amount_basis ; crm_estimated_unconfirmed / signed_recurring_proven
+      / unknown.
+  - name: currency_code
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.currency_code ; EUR par hypothèse explicite du case
+      D20 ; cette devise ne prouve ni mensualité ni engagement du montant commercial.
+  - name: cycle_started_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_events.cycle_started_at ; Création Boond pour cycle décidé.
+  - name: completed_cycle_duration_seconds
+    data_type: Nullable(Float64)
+    description: Projection explicite de int_opportunity_events.completed_cycle_duration_seconds ; Issue admissible−création
+      si dates connues.
+  - name: counting_scope_key
+    data_type: String
+    description: Projection explicite de int_opportunity_events.counting_scope_key ; H(opportunity_key,event_type),
+      pour dossiers distincts.
+  - name: is_contribution_eligible
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_events.is_contribution_eligible ; Première signature observée
+      et population4/7 admissibles selon D18/D22 ; re-signatures connues=false avec contribution0 ; date/population
+      non observable=NULL. Proxy CDC accepté D15.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_opportunity_events.calculation_status ; ready / partial / blocked /
+      not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_events.status_reason ; Cause précise stable ; NULL si aucune
+      dépendance manquante.
+  - name: from_stage_key
+    data_type: Nullable(String)
+    description: H(tenant_id,from_stage_id) si connu.
+  - name: to_stage_key
+    data_type: Nullable(String)
+    description: H(tenant_id,to_stage_id) si connu.
+  - name: created_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris création.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id003
+- name: fct_opportunity_followup
+  description: '**Grain métier :** Dossier × définition × ancrage × horizon/observation. **Clé :** followup_key
+    ; record_key=H(tuple du grain), identique à la clé hashée amont. **Grain de révision :** (model_run_id,record_key).
+    Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id004
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_opportunity_followup.model_run_id ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste
+      des entrées figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_opportunity_followup.record_key ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version
+      explicite), sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise
+      H(calendar_date), jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_opportunity_followup.record_version_key ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la
+      révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_opportunity_followup.row_hash ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche,
+      NULL et types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_opportunity_followup.calculated_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id,
+      jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_opportunity_followup.rule_version ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées ; dérivée
+      du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_opportunity_followup.input_cutoff_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ; les entrées
+      exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_opportunity_followup.source_published_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant
+      à la ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent
+      du futur dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace
+      aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_opportunity_followup.source_version_keys ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et
+      sans répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.tenant_id ; Identité du tenant src_tenant_id.
+  - name: opportunity_id
+    data_type: Int64
+    description: Projection explicite de int_opportunity_followup.opportunity_id ; src_id du besoin Boond.
+  - name: opportunity_key
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.opportunity_key ; H(tenant_id,opportunity_id),
+      identité stable intermodèles.
+  - name: followup_key
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.followup_key ; H(opportunity_key,followup_definition_version_key,anchor_key,observation_at).
+  - name: followup_definition_id
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.followup_definition_id ; ID stable de définition.
+  - name: followup_definition_key
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.followup_definition_key ; Identité stable H(followup_definition_id).
+  - name: followup_definition_version_key
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.followup_definition_version_key ; Version exacte
+      de définition.
+  - name: followup_kind
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.followup_kind ; cohort_outcome / funnel_reach
+      / stage_transition.
+  - name: funnel_position
+    data_type: Nullable(UInt16)
+    description: Projection explicite de int_opportunity_followup.funnel_position ; Position configurée, pas code
+      numérique.
+  - name: previous_target_stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_followup.previous_target_stage_id ; Cible précédente configurée.
+  - name: created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.created_at ; Création Boond.
+  - name: cohort_month
+    data_type: Nullable(Date)
+    description: Projection explicite de int_opportunity_followup.cohort_month ; Mois Paris de création, inchangé
+      par réouverture.
+  - name: anchor_key
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.anchor_key ; Création ou passage admissible.
+  - name: anchor_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.anchor_at ; Création pour cohorte/funnel ; entrée
+      en A pour transition.
+  - name: source_stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_followup.source_stage_id ; Source transition, NULL cohorte.
+  - name: target_stage_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_followup.target_stage_id ; Cible funnel/transition, NULL
+      issuecohorte.
+  - name: target_stage_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.target_stage_key ; Identité étape cible.
+  - name: target_stage_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.target_stage_version_key ; Version cible pertinente.
+  - name: horizon_days
+    data_type: Nullable(UInt16)
+    description: Projection explicite de int_opportunity_followup.horizon_days ; 30/60/90 cohorte ; transition configurée
+      ; NULL funnel à date.
+  - name: horizon_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.horizon_at ; addDays(anchor converti Paris,H)
+      puis UTC ; même heure locale.
+  - name: observation_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.observation_at ; horizon_at cohorte/transition
+      ; cutoff funnel à date.
+  - name: cohort_mature_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.cohort_mature_at ; max(horizon_at) sur tous membres
+      connus tenant/mois/type/définition/horizon AVANT équipe/canal.
+  - name: is_mature
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_followup.is_mature ; Horizon individuel atteint.
+  - name: is_cohort_mature
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_followup.is_cohort_mature ; Cutoff>=cohort_mature_at et
+      ancrages connus.
+  - name: is_eligible
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_followup.is_eligible ; Population/ancrage admis ; NULL
+      sans règle.
+  - name: is_observable
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_followup.is_observable ; État à horizon couvert ; maturité
+      ne suffit pas.
+  - name: coverage_start_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.coverage_start_at ; Début déclaré.
+  - name: coverage_end_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.coverage_end_at ; Fin déclarée, pas maxdate future.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_followup.is_history_complete ; Complétude déclarée pour
+      fenêtre.
+  - name: first_reached_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.first_reached_at ; Premier événement cible daté
+      après ancrage ; NULL présence initiale censurée.
+  - name: first_reached_observed_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.first_reached_observed_at ; Première présence
+      cible observée ; atteint au plus tard alors, pas date exacte.
+  - name: previous_stage_first_reached_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_opportunity_followup.previous_stage_first_reached_at ; Atteinte admissible
+      source ; NULL si non prouvée.
+  - name: reached_target
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_opportunity_followup.reached_target ; Vrai si preuve cible ; faux seulement
+      fenêtre entièrement couverte sans cible ; sinon NULL.
+  - name: issue_at_horizon
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.issue_at_horizon ; open / won / lost / abandoned
+      / unqualified / unknown ; NULL immature.
+  - name: population_count_key
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.population_count_key ; H(opportunity_key,followup_definition_version_key,horizon_days).
+  - name: denominator_contribution
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_followup.denominator_contribution ; 1 membre connu éligible
+      cohorte mature ; NULL immature/ancrage inconnu.
+  - name: converted_contribution
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_followup.converted_contribution ; 1/0 si conversion calculable
+      ; NULL sinon.
+  - name: open_contribution
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_followup.open_contribution ; 1 issue open, 0 autres ; NULL
+      immature.
+  - name: won_contribution
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_followup.won_contribution ; 1 won, 0 autres ; NULL immature.
+  - name: lost_contribution
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_followup.lost_contribution ; 1 lost seulement, NULL immature.
+  - name: abandoned_contribution
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_followup.abandoned_contribution ; 1 abandoned, distinct
+      lost ; NULL immature.
+  - name: unqualified_contribution
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_followup.unqualified_contribution ; 1 unqualified, distinct
+      lost ; NULL immature.
+  - name: unknown_contribution
+    data_type: Nullable(UInt8)
+    description: Projection explicite de int_opportunity_followup.unknown_contribution ; 1 état/classe non observable
+      mature ; inconnu conservé au dénominateur.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_followup.company_id ; Société Boond au moment de référence.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.company_key ; H(tenant_id,company_id) si société
+      connue.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.company_version_key ; Version dim_company à la
+      date de référence ; jointure sur même run.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_followup.sale_type_id ; Type commercial de la version du
+      besoin.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.sale_type_key ; Identité stable du code type.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.sale_type_version_key ; Version dim_sale_type
+      au moment de référence.
+  - name: employee_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_followup.employee_id ; Responsable principal Boond à la
+      date pertinente.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.employee_key ; Identité stable du responsable.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.employee_version_key ; Version de dim_employee
+      à la date pertinente.
+  - name: team_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_opportunity_followup.team_id ; Équipe businessunit seulement si attribution
+      univoque.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.team_key ; Identité stable d’équipe ; NULL si
+      ambiguë ou inconnue.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.team_version_key ; Version dim_team pertinente
+      à la date.
+  - name: sales_segment
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.sales_segment ; SMB / LA / ES si mapping fourni
+      ; NULL sinon.
+  - name: is_team_calculable
+    data_type: Bool
+    description: Projection explicite de int_opportunity_followup.is_team_calculable ; Vrai si une seule équipe
+      est historiquement résolue ; KAM reste connue même sans segment de cible D23.
+  - name: acquisition_channel_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.acquisition_channel_key ; Canal officiel fixé
+      à création ; NULL avant règle QM-02.
+  - name: channel_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.channel_version_key ; Version de dim_channel applicable
+      à l’acquisition.
+  - name: channel_candidate_code
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.channel_candidate_code ; Code origine Boond à
+      création, converti String ; candidat descriptif seulement.
+  - name: is_channel_calculable
+    data_type: Bool
+    description: Projection explicite de int_opportunity_followup.is_channel_calculable ; Vrai seulement si règle
+      canal et mapping appliqués sans ambiguïté.
+  - name: attribution_status
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.attribution_status ; resolved / missing_team_mapping
+      / multiple_teams / missing_channel_rule ; détails conservés.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_opportunity_followup.calculation_status ; ready / partial / blocked
+      / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_opportunity_followup.status_reason ; Cause précise stable ; NULL si
+      aucune dépendance manquante.
+  - name: created_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris création.
+  - name: anchor_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris ancrage.
+  - name: observation_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris observation.
+  - name: horizon_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris horizon.
+  - name: cohort_date_key
+    data_type: Nullable(UInt32)
+    description: YYYYMMDD premierjour cohorte.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id004
+- name: fct_action
+  description: '**Grain métier :** Action × intervalle de version/contexte ; action_key est l’identité stable. **Clé
+    :** action_version_key ; record_key=H(tuple du grain), identique à la clé hashée amont. **Grain de révision
+    :** (model_run_id,record_key). Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication
+    contrôlée.'
+  config:
+    tags: &id005
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_actions_prepared.model_run_id ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste des
+      entrées figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_actions_prepared.record_key ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version explicite),
+      sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date),
+      jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_actions_prepared.record_version_key ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la révision
+      du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_actions_prepared.row_hash ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche, NULL
+      et types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_actions_prepared.calculated_at ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id,
+      jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_actions_prepared.rule_version ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées ; dérivée
+      du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_actions_prepared.input_cutoff_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ; les entrées
+      exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_actions_prepared.source_published_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant à la
+      ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent du futur
+      dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace aucune
+      date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_actions_prepared.source_version_keys ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et sans
+      répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: action_key
+    data_type: String
+    description: Projection explicite de int_actions_prepared.action_key ; H(tenant_id,action_id), identité stable.
+  - name: action_version_key
+    data_type: String
+    description: Projection explicite de int_actions_prepared.action_version_key ; H(action_key,valid_from_at),
+      grain de version.
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_actions_prepared.tenant_id ; src_tenant_id.
+  - name: action_id
+    data_type: Int64
+    description: Projection explicite de int_actions_prepared.action_id ; src_id.
+  - name: valid_from_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_actions_prepared.valid_from_at ; Publication CDC et bornes de contexte
+      incluses.
+  - name: valid_to_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_actions_prepared.valid_to_at ; Version/context suivant exclu.
+  - name: source_action_published_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_actions_prepared.source_action_published_at ; Publication CDC exacte
+      de l’action, sans max des autres objets de contexte.
+  - name: is_source_deleted
+    data_type: Bool
+    description: Projection explicite de int_actions_prepared.is_source_deleted ; src_is_deleted.
+  - name: action_type_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_actions_prepared.action_type_id ; src_type_id.
+  - name: action_type_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.action_type_key ; Identité type.
+  - name: action_type_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.action_type_version_key ; Version dim_action_type.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_actions_prepared.company_id ; src_company_id ; pas complétion ambiguë.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.company_key ; Identité société.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.company_version_key ; Version société à date.
+  - name: contact_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_actions_prepared.contact_id ; dependsOn.id si type=contact.
+  - name: opportunity_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_actions_prepared.opportunity_id ; dependsOn.id si type=opportunity
+      ; NULL si seul contact.
+  - name: opportunity_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.opportunity_key ; Besoin seulement si lien direct
+      établi.
+  - name: depends_on_type
+    data_type: String
+    description: Projection explicite de int_actions_prepared.depends_on_type ; src_depends_on_type.
+  - name: depends_on_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_actions_prepared.depends_on_id ; src_depends_on_id, lu avec type.
+  - name: employee_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_actions_prepared.employee_id ; src_main_manager_id.
+  - name: employee_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.employee_key ; Identité responsable.
+  - name: employee_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.employee_version_key ; Version responsable.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.team_key ; Équipe si règle action et mapping explicites
+      ; NULL sinon.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.team_version_key ; Version équipe.
+  - name: is_team_calculable
+    data_type: Bool
+    description: Projection explicite de int_actions_prepared.is_team_calculable ; Attribution action résolue et
+      univoque.
+  - name: created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_actions_prepared.created_at ; src_created_at.
+  - name: scheduled_start_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_actions_prepared.scheduled_start_at ; src_started_at, agenda uniquement.
+  - name: scheduled_end_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_actions_prepared.scheduled_end_at ; src_ended_at, agenda uniquement.
+  - name: actual_event_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite de int_actions_prepared.actual_event_at ; NULL sans preuve structurée de tenue.
+  - name: realization_status
+    data_type: String
+    description: Projection explicite de int_actions_prepared.realization_status ; unknown sans preuve ; held/planned/cancelled/no_show
+      seulement si prouvé.
+  - name: is_demo_request
+    data_type: Bool
+    description: Projection explicite de int_actions_prepared.is_demo_request ; Type25 selon mapping, sans compter
+      les versions.
+  - name: is_demo_type
+    data_type: Bool
+    description: Projection explicite de int_actions_prepared.is_demo_type ; Type60/68 selon mapping documentaire.
+  - name: is_realized_demo
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_actions_prepared.is_realized_demo ; NULL sans preuve de tenue ; type
+      passé ne suffit pas.
+  - name: demo_session_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.demo_session_key ; Séance réelle dédupliquée, NULL
+      sans règle/proof.
+  - name: counting_date
+    data_type: Nullable(Date)
+    description: Projection explicite de int_actions_prepared.counting_date ; Date Paris tenue réelle, NULL sans
+      preuve.
+  - name: link_status
+    data_type: String
+    description: Projection explicite de int_actions_prepared.link_status ; direct_opportunity / contact_only /
+      missing / ambiguous.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_actions_prepared.calculation_status ; ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_actions_prepared.status_reason ; Cause précise stable ; NULL si aucune
+      dépendance manquante.
+  - name: created_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris création action.
+  - name: scheduled_start_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris agenda.
+  - name: actual_event_date_key
+    data_type: Nullable(UInt32)
+    description: Date Paris tenue prouvée, NULL sans preuve.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id005
+- name: fct_demo_interval
+  description: '**Grain métier :** Parcours de démo prouvé × intervalle entre événements. **Clé :** demo_interval_key
+    ; record_key=H(tuple du grain), identique à la clé hashée amont. **Grain de révision :** (model_run_id,record_key).
+    Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id006
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_demo_intervals.model_run_id ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste des
+      entrées figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_demo_intervals.record_key ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version explicite),
+      sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date),
+      jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_demo_intervals.record_version_key ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la révision
+      du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_demo_intervals.row_hash ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche, NULL
+      et types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_demo_intervals.calculated_at ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id,
+      jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_demo_intervals.rule_version ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées ; dérivée du
+      manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_demo_intervals.input_cutoff_at ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ; les entrées
+      exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_demo_intervals.source_published_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant à la
+      ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent du futur
+      dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace aucune
+      date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_demo_intervals.source_version_keys ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et sans
+      répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: demo_interval_key
+    data_type: String
+    description: Projection explicite de int_demo_intervals.demo_interval_key ; H(demo_journey_key,start_action_key,end_action_key,interval_kind).
+  - name: demo_journey_key
+    data_type: String
+    description: Projection explicite de int_demo_intervals.demo_journey_key ; Parcours explicitement relié ; pas
+      génération par contact seul.
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_demo_intervals.tenant_id ; Tenant commun des deux actions.
+  - name: start_action_key
+    data_type: String
+    description: Projection explicite de int_demo_intervals.start_action_key ; Action début.
+  - name: end_action_key
+    data_type: String
+    description: Projection explicite de int_demo_intervals.end_action_key ; Action fin.
+  - name: start_action_id
+    data_type: Int64
+    description: Projection explicite de int_demo_intervals.start_action_id ; ID source début.
+  - name: end_action_id
+    data_type: Int64
+    description: Projection explicite de int_demo_intervals.end_action_id ; ID source fin.
+  - name: opportunity_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_demo_intervals.opportunity_id ; Besoin commun prouvé.
+  - name: opportunity_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_demo_intervals.opportunity_key ; Besoin prouvé seulement.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_demo_intervals.company_key ; Société cohérente des deux actions.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_demo_intervals.company_version_key ; Version société à ancrage.
+  - name: sale_type_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_demo_intervals.sale_type_id ; Type du besoin prouvé.
+  - name: sale_type_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_demo_intervals.sale_type_key ; Identité type.
+  - name: sale_type_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_demo_intervals.sale_type_version_key ; Version type.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_demo_intervals.team_key ; NULL avant convention d’attribution délai.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_demo_intervals.team_version_key ; Version équipe si règle ultérieure.
+  - name: interval_kind
+    data_type: String
+    description: Projection explicite de int_demo_intervals.interval_kind ; request_to_first_demo / first_to_additional.
+  - name: from_demo_step
+    data_type: String
+    description: Projection explicite de int_demo_intervals.from_demo_step ; Sous-étape début.
+  - name: to_demo_step
+    data_type: String
+    description: Projection explicite de int_demo_intervals.to_demo_step ; Sous-étape fin.
+  - name: started_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_demo_intervals.started_at ; Événement début prouvé.
+  - name: ended_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_demo_intervals.ended_at ; Événement fin prouvé, >=début.
+  - name: elapsed_duration_seconds
+    data_type: Float64
+    description: Projection explicite de int_demo_intervals.elapsed_duration_seconds ; Écart millisecondes UTC/1000.
+  - name: elapsed_duration_days
+    data_type: Float64
+    description: Projection explicite de int_demo_intervals.elapsed_duration_days ; Secondes/86400.
+  - name: time_basis
+    data_type: String
+    description: Projection explicite de int_demo_intervals.time_basis ; Nature précise événements ; pas durée agenda.
+  - name: link_status
+    data_type: String
+    description: Projection explicite de int_demo_intervals.link_status ; proven pour lignes construites.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_demo_intervals.calculation_status ; ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_demo_intervals.status_reason ; Cause précise stable ; NULL si aucune
+      dépendance manquante.
+  - name: started_date_key
+    data_type: UInt32
+    description: Date Paris started_at.
+  - name: ended_date_key
+    data_type: UInt32
+    description: Date Paris ended_at.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id006

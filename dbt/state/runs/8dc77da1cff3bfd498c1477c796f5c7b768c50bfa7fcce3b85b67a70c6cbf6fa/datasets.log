@@ -1,0 +1,35 @@
+[0m22:52:41  Running with dbt=1.11.12
+[0m22:52:41  Registered adapter: clickhouse=1.10.1
+[0m22:52:42  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:52:42  
+[0m22:52:42  Concurrency: 1 threads (target='dev')
+[0m22:52:42  
+[0m22:52:44  1 of 11 START sql view model `dtr_sales`.`dataset_cohort_outcomes` ............. [RUN]
+[0m22:52:44  1 of 11 OK created sql view model `dtr_sales`.`dataset_cohort_outcomes` ........ [[32mOK[0m in 0.40s]
+[0m22:52:44  2 of 11 START sql view model `dtr_sales`.`dataset_company_mrr_month` ........... [RUN]
+[0m22:52:44  2 of 11 OK created sql view model `dtr_sales`.`dataset_company_mrr_month` ...... [[32mOK[0m in 0.11s]
+[0m22:52:44  3 of 11 START sql view model `dtr_sales`.`dataset_demo_intervals` .............. [RUN]
+[0m22:52:44  3 of 11 OK created sql view model `dtr_sales`.`dataset_demo_intervals` ......... [[32mOK[0m in 0.11s]
+[0m22:52:44  4 of 11 START sql view model `dtr_sales`.`dataset_funnel_progress` ............. [RUN]
+[0m22:52:45  4 of 11 OK created sql view model `dtr_sales`.`dataset_funnel_progress` ........ [[32mOK[0m in 0.12s]
+[0m22:52:45  5 of 11 START sql view model `dtr_sales`.`dataset_opportunity_timeline` ........ [RUN]
+[0m22:52:45  5 of 11 OK created sql view model `dtr_sales`.`dataset_opportunity_timeline` ... [[32mOK[0m in 0.10s]
+[0m22:52:45  6 of 11 START sql view model `dtr_sales`.`dataset_pipeline_periods` ............ [RUN]
+[0m22:52:45  6 of 11 OK created sql view model `dtr_sales`.`dataset_pipeline_periods` ....... [[32mOK[0m in 0.11s]
+[0m22:52:45  7 of 11 START sql view model `dtr_sales`.`dataset_publication_status` .......... [RUN]
+[0m22:52:45  7 of 11 OK created sql view model `dtr_sales`.`dataset_publication_status` ..... [[32mOK[0m in 0.11s]
+[0m22:52:45  8 of 11 START sql view model `dtr_sales`.`dataset_sales_actions` ............... [RUN]
+[0m22:52:45  8 of 11 OK created sql view model `dtr_sales`.`dataset_sales_actions` .......... [[32mOK[0m in 0.12s]
+[0m22:52:45  9 of 11 START sql view model `dtr_sales`.`dataset_sales_events` ................ [RUN]
+[0m22:52:45  9 of 11 OK created sql view model `dtr_sales`.`dataset_sales_events` ........... [[32mOK[0m in 0.11s]
+[0m22:52:45  10 of 11 START sql view model `dtr_sales`.`dataset_sales_objectives_month` ..... [RUN]
+[0m22:52:45  10 of 11 OK created sql view model `dtr_sales`.`dataset_sales_objectives_month`  [[32mOK[0m in 0.11s]
+[0m22:52:45  11 of 11 START sql view model `dtr_sales`.`dataset_stage_visits` ............... [RUN]
+[0m22:52:45  11 of 11 OK created sql view model `dtr_sales`.`dataset_stage_visits` .......... [[32mOK[0m in 0.11s]
+[0m22:52:45  
+[0m22:52:45  Finished running 11 view models in 0 hours 0 minutes and 3.30 seconds (3.30s).
+[0m22:52:46  
+[0m22:52:46  [32mCompleted successfully[0m
+[0m22:52:46  
+[0m22:52:46  Done. PASS=11 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=11
+

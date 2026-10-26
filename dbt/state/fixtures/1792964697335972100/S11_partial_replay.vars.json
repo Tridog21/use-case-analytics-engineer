@@ -1,0 +1,9 @@
+{
+  "validation_schema_suffix": "_validation_1792964697335972100_partial",
+  "boond_source_schema": "stg_validation_1792964697335972100",
+  "capture_key": "cdc4",
+  "capture_at": "2026-10-25T21:45:41.836Z",
+  "cdc_full_scan": false,
+  "cdc_overlap_hours": 1,
+  "cdc_replay_from_at": "2026-09-01T00:00:00.000Z"
+}

@@ -1,0 +1,96 @@
+{
+  "model_run_id": "fa3e72af7595013f7818335b0d39aa98210918371d872fdd20078ab2eaf410fa",
+  "status": "failed",
+  "start": "2026-10-25T21:56:31.830Z",
+  "phase": "full",
+  "commands": [
+    {
+      "command": [
+        "parse",
+        "--no-partial-parse"
+      ],
+      "start": "2026-10-25T21:56:31.834Z",
+      "end": "2026-10-25T21:56:41.687Z",
+      "exit_code": 0,
+      "elapsed_seconds": 9.860000000000582
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "tag:capture",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T21:56:41.692Z",
+      "end": "2026-10-25T21:56:52.404Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.718000000000757
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "tag:common",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:56:52.417Z",
+      "end": "2026-10-25T21:57:06.021Z",
+      "exit_code": 0,
+      "elapsed_seconds": 13.594000000004598
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "int_opportunity_followup fct_opportunity_followup",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:57:45.170Z",
+      "end": "2026-10-25T21:58:00.274Z",
+      "exit_code": 0,
+      "elapsed_seconds": 15.109000000004016,
+      "recovered_memory_attempts": 1
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "dtr_opportunity_timeline dtr_sales_actions",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:58:32.271Z",
+      "end": "2026-10-25T21:58:44.139Z",
+      "exit_code": 0,
+      "elapsed_seconds": 11.875,
+      "recovered_memory_attempts": 1
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "test_type:unit",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:02:29.909Z",
+      "end": "2026-10-25T22:03:52.070Z",
+      "exit_code": 0,
+      "elapsed_seconds": 82.17199999999866
+    }
+  ],
+  "fixture_code_hash": "e056d4233a4981c090f1b55b0181b380a29f63e6f7197fc1e51ac8413a297940",
+  "end": "2026-10-25T22:05:22.792Z",
+  "error": "\u001b[0m in 0.47s]\n\u001b[0m22:04:20  237 of 245 START unit_test fct_stage_visit::T61_transfer_preserves_visit_and_entry_team  [RUN]\n\u001b[0m22:04:20  237 of 245 PASS fct_stage_visit::T61_transfer_preserves_visit_and_entry_team ... [\u001b[32mPASS\u001b[0m in 0.71s]\n\u001b[0m22:04:20  238 of 245 START unit_test fct_subscription_month_end::T10_outside_calendar_nullable_role_key  [RUN]\n\u001b[0m22:04:21  238 of 245 PASS fct_subscription_month_end::T10_outside_calendar_nullable_role_key  [\u001b[32mPASS\u001b[0m in 0.27s]\n\u001b[0m22:04:21  239 of 245 START unit_test int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr  [RUN]\n\u001b[0m22:04:22  239 of 245 PASS int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr ......... [\u001b[32mPASS\u001b[0m in 1.19s]\n\u001b[0m22:04:22  240 of 245 START unit_test int_opportunity_events::T20_T58_T59_first_signature_and_terminal_not_absorbing  [RUN]\n\u001b[0m22:04:37  240 of 245 ERROR int_opportunity_events::T20_T58_T59_first_signature_and_terminal_not_absorbing  [\u001b[31mERROR\u001b[0m in 14.77s]\n\u001b[0m22:04:37  241 of 245 START unit_test int_opportunity_followup::T41_T42_T44_T58_cohort_horizon_reopened_DST_and_censoring  [RUN]\n\u001b[0m22:04:50  241 of 245 PASS int_opportunity_followup::T41_T42_T44_T58_cohort_horizon_reopened_DST_and_censoring  [\u001b[32mPASS\u001b[0m in 13.53s]\n\u001b[0m22:04:50  242 of 245 START unit_test int_opportunity_followup::T60_B_before_A_and_returns_do_not_duplicate_transitions  [RUN]\n\u001b[0m22:05:15  242 of 245 PASS int_opportunity_followup::T60_B_before_A_and_returns_do_not_duplicate_transitions  [\u001b[32mPASS\u001b[0m in 24.44s]\n\u001b[0m22:05:15  243 of 245 START unit_test int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [RUN]\n\u001b[0m22:05:17  243 of 245 PASS int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [\u001b[32mPASS\u001b[0m in 2.76s]\n\u001b[0m22:05:17  244 of 245 START unit_test int_subscription_month_end::T13_T28_T30_T51_zero_inclusive_end_birth_and_2099  [RUN]\n\u001b[0m22:05:20  244 of 245 PASS int_subscription_month_end::T13_T28_T30_T51_zero_inclusive_end_birth_and_2099  [\u001b[32mPASS\u001b[0m in 2.29s]\n\u001b[0m22:05:20  245 of 245 START unit_test int_team_membership_periods::T16_multiple_memberships_remain_unattributed  [RUN]\n\u001b[0m22:05:21  245 of 245 PASS int_team_membership_periods::T16_multiple_memberships_remain_unattributed  [\u001b[32mPASS\u001b[0m in 1.49s]\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  Finished running 232 data tests, 13 unit tests in 0 hours 1 minutes and 25.22 seconds (85.22s).\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mCompleted with 10 errors, 0 partial successes, and 0 warnings:\u001b[0m\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test T07_content_int_client_activity_context (tests\\T07_content_int_client_activity_context.sql)\u001b[0m\n\u001b[0m22:05:21    Got 3090 results, configured to fail if != 0\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\tests\\T07_content_int_client_activity_context.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test T07_content_int_mrr_movements (tests\\T07_content_int_mrr_movements.sql)\u001b[0m\n\u001b[0m22:05:21    Got 2923 results, configured to fail if != 0\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\tests\\T07_content_int_mrr_movements.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test T07_content_int_opportunity_periods (tests\\T07_content_int_opportunity_periods.sql)\u001b[0m\n\u001b[0m22:05:21    Got 8087 results, configured to fail if != 0\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\tests\\T07_content_int_opportunity_periods.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test T07_content_int_sales_objectives_month (tests\\T07_content_int_sales_objectives_month.sql)\u001b[0m\n\u001b[0m22:05:21    Got 144 results, configured to fail if != 0\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\tests\\T07_content_int_sales_objectives_month.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test T07_content_int_signature_probabilities (tests\\T07_content_int_signature_probabilities.sql)\u001b[0m\n\u001b[0m22:05:21    Got 33 results, configured to fail if != 0\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\tests\\T07_content_int_signature_probabilities.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test T07_content_int_subscription_changes (tests\\T07_content_int_subscription_changes.sql)\u001b[0m\n\u001b[0m22:05:21    Got 593 results, configured to fail if != 0\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\tests\\T07_content_int_subscription_changes.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test T07_content_int_subscription_month_end (tests\\T07_content_int_subscription_month_end.sql)\u001b[0m\n\u001b[0m22:05:21    Got 4128 results, configured to fail if != 0\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\tests\\T07_content_int_subscription_month_end.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test T07_content_int_subscription_periods (tests\\T07_content_int_subscription_periods.sql)\u001b[0m\n\u001b[0m22:05:21    Got 362 results, configured to fail if != 0\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\tests\\T07_content_int_subscription_periods.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in test case_grain_fct_stage_visit_record_version_key__True (models\\marts\\pipeline\\_models.yml)\u001b[0m\n\u001b[0m22:05:21    Database Error in test case_grain_fct_stage_visit_record_version_key__True (models\\marts\\pipeline\\_models.yml)\n  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.71 GiB (attempt to allocate chunk of 0.00 B), current RSS: 1.48 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker: While executing AggregatingTransform. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)\n  compiled code at target\\run\\use_case\\models\\marts\\pipeline\\_models.yml\\case_grain_fct_stage_visit_record_version_key__True.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21    compiled code at target\\compiled\\use_case\\models\\marts\\pipeline\\_models.yml\\case_grain_fct_stage_visit_record_version_key__True.sql\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  \u001b[31mFailure in unit_test T20_T58_T59_first_signature_and_terminal_not_absorbing (models\\_unit_tests.yml)\u001b[0m\n\u001b[0m22:05:21    Runtime Error in unit_test T20_T58_T59_first_signature_and_terminal_not_absorbing (models\\_unit_tests.yml)\n  An error occurred during execution of unit test 'T20_T58_T59_first_signature_and_terminal_not_absorbing'. There may be an error in the unit test definition: check the data types.\n   Database Error\n    Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.72 GiB (attempt to allocate chunk of 4.00 MiB), current RSS: 1.45 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)\n\u001b[0m22:05:21  \n\u001b[0m22:05:21  Done. PASS=235 WARN=0 ERROR=10 SKIP=0 NO-OP=0 TOTAL=245\n"
+}

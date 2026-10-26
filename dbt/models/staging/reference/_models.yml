@@ -1,0 +1,96 @@
+version: 2
+models:
+- name: stg_ref_sales_targets
+  description: '**Couche/finalité** : staging technique, Objectifs mensuels de l''équipe commerciale, repris du
+    tableur de la VP Sales. Reprise de toutes les 4 colonnes, sans sélection métier. Rafraîchissement manuel à la
+    demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id001
+    - capture
+  columns:
+  - name: src_month_date
+    data_type: Date
+    description: Premier jour du mois visé.
+  - name: src_segment
+    data_type: String
+    description: 'Équipe : SMB, LA (Large Accounts) ou ES (Espagne).'
+  - name: src_indicator
+    data_type: String
+    description: 'Indicateur visé : `mrr_signed`, `pipeline_generated`, `pipeline_weighted`, `demos`.'
+  - name: src_target
+    data_type: Float64
+    description: Valeur cible du mois (euros pour les montants, nombre pour les démos).
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id001
+- name: stg_ref_stage_probabilities
+  description: '**Couche/finalité** : staging technique, Probabilité de signature par étape du besoin et par équipe,
+    proposée par le cabinet externe. Reprise de toutes les 3 colonnes, sans sélection métier. Rafraîchissement manuel
+    à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id002
+    - capture
+  columns:
+  - name: src_state_id
+    data_type: Int64
+    description: 'Code de l''étape du besoin. Référence documentaire : raw.dictionaries.setting.state.opportunity
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_segment
+    data_type: String
+    description: 'Équipe : SMB, LA ou ES.'
+  - name: src_probability
+    data_type: Float64
+    description: Probabilité de signature, entre 0 et 1.
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id002

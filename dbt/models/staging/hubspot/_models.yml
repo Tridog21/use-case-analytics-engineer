@@ -1,0 +1,171 @@
+version: 2
+models:
+- name: stg_hubspot_contacts
+  description: '**Couche/finalité** : staging technique, Contacts HubSpot (marketing). Copie du portail HubSpot
+    reconstruite chaque nuit : une ligne par contact, dans son état du jour. Reprise de toutes les 15 colonnes,
+    sans sélection métier. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication
+    contrôlée.'
+  config:
+    tags: &id001
+    - capture
+  columns:
+  - name: src_id
+    data_type: String
+    description: Identifiant HubSpot du contact.
+  - name: src_email
+    data_type: String
+    description: Adresse e-mail.
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création du contact dans HubSpot.
+  - name: src_lifecycle_stage
+    data_type: String
+    description: 'Étape du cycle de vie HubSpot : subscriber, lead, opportunity, customer, other.'
+  - name: src_latest_source
+    data_type: String
+    description: Dernière source de trafic connue (ORGANIC_SEARCH, PAID_SEARCH, PAID_SOCIAL, OFFLINE…).
+  - name: src_utm_source
+    data_type: String
+    description: Paramètre `utm_source` capté par le formulaire.
+  - name: src_utm_campaign
+    data_type: String
+    description: Paramètre `utm_campaign` capté par le formulaire.
+  - name: src_first_conversion_name
+    data_type: String
+    description: Nom du premier formulaire rempli.
+  - name: src_first_conversion_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date du premier formulaire rempli.
+  - name: src_boond_contact_id
+    data_type: String
+    description: 'Identifiant du contact dans Boond. Référence documentaire : raw.contacts.id ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_boond_state_id
+    data_type: String
+    description: Code d'état du contact dans Boond.
+  - name: src_boond_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création du contact dans Boond.
+  - name: src_hubspot_owner_id
+    data_type: String
+    description: Propriétaire HubSpot du contact.
+  - name: src_is_archived
+    data_type: Bool
+    description: Contact archivé dans HubSpot.
+  - name: src_updated_at
+    data_type: DateTime64(3,'UTC')
+    description: Dernière modification dans HubSpot.
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id001
+- name: stg_hubspot_deals
+  description: '**Couche/finalité** : staging technique, Deals HubSpot. Ils reflètent les besoins Boond pour le
+    marketing : une ligne par deal, dans son état du jour. Reprise de toutes les 16 colonnes, sans sélection métier.
+    Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id002
+    - capture
+  columns:
+  - name: src_id
+    data_type: String
+    description: Identifiant HubSpot du deal.
+  - name: src_deal_name
+    data_type: String
+    description: Nom du deal.
+  - name: src_pipeline_id
+    data_type: String
+    description: Pipeline HubSpot du deal.
+  - name: src_stage_id
+    data_type: String
+    description: Étape du deal dans son pipeline HubSpot.
+  - name: src_is_closed
+    data_type: Bool
+    description: HubSpot considère le deal comme fermé.
+  - name: src_amount
+    data_type: Nullable(Float64)
+    description: Montant du deal.
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création du deal dans HubSpot.
+  - name: src_closed_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de fermeture du deal dans HubSpot.
+  - name: src_boond_opportunity_id
+    data_type: Nullable(Float64)
+    description: 'Identifiant du besoin dans Boond. Référence documentaire : raw.opportunities.id ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_boond_state_id
+    data_type: String
+    description: 'Code d''étape du besoin dans Boond. Référence documentaire : raw.dictionaries.setting.state.opportunity
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_boond_origin_type_id
+    data_type: String
+    description: Code d'origine du besoin dans Boond.
+  - name: src_boond_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création du besoin dans Boond.
+  - name: src_boond_closing_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de closing du besoin dans Boond.
+  - name: src_hubspot_owner_id
+    data_type: String
+    description: Propriétaire HubSpot du deal.
+  - name: src_is_archived
+    data_type: Bool
+    description: Deal archivé dans HubSpot.
+  - name: src_updated_at
+    data_type: DateTime64(3,'UTC')
+    description: Dernière modification dans HubSpot.
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id002

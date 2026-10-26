@@ -1,0 +1,38 @@
+version: '0.2'
+publication_protocol:
+  status: dataset_publication_status
+  consistency: Read publication_key before and after the page queries; reload the page results if it changes.
+  unavailable_value: null
+  empty_detail: Consult measure availability before interpreting absence as zero.
+dashboards:
+  synthese:
+    datasets: [dataset_sales_objectives_month, dataset_funnel_progress, dataset_company_mrr_month]
+    query_contracts: [objective_attainment, funnel_progress, portfolio_month]
+    scopes:
+      objectives: Month and resolved target segment; four metrics individually; ES actual remains unknown.
+      funnel: Creation cohort and sale type; observed reaches only; counts and rates enabled.
+      portfolio: Global by closing month; no team or commercial sale-type filtering of churn or stocks.
+    non_additive: [closing_stocks_between_months, target_metrics, ratios, New_MRR_total_plus_components]
+  durees:
+    datasets: [dataset_stage_visits, dataset_opportunity_timeline]
+    query_contracts: [stage_durations, opportunity_timeline]
+    scopes:
+      team: Team at admissible visit entry; unassigned coverage remains visible.
+      populations: Completed durations and current ages are separate; unknown entry dates are counted in coverage.
+    thresholds: Strict age greater than 21 continuous days; overridable or explicitly disabled.
+    non_additive: [medians, p90, visit_duration_across_responsibility_slices]
+  cohortes:
+    datasets: [dataset_cohort_outcomes, dataset_opportunity_timeline]
+    query_contracts: [cohort_outcomes, opportunity_timeline]
+    scopes:
+      cohort: Boond creation month, one opportunity per definition and horizon.
+      maturity: Entire cohort and sale type before team/channel filters.
+      outcomes: State at each individual horizon; unknown, abandoned and unqualified remain in the denominator.
+    non_additive: [horizons, percentages, cohort_members_between_definitions]
+auxiliary_datasets:
+  dataset_pipeline_periods: pipeline_snapshot
+  dataset_sales_events: sales_events
+  dataset_sales_actions: sales_actions
+  dataset_demo_intervals: demo_intervals
+disabled_features: [pipeline_coverage, potential_mrr_mean, bp_activity_estimate, constant_portfolio_scenario, individual_team_comparator]
+unproven_measures: [signed_mrr_without_monthly_proof, realized_demos_without_completion_proof, unproven_demo_intervals]

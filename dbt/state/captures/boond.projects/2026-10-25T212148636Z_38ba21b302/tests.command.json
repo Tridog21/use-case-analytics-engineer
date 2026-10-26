@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "stg_boond_projects",
+    "--exclude",
+    "tag:publication",
+    "--indirect-selection",
+    "cautious"
+  ],
+  "start": "2026-10-25T21:21:58.503Z",
+  "end": "2026-10-25T21:22:05.058Z",
+  "exit_code": 0,
+  "elapsed_seconds": 6.563000000001921
+}

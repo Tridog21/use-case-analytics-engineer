@@ -1,0 +1,19 @@
+[0m21:55:22  Running with dbt=1.11.12
+[0m21:55:22  Registered adapter: clickhouse=1.10.1
+[0m21:55:25  Found 73 models, 10 analyses, 294 data tests, 15 sources, 544 macros, 12 unit tests
+[0m21:55:25  
+[0m21:55:25  Concurrency: 1 threads (target='dev')
+[0m21:55:25  
+[0m21:55:27  1 of 3 START test T02_payload_stg_hubspot_contacts ............................. [RUN]
+[0m21:55:27  1 of 3 PASS T02_payload_stg_hubspot_contacts ................................... [[32mPASS[0m in 0.33s]
+[0m21:55:27  2 of 3 START test T04_stg_hubspot_contacts ..................................... [RUN]
+[0m21:55:27  2 of 3 PASS T04_stg_hubspot_contacts ........................................... [[32mPASS[0m in 0.06s]
+[0m21:55:27  3 of 3 START test case_grain_stg_hubspot_contacts_source_version_key__False .... [RUN]
+[0m21:55:27  3 of 3 PASS case_grain_stg_hubspot_contacts_source_version_key__False .......... [[32mPASS[0m in 0.06s]
+[0m21:55:27  
+[0m21:55:27  Finished running 3 data tests in 0 hours 0 minutes and 1.93 seconds (1.93s).
+[0m21:55:27  
+[0m21:55:27  [32mCompleted successfully[0m
+[0m21:55:27  
+[0m21:55:27  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+

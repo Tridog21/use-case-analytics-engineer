@@ -1,0 +1,8 @@
+{
+  "validation_schema_suffix": "_validation_1792966639167740000_partial",
+  "model_run_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "test_model_run_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "rule_version": "fixture",
+  "calculated_at": "2026-10-01T00:00:00.000Z",
+  "input_cutoff_at": "2026-10-01T00:00:00.000Z"
+}

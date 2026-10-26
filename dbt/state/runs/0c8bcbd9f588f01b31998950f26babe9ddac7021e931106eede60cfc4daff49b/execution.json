@@ -1,0 +1,117 @@
+{
+  "model_run_id": "0c8bcbd9f588f01b31998950f26babe9ddac7021e931106eede60cfc4daff49b",
+  "status": "failed",
+  "start": "2026-10-25T22:05:57.690Z",
+  "phase": "build",
+  "commands": [
+    {
+      "command": [
+        "parse",
+        "--no-partial-parse"
+      ],
+      "start": "2026-10-25T22:05:57.782Z",
+      "end": "2026-10-25T22:06:07.703Z",
+      "exit_code": 0,
+      "elapsed_seconds": 9.921999999998661
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "tag:capture",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T22:06:07.800Z",
+      "end": "2026-10-25T22:06:18.076Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.281000000002678
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "tag:common",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T22:06:18.184Z",
+      "end": "2026-10-25T22:06:31.453Z",
+      "exit_code": 0,
+      "elapsed_seconds": 13.264999999999418
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "tag:pipeline tag:revenue tag:mart",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T22:06:31.557Z",
+      "end": "2026-10-25T22:07:15.339Z",
+      "exit_code": 0,
+      "elapsed_seconds": 43.78100000000268
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "dtr_opportunity_timeline dtr_stage_visits",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T22:07:32.923Z",
+      "end": "2026-10-25T22:07:44.667Z",
+      "exit_code": 0,
+      "elapsed_seconds": 11.75,
+      "recovered_memory_attempts": 1
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "test_type:unit",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:11:30.366Z",
+      "end": "2026-10-25T22:12:52.854Z",
+      "exit_code": 0,
+      "elapsed_seconds": 82.48400000000402
+    }
+  ],
+  "code_hash": "4dbbbb7481b1c466b3c47709c75daa85db37ad09b6b3be9baa3d0a3b519effee",
+  "rule_version": "c094ab288df5b5c1d75c021a3ba61d018c11d57cc11556e4ba9e99ae2f542095",
+  "vars_hash": "1ff59c63b1a245ce9c281da9615b30d3ce7694afabea972d001f4773b91a7b8d",
+  "input_cutoff_at": "2026-10-25T22:05:57.683Z",
+  "source_capture_keys": {
+    "hubspot.contacts": [
+      "2026-10-25T212226410Z_eab3f87bca",
+      "2026-10-25T215505768Z_15b0be88a0"
+    ],
+    "hubspot.deals": [
+      "2026-10-25T212244007Z_e3e0997104",
+      "2026-10-25T215529103Z_13205891e0"
+    ],
+    "case_reference.sales_targets": [
+      "2026-10-25T212301870Z_8b72bc74c8",
+      "2026-10-25T215550309Z_e4bfe66e4e"
+    ],
+    "case_reference.stage_probabilities": [
+      "2026-10-25T212321865Z_7a3700e5e2",
+      "2026-10-25T215611097Z_452d38a5b6"
+    ]
+  },
+  "fixture_code_hash": "1c564177e9467547ef189c4e6f30c0bda216a06defc41b596d880e190f51a85b",
+  "end": "2026-10-25T22:12:52.962Z",
+  "error": "Code changed during immutable candidate execution; prepare a new run"
+}

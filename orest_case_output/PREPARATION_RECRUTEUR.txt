@@ -1,0 +1,81 @@
+Préparation de la lecture et de Superset
+
+
+Lire les maquettes sans installation
+
+Les trois PNG de clean_intent/maquettes/ s’ouvrent directement : dashboard_synthese_v2.png, dashboard_durees_etapes_v1.png et dashboard_cohortes_v1.png. Ce sont des maquettes statiques. Les PDF et les deux HTML de raw_intent/cycle_hypotheses/ se lisent également hors ligne. Aucun Docker ni compte Superset n’est nécessaire pour ce parcours.
+
+
+Consulter les dashboards interactifs
+
+Superset s’exécute localement. localhost désigne la machine du lecteur, pas celle du candidat. Le dossier orest_case_output seul ne suffit pas : conserver tout le dépôt, notamment dbt/, seed/, docker/, scripts/, superset/ et les deux fichiers docker-compose. Le code livré utilise des chemins Windows pour dbt : les étapes ci-dessous ciblent Windows.
+
+
+Prérequis Windows
+
+Docker Desktop démarré avec moteur Linux/WSL 2 ; PowerShell 5.1 ou supérieur ; uv disponible ; Git si le dépôt est cloné. Le projet demande Python >=3.11 et <3.14 et fixe dbt-core 1.11.12 / dbt-clickhouse 1.10.1. Une connexion Internet est nécessaire au premier lancement. Les ports 8088, 8123 et 9000 doivent être disponibles. Prévoir plusieurs Go pour les images Docker. Aucune durée d’installation garantie.
+
+
+1 - Se placer à la racine du dépôt
+
+Ouvrir PowerShell dans le dossier qui contient docker-compose.yml, dbt/ et scripts/. Le nom du dossier peut être différent chez le recruteur. Les commandes suivantes partent de cette racine.
+
+
+2 - Démarrer les services
+
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-superset.ps1
+
+Le script prépare ClickHouse, PostgreSQL et Superset, crée les secrets propres à la machine et la connexion « ClickHouse - case ». Il ne construit pas les modèles dbt.
+
+
+3 - Construire la publication sur une nouvelle machine
+
+Push-Location dbt
+uv sync
+uv run dbt debug --profiles-dir .
+Pop-Location
+.\dbt\.venv\Scripts\python.exe -X utf8 dbt/tools/run_case.py --params dbt/config/manual_full.json
+
+Le runner complet reconstruit les données et exécute ses contrôles avant publication ; cette étape peut être longue. Attendre sa réussite avant de générer les dashboards. Sur la machine du candidat, si la publication et les volumes existent déjà, cette reconstruction n’est pas nécessaire pour simplement consulter. Ne pas exécuter un dbt run générique à la place du runner : les captures et paramètres de publication sont gérés par ce dernier.
+
+
+4 - Créer les dashboards
+
+docker compose --env-file .env.superset -f docker-compose.yml -f docker-compose.superset.yml exec -T superset python /app/case-assets/build_dashboards.py
+
+Cette commande cible le service Compose et ne dépend pas du nom du dossier cloné. Le générateur applique aussi les styles et réutilise des identifiants stables. Attendre sa fin sans erreur.
+
+
+5 - Se connecter et consulter
+
+Ouvrir http://localhost:8088 ; identifiant admin. Lire SUPERSET_ADMIN_PASSWORD dans le fichier local .env.superset, créé au démarrage.
+
+Synthèse : http://localhost:8088/superset/dashboard/case-synthese/
+Durées : http://localhost:8088/superset/dashboard/case-durees/
+Cohortes : http://localhost:8088/superset/dashboard/case-cohortes/
+
+Choisir une période dans la couverture du case (avant le 1er octobre 2026, heure de Paris). Pour explorer les cohortes, juin 2026 à J+60 est le cas de démonstration documenté. Une cohorte plus récente peut être non mature ; le taux doit alors rester indisponible.
+
+
+Interpréter les absences de données
+
+L’unité des montants commerciaux et la réalisation effective des démos ne sont pas prouvées. Le MRR signé et les démos réalisées ne sont donc pas calculés officiellement. Certaines histoires sont partielles. Une timeline sans opportunité sélectionnée peut être vide. Ces limites sont documentées dans rapport_execution.md et dans les statuts de disponibilité ; elles ne se corrigent pas en remplissant les cases avec zéro.
+
+
+Si le lancement échoue
+
+docker compose --env-file .env.superset -f docker-compose.yml -f docker-compose.superset.yml ps -a
+
+Attendu : ClickHouse, Superset et PostgreSQL healthy ; superset-init terminé avec code 0. Vérifier Docker, les ports et que le dépôt complet est présent. Si le runner échoue, conserver ses journaux dans dbt/state/ ; ne pas déclarer la publication valide. La consultation des maquettes statiques reste possible.
+
+
+Arrêter et conserver le travail
+
+.\scripts\stop-superset.ps1
+
+Le script conserve les volumes. Ne pas utiliser docker compose down -v pour un arrêt ordinaire : les volumes portent les données et les objets Superset. Conserver .env.superset sur la machine ; ne pas le joindre au rendu.
+
+
+Portabilité et état de vérification
+
+Ce guide est établi à partir des scripts et rapports livrés. Il n’a pas été validé par une réinstallation vierge pendant la préparation de la restitution. Le runner contient des chemins .venv/Scripts/ propres à Windows ; une exécution Linux/macOS exige une adaptation. L’export natif dans superset/exports/ est ignoré par Git : la reproduction repose sur le générateur versionné, pas sur la présence de cet export. Références : docs/superset.md, superset/README.md, superset/README_presentation.md et dbt/pyproject.toml.

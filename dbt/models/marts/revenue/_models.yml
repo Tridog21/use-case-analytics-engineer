@@ -1,0 +1,499 @@
+version: 2
+models:
+- name: fct_mrr_movement
+  description: '**Grain métier :** Société × mois × composante nette de variation. **Clé :** movement_contribution_key
+    ; record_key=H(tuple du grain), identique à la clé hashée amont. **Grain de révision :** (model_run_id,record_key).
+    Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id001
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_mrr_movements.model_run_id ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste des entrées
+      figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_mrr_movements.record_key ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version explicite),
+      sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise H(calendar_date),
+      jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_mrr_movements.record_version_key ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la révision
+      du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_mrr_movements.row_hash ; row_hash recalculé sur le contrat final du fait si
+      des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche, NULL et
+      types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_mrr_movements.calculated_at ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id, jamais
+      utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_mrr_movements.rule_version ; row_hash recalculé sur le contrat final du fait
+      si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées ; dérivée du
+      manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_mrr_movements.input_cutoff_at ; row_hash recalculé sur le contrat final du
+      fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ; les entrées
+      exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_mrr_movements.source_published_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant à la
+      ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent du futur
+      dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace aucune
+      date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_mrr_movements.source_version_keys ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et sans
+      répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: movement_contribution_key
+    data_type: String
+    description: Projection explicite de int_mrr_movements.movement_contribution_key ; H(company_key,month_date,movement_kind).
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_mrr_movements.tenant_id ; Tenant.
+  - name: client_context_key
+    data_type: String
+    description: Projection explicite de int_mrr_movements.client_context_key ; Contexte société/mois.
+  - name: company_id
+    data_type: Int64
+    description: Projection explicite de int_mrr_movements.company_id ; ID société.
+  - name: company_key
+    data_type: String
+    description: Projection explicite de int_mrr_movements.company_key ; Identité société.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_mrr_movements.company_version_key ; Version à clôture.
+  - name: month_date
+    data_type: Date
+    description: Projection explicite de int_mrr_movements.month_date ; Mois.
+  - name: month_end_date
+    data_type: Date
+    description: Projection explicite de int_mrr_movements.month_end_date ; Clôture courante.
+  - name: previous_month_end_date
+    data_type: Date
+    description: Projection explicite de int_mrr_movements.previous_month_end_date ; Clôture précédente.
+  - name: movement_kind
+    data_type: String
+    description: Projection explicite de int_mrr_movements.movement_kind ; new / upsell / departure / contraction
+      / stable / unknown.
+  - name: new_mrr_component
+    data_type: Nullable(String)
+    description: Projection explicite de int_mrr_movements.new_mrr_component ; New entrants/retours ;Upsell hausse
+      restants ;NULL autres.
+  - name: sum_new_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_mrr_movements.sum_new_mrr ; MRR après entrant ;max(après−avant,0) hausse
+      restant ;NULL noncomparable. Aucune ligne total en plus.
+  - name: sum_departure_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_mrr_movements.sum_departure_mrr ; MRR avant sortant ;0 autres cas comparables.
+  - name: sum_contraction_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_mrr_movements.sum_contraction_mrr ; max(avant−après,0) restant baisse
+      ;0 autres cas comparables.
+  - name: sum_candidate_new_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_mrr_movements.sum_candidate_new_mrr ; Mêmeformule sur candidats,diagnostic
+      devise inconnue.
+  - name: sum_candidate_departure_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_mrr_movements.sum_candidate_departure_mrr ; Départs candidats.
+  - name: sum_candidate_contraction_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_mrr_movements.sum_candidate_contraction_mrr ; Baisses candidates.
+  - name: is_portfolio_entrant
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_mrr_movements.is_portfolio_entrant ; Actifaprès/inactifavant,retours
+      inclus.
+  - name: is_departure
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_mrr_movements.is_departure ; Actifavant/inactifaprès.
+  - name: is_contraction
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_mrr_movements.is_contraction ; Actifdeux clôtures et baissenette.
+  - name: is_active_before
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_mrr_movements.is_active_before ; Activitéavant.
+  - name: is_active_after
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_mrr_movements.is_active_after ; Activitéaprès.
+  - name: first_acquisition_status
+    data_type: String
+    description: Projection explicite de int_mrr_movements.first_acquisition_status ; Statut contexte,non déduit
+      entrant seul.
+  - name: is_comparable
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_mrr_movements.is_comparable ; Deux clôtures/périmètre/devise compatibles.
+  - name: commercial_link_status
+    data_type: String
+    description: Projection explicite de int_mrr_movements.commercial_link_status ; not_required_for_financial_classification
+      / proven / missing.
+  - name: source_lineage_status
+    data_type: String
+    description: Projection explicite de int_mrr_movements.source_lineage_status ; Clôtures et lignages expliquent
+      montant sans le répéter par ligne.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_mrr_movements.calculation_status ; ready / partial / blocked / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_mrr_movements.status_reason ; Cause précise stable ; NULL si aucune
+      dépendance manquante.
+  - name: month_date_key
+    data_type: UInt32
+    description: YYYYMMDD du premierjour du mois.
+  - name: closing_date_key
+    data_type: UInt32
+    description: YYYYMMDD de month_end_date.
+  - name: previous_closing_date_key
+    data_type: UInt32
+    description: YYYYMMDD de previous_month_end_date.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id001
+- name: fct_subscription_month_end
+  description: '**Grain métier :** Ligne d’abonnement × clôture mensuelle. **Clé :** subscription_month_key ; record_key=H(tuple
+    du grain), identique à la clé hashée amont. **Grain de révision :** (model_run_id,record_key). Rafraîchissement
+    manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id002
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_subscription_month_end.model_run_id ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste
+      des entrées figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_subscription_month_end.record_key ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version
+      explicite), sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise
+      H(calendar_date), jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_subscription_month_end.record_version_key ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la
+      révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_subscription_month_end.row_hash ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche,
+      NULL et types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_subscription_month_end.calculated_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id,
+      jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_subscription_month_end.rule_version ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées ; dérivée
+      du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_subscription_month_end.input_cutoff_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ;
+      les entrées exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_subscription_month_end.source_published_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant
+      à la ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent
+      du futur dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace
+      aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_subscription_month_end.source_version_keys ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et
+      sans répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: subscription_month_key
+    data_type: String
+    description: Projection explicite de int_subscription_month_end.subscription_month_key ; H(subscription_key,month_date).
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_subscription_month_end.tenant_id ; Tenant.
+  - name: subscription_key
+    data_type: String
+    description: Projection explicite de int_subscription_month_end.subscription_key ; Identité ligne.
+  - name: line_id
+    data_type: Int64
+    description: Projection explicite de int_subscription_month_end.line_id ; ID ligne.
+  - name: line_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Projection explicite int_subscription_month_end.line_created_at.
+  - name: is_creation_date_reliable
+    data_type: Bool
+    description: true seulement si création nonNULL constante entre versions, aucun CDC antérieur à cette création
+      et aucun début de service antérieur contradictoire ; false sinon, pas de correction de la source.
+  - name: is_before_creation
+    data_type: Nullable(Bool)
+    description: Avant la création prouvée à la clôture ; NULL si preuve insuffisante. Une date contradictoire ne
+      prouve aucune absence.
+  - name: project_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_subscription_month_end.project_id ; Projet à clôture.
+  - name: company_id
+    data_type: Nullable(Int64)
+    description: Projection explicite de int_subscription_month_end.company_id ; Société à clôture.
+  - name: company_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_subscription_month_end.company_key ; Identité société.
+  - name: company_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_subscription_month_end.company_version_key ; Version société à clôture.
+  - name: month_date
+    data_type: Date
+    description: Projection explicite de int_subscription_month_end.month_date ; Premier jour mois Paris.
+  - name: month_end_date
+    data_type: Date
+    description: Projection explicite de int_subscription_month_end.month_end_date ; Dernier jour mois Paris.
+  - name: closing_exclusive_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_subscription_month_end.closing_exclusive_at ; Minuit Paris premier
+      jour suivant converti UTC, photo juste avant.
+  - name: closing_date_key
+    data_type: UInt32
+    description: Projection explicite de int_subscription_month_end.closing_date_key ; YYYYMMDD de month_end_date.
+  - name: source_subscription_period_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_subscription_month_end.source_subscription_period_key ; Période observée
+      à clôture ; NULL non observable.
+  - name: is_observable
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_subscription_month_end.is_observable ; Versions/liens nécessaires connus
+      à clôture.
+  - name: is_active
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_subscription_month_end.is_active ; État1+période ; indépendant MRR>0.
+  - name: quantity
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_subscription_month_end.quantity ; Quantité source.
+  - name: unit_monthly_price
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_subscription_month_end.unit_monthly_price ; Prix mensuel unitaire.
+  - name: line_monthly_amount
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_subscription_month_end.line_monthly_amount ; Montant mensuel total.
+  - name: candidate_active_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_subscription_month_end.candidate_active_mrr ; Montant ligne actif ;0
+      si inactif prouvé ;NULL si inconnu.
+  - name: sum_active_mrr
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_subscription_month_end.sum_active_mrr ; Somme officielle des lignes
+      admissibles en EUR sous hypothèses D16/D20 ;NULL si activité/montant ou inventaire requis inconnus, sans prorata.
+  - name: currency_code
+    data_type: Nullable(String)
+    description: Projection explicite de int_subscription_month_end.currency_code ; EUR par hypothèse explicite
+      du case D20 ; cette devise ne prouve ni mensualité ni engagement du montant commercial.
+  - name: monetary_status
+    data_type: String
+    description: Projection explicite de int_subscription_month_end.monetary_status ; ready / currency_unconfirmed
+      / missing_amount / unknown_activity.
+  - name: is_history_complete
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_subscription_month_end.is_history_complete ; Couverture clôture/liens
+      déclarée.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_subscription_month_end.calculation_status ; ready / partial / blocked
+      / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_subscription_month_end.status_reason ; Cause précise stable ; NULL
+      si aucune dépendance manquante.
+  - name: month_date_key
+    data_type: Nullable(UInt32)
+    description: 'YYYYMMDD du premier jour du mois si présent dans dim_date ; NULL sinon, date métier conservée.
+      Adaptation technique constatée à l’implémentation : le calendrier commence au dernier jour du mois précédent,
+      dont le premier jour peut être hors calendrier.'
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id002
+- name: fct_sales_objectives_month
+  description: '**Grain métier :** Mois × équipe/segment × indicateur ciblé. **Clé :** objective_month_key ; record_key=H(tuple
+    du grain), identique à la clé hashée amont. **Grain de révision :** (model_run_id,record_key). Rafraîchissement
+    manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id003
+    - mart
+  columns:
+  - name: model_run_id
+    data_type: String
+    description: 'Métadonnée amont int_sales_objectives_month.model_run_id ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte SHA256 commune de la recomposition : manifeste
+      des entrées figées, code, référentiels et paramètres ; fournie par orchestration, identique dans tout le DAG.'
+  - name: record_key
+    data_type: String
+    description: Métadonnée amont int_sales_objectives_month.record_key ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Identité String H(tuple du grain décrit, domaine/version
+      explicite), sans model_run_id ; égale la clé de grain lorsque cette dernière est déjà hashée. dim_date utilise
+      H(calendar_date), jamais date_key UInt32 brut.
+  - name: record_version_key
+    data_type: String
+    description: Métadonnée amont int_sales_objectives_month.record_version_key ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. H(model_run_id,record_key) ; unicité physique de la
+      révision du modèle.
+  - name: row_hash
+    data_type: String
+    description: Métadonnée amont int_sales_objectives_month.row_hash ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. H(tuple ordonné de toutes les colonnes métier de la fiche,
+      NULL et types préservés) ; exclut les métadonnées de calcul.
+  - name: calculated_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_sales_objectives_month.calculated_at ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Instant de calcul du lot ; fixe pour un même model_run_id,
+      jamais utilisé comme événement métier.
+  - name: rule_version
+    data_type: String
+    description: Métadonnée amont int_sales_objectives_month.rule_version ; row_hash recalculé sur le contrat final
+      du fait si des colonnes techniques sont ajoutées. Empreinte immuable du code et des règles appliquées ; dérivée
+      du manifeste du lot.
+  - name: input_cutoff_at
+    data_type: DateTime64(3,'UTC')
+    description: Métadonnée amont int_sales_objectives_month.input_cutoff_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Date limite de connaissance de la recomposition ;
+      les entrées exactes sont figées par le manifeste, pas par ce timestamp seul.
+  - name: source_published_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Métadonnée amont int_sales_objectives_month.source_published_at ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Maximum de publication CDC des versions contribuant
+      à la ligne ; NULL pour un référentiel exclusivement généré. Les entrées de règles non fournies proviennent
+      du futur dbt/config/case_rules.yml fusionné dans vars, sans seed ou source implicite. Ce maximum ne remplace
+      aucune date métier.
+  - name: source_version_keys
+    data_type: Array(String)
+    description: Métadonnée amont int_sales_objectives_month.source_version_keys ; row_hash recalculé sur le contrat
+      final du fait si des colonnes techniques sont ajoutées. Clés des versions sources contributrices, triées et
+      sans répétition ; union des lignages amont. Liste vide pour une ligne exclusivement générée.
+  - name: objective_month_key
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.objective_month_key ; H(tenant_id,month_date,source_segment,metric_code).
+  - name: tenant_id
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.tenant_id ; Var source_tenant_id=demo_crm,contexte
+      explicite de ce jeu.
+  - name: month_date
+    data_type: Date
+    description: Projection explicite de int_sales_objectives_month.month_date ; src_month_date,premierjourParis.
+  - name: month_end_date
+    data_type: Date
+    description: Projection explicite de int_sales_objectives_month.month_end_date ; Dernierjourmois.
+  - name: closing_exclusive_at
+    data_type: DateTime64(3,'UTC')
+    description: Projection explicite de int_sales_objectives_month.closing_exclusive_at ; MinuitParis mois suivant
+      reconvertiUTC.
+  - name: source_segment
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.source_segment ; src_segment SMB/LA/ES.
+  - name: team_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_sales_objectives_month.team_key ; Équipe si mappingunivoque.
+  - name: team_version_key
+    data_type: Nullable(String)
+    description: Projection explicite de int_sales_objectives_month.team_version_key ; Version à date pertinente.
+  - name: metric_code
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.metric_code ; src_indicator,quatre codes.
+  - name: metric_key
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.metric_key ; Identité dim_metric.
+  - name: metric_version_key
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.metric_version_key ; Version définition mesure.
+  - name: target_version_key
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.target_version_key ; source_version_key captureobjectif
+      choisie.
+  - name: target_value
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_sales_objectives_month.target_value ; src_target convertiDecimal,aucuneventilationpersonnelle.
+  - name: actual_value
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_sales_objectives_month.actual_value ; RéaliséOFFICIEL compatible ;NULL
+      sans preuves montant/unité/tenue.
+  - name: candidate_actual_value
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_sales_objectives_month.candidate_actual_value ; Diagnostic réalisé
+      source si possible,jamais substitutofficiel.
+  - name: value_unit
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.value_unit ; Unitémesure ;compatibilitécible/réalisé
+      àprouver.
+  - name: variance_value
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_sales_objectives_month.variance_value ; actual_value−target_value sicalculable/compatible.
+  - name: attainment_numerator
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_sales_objectives_month.attainment_numerator ; actual_value sicompatible.
+  - name: attainment_denominator
+    data_type: Nullable(Decimal(38,4))
+    description: Projection explicite de int_sales_objectives_month.attainment_denominator ; target_value sicompatible
+      et>0 ;sinon NULL.
+  - name: attainment_rate
+    data_type: Nullable(Float64)
+    description: Projection explicite de int_sales_objectives_month.attainment_rate ; actual/target si>0 etcompatible,sinon
+      NULL.
+  - name: is_population_compatible
+    data_type: Nullable(Bool)
+    description: Projection explicite de int_sales_objectives_month.is_population_compatible ; Population/type/période/unité
+      compatibles ;NULL sinondéfinies.
+  - name: nb_source_contributions
+    data_type: Nullable(UInt64)
+    description: Projection explicite de int_sales_objectives_month.nb_source_contributions ; Contributionsdistinctes
+      avant somme.
+  - name: nb_uncalculable_contributions
+    data_type: Nullable(UInt64)
+    description: Projection explicite de int_sales_objectives_month.nb_uncalculable_contributions ; Contributionsrequises
+      inconnues ;NULL si absence de preuve globale empêche de les dénombrer.
+  - name: is_month_closed
+    data_type: Bool
+    description: Projection explicite de int_sales_objectives_month.is_month_closed ; Clôtureexclusive<=cutoff.
+  - name: is_team_calculable
+    data_type: Bool
+    description: Projection explicite de int_sales_objectives_month.is_team_calculable ; Mapping équipeunivoque.
+  - name: target_selection_status
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.target_selection_status ; capture_selected /
+      ambiguous_target / missing_target.
+  - name: calculation_status
+    data_type: String
+    description: Projection explicite de int_sales_objectives_month.calculation_status ; ready / partial / blocked
+      / not_applicable.
+  - name: status_reason
+    data_type: Nullable(String)
+    description: Projection explicite de int_sales_objectives_month.status_reason ; Cause précise stable ; NULL
+      si aucune dépendance manquante.
+  - name: month_date_key
+    data_type: UInt32
+    description: YYYYMMDD de month_date.
+  - name: closing_date_key
+    data_type: UInt32
+    description: YYYYMMDD de month_end_date.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: record_version_key
+        run_scoped: true
+      config:
+        tags: *id003

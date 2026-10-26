@@ -1,0 +1,2 @@
+{{ config(tags=['mart']) }}
+select record_key from {{ ref('fct_sales_objectives_month') }} where model_run_id={{ ch_literal(var('test_model_run_id','')) }} and (calculated_at!={{ utc_var('calculated_at') }} or input_cutoff_at!={{ utc_var('input_cutoff_at') }} or rule_version!={{ ch_literal(var('rule_version','parse_only')) }} or length(record_key)!=64 or length(record_version_key)!=64 or length(row_hash)!=64)

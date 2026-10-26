@@ -1,0 +1,11 @@
+{
+  "validation_schema_suffix": "_validation_1792966064788707200",
+  "case_reference_source_schema": "stg_validation_1792966064788707200",
+  "source_capture_keys": {
+    "case_reference.sales_targets": [
+      "snapshot_A"
+    ]
+  },
+  "capture_key": "snapshot_B",
+  "capture_at": "2026-10-02T00:00:00.000Z"
+}

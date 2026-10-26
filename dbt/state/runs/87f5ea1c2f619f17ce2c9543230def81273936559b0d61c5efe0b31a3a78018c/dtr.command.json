@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "dtr_sales_events dtr_stage_visits",
+    "--threads",
+    "1",
+    "--exclude",
+    "tag:publication"
+  ],
+  "start": "2026-10-25T22:17:08.965Z",
+  "end": "2026-10-25T22:17:19.041Z",
+  "exit_code": 0,
+  "elapsed_seconds": 10.077999999994063
+}

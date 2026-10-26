@@ -1,0 +1,13 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "test_type:unit",
+    "--exclude",
+    "tag:publication"
+  ],
+  "start": "2026-10-25T22:45:37.546Z",
+  "end": "2026-10-25T22:47:42.591Z",
+  "exit_code": 0,
+  "elapsed_seconds": 125.04700000000594
+}

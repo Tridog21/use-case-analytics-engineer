@@ -1,0 +1,21 @@
+[0m21:56:26  Running with dbt=1.11.12
+[0m21:56:26  Registered adapter: clickhouse=1.10.1
+[0m21:56:28  Found 73 models, 10 analyses, 294 data tests, 15 sources, 544 macros, 12 unit tests
+[0m21:56:28  
+[0m21:56:28  Concurrency: 1 threads (target='dev')
+[0m21:56:28  
+[0m21:56:29  1 of 4 START test T02_payload_stg_ref_stage_probabilities ...................... [RUN]
+[0m21:56:29  1 of 4 PASS T02_payload_stg_ref_stage_probabilities ............................ [[32mPASS[0m in 0.31s]
+[0m21:56:29  2 of 4 START test T04_stg_ref_stage_probabilities .............................. [RUN]
+[0m21:56:29  2 of 4 PASS T04_stg_ref_stage_probabilities .................................... [[32mPASS[0m in 0.06s]
+[0m21:56:29  3 of 4 START test T18_finite_stg_ref_stage_probabilities ....................... [RUN]
+[0m21:56:30  3 of 4 PASS T18_finite_stg_ref_stage_probabilities ............................. [[32mPASS[0m in 0.06s]
+[0m21:56:30  4 of 4 START test case_grain_stg_ref_stage_probabilities_source_version_key__False  [RUN]
+[0m21:56:30  4 of 4 PASS case_grain_stg_ref_stage_probabilities_source_version_key__False ... [[32mPASS[0m in 0.06s]
+[0m21:56:30  
+[0m21:56:30  Finished running 4 data tests in 0 hours 0 minutes and 2.02 seconds (2.02s).
+[0m21:56:30  
+[0m21:56:30  [32mCompleted successfully[0m
+[0m21:56:30  
+[0m21:56:30  Done. PASS=4 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=4
+

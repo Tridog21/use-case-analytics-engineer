@@ -1,0 +1,12 @@
+{
+  "command": [
+    "compile",
+    "--select",
+    "resource_type:analysis",
+    "--no-populate-cache"
+  ],
+  "start": "2026-10-25T22:56:05.933Z",
+  "end": "2026-10-25T22:56:11.590Z",
+  "exit_code": 0,
+  "elapsed_seconds": 5.6560000000026776
+}

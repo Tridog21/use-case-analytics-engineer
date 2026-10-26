@@ -1,0 +1,862 @@
+version: 2
+models:
+- name: stg_boond_opportunities
+  description: '**Couche/finalité** : staging technique, Besoins commerciaux (opportunités) : un besoin suit un
+    prospect de la première demande jusqu''à la signature ou la perte. C''est l''objet que les commerciaux font
+    avancer d''étape en étape. Reprise de toutes les 25 colonnes, sans sélection métier. Rafraîchissement manuel
+    à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id001
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_state_id
+    data_type: Nullable(Int64)
+    description: 'Étape du besoin. Libellés et propriétés de chaque code dans le référentiel des étapes. Référence
+      documentaire : raw.dictionaries.setting.state.opportunity ; intégrité temporelle à contrôler hors staging.'
+  - name: src_type_id
+    data_type: Nullable(Int64)
+    description: 'Type de besoin : nouveau client, upsell, formation… Référence documentaire : raw.dictionaries.setting.typeOf.project
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_title
+    data_type: String
+    description: Intitulé libre du besoin.
+  - name: src_reference
+    data_type: String
+    description: Référence lisible générée par Boond à la création.
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création du besoin dans Boond.
+  - name: src_updated_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de la dernière modification de la fiche.
+  - name: src_started_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de démarrage souhaitée par le prospect.
+  - name: src_answer_due_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date limite de réponse au prospect.
+  - name: src_closing_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de closing saisie par le commercial sur la fiche.
+  - name: src_estimated_amount_excluding_tax
+    data_type: Nullable(Float64)
+    description: Montant estimé du besoin, hors taxes, saisi par le commercial.
+  - name: src_weighting_percent
+    data_type: Nullable(Int64)
+    description: Pondération du besoin en pourcentage.
+  - name: src_weighted_amount_excluding_tax
+    data_type: Nullable(Float64)
+    description: 'Montant pondéré : montant estimé × pondération.'
+  - name: src_exchange_rate
+    data_type: Nullable(Float64)
+    description: Taux de change entre la devise du besoin et celle de l'agence.
+  - name: src_origin_type_id
+    data_type: Nullable(Int64)
+    description: 'Origine du besoin (canal par lequel il est arrivé). Référence documentaire : raw.dictionaries.setting.origin
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_origin_detail
+    data_type: String
+    description: Précision libre sur l'origine.
+  - name: src_main_manager_id
+    data_type: Nullable(Int64)
+    description: 'Responsable de l''enregistrement : le collaborateur qui le porte. Référence documentaire : raw.ressources.id
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_created_by_id
+    data_type: Nullable(Int64)
+    description: 'Collaborateur (ou robot) qui a créé l''enregistrement. Référence documentaire : raw.ressources.id
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_company_id
+    data_type: Nullable(Int64)
+    description: 'Société prospect ou cliente du besoin. Référence documentaire : raw.companies.id ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_contact_id
+    data_type: Nullable(Int64)
+    description: 'Contact principal du besoin. Référence documentaire : raw.contacts.id ; intégrité temporelle à
+      contrôler hors staging.'
+  - name: src_agency_id
+    data_type: Nullable(Int64)
+    description: 'Agence Boond qui porte le besoin. Référence documentaire : raw.agencies.id ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_attributes
+    data_type: String
+    description: 'Attributs complémentaires en JSON, dont `stateReason` : la raison de perte choisie dans la liste
+      de l''étape.'
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id001
+- name: stg_boond_actions
+  description: '**Couche/finalité** : staging technique, Actions du CRM : appels, demandes de démo, démos, rendez-vous,
+    notes. Une action est rattachée à une fiche (le plus souvent un contact) et porte une date dans l''agenda. Reprise
+    de toutes les 16 colonnes, sans sélection métier. Rafraîchissement manuel à la demande. Histoire et révisions
+    conservées ; publication contrôlée.'
+  config:
+    tags: &id002
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_type_id
+    data_type: Nullable(Int64)
+    description: 'Type d''action : appel, démo, demande de démo… Référence documentaire : raw.dictionaries.setting.action.contact
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_title
+    data_type: String
+    description: Intitulé de l'action.
+  - name: src_started_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Début de l'action dans l'agenda.
+  - name: src_ended_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Fin de l'action dans l'agenda.
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création de l'action.
+  - name: src_updated_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de la dernière modification.
+  - name: src_main_manager_id
+    data_type: Nullable(Int64)
+    description: 'Responsable de l''enregistrement : le collaborateur qui le porte. Référence documentaire : raw.ressources.id
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_created_by_id
+    data_type: Nullable(Int64)
+    description: 'Collaborateur (ou robot) qui a créé l''enregistrement. Référence documentaire : raw.ressources.id
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_company_id
+    data_type: Nullable(Int64)
+    description: 'Société de la fiche à laquelle l''action est rattachée. Référence documentaire : raw.companies.id
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_depends_on_id
+    data_type: Nullable(Int64)
+    description: 'Identifiant de la fiche à laquelle l''action est rattachée. Le type de fiche est dans la colonne
+      suivante. Référence documentaire : raw.contacts.id ; intégrité temporelle à contrôler hors staging.'
+  - name: src_depends_on_type
+    data_type: LowCardinality(String)
+    description: 'Type de la fiche rattachée : `contact`, `opportunity`, `company`…'
+  - name: src_attributes
+    data_type: String
+    description: 'Attributs en JSON, dont `text` : le contenu de l''action (HTML).'
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id002
+- name: stg_boond_companies
+  description: '**Couche/finalité** : staging technique, Sociétés : prospects et clients. Reprise de toutes les
+    14 colonnes, sans sélection métier. Rafraîchissement manuel à la demande. Histoire et révisions conservées ;
+    publication contrôlée.'
+  config:
+    tags: &id003
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_name
+    data_type: String
+    description: Raison sociale.
+  - name: src_state_id
+    data_type: Nullable(Int64)
+    description: 'État de la société : prospect, client lancé, client en risque… Référence documentaire : raw.dictionaries.setting.state.company
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_country
+    data_type: String
+    description: Pays.
+  - name: src_staff
+    data_type: Nullable(Int64)
+    description: Effectif de la société.
+  - name: src_origin_type_id
+    data_type: Nullable(Int64)
+    description: 'Origine de la société. Référence documentaire : raw.dictionaries.setting.origin ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création de la fiche.
+  - name: src_updated_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de la dernière modification.
+  - name: src_pole_id
+    data_type: Nullable(Int64)
+    description: 'Pôle de la société (profil client cible). Référence documentaire : raw.poles.id ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_main_manager_id
+    data_type: Nullable(Int64)
+    description: 'Responsable de l''enregistrement : le collaborateur qui le porte. Référence documentaire : raw.ressources.id
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_agency_id
+    data_type: Nullable(Int64)
+    description: 'Agence Boond de rattachement. Référence documentaire : raw.agencies.id ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id003
+- name: stg_boond_contacts
+  description: '**Couche/finalité** : staging technique, Contacts : les personnes chez les prospects et les clients.
+    Reprise de toutes les 14 colonnes, sans sélection métier. Rafraîchissement manuel à la demande. Histoire et
+    révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id004
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_first_name
+    data_type: String
+    description: Prénom.
+  - name: src_last_name
+    data_type: String
+    description: Nom.
+  - name: src_primary_email
+    data_type: String
+    description: Adresse e-mail principale.
+  - name: src_job_function
+    data_type: String
+    description: Fonction du contact.
+  - name: src_state_id
+    data_type: Nullable(Int64)
+    description: 'État du contact. Référence documentaire : raw.dictionaries.setting.state.contact ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_origin_type_id
+    data_type: Nullable(Int64)
+    description: 'Origine du contact. Référence documentaire : raw.dictionaries.setting.origin ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création de la fiche.
+  - name: src_updated_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de la dernière modification.
+  - name: src_company_id
+    data_type: Nullable(Int64)
+    description: 'Société du contact. Référence documentaire : raw.companies.id ; intégrité temporelle à contrôler
+      hors staging.'
+  - name: src_main_manager_id
+    data_type: Nullable(Int64)
+    description: 'Responsable de l''enregistrement : le collaborateur qui le porte. Référence documentaire : raw.ressources.id
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id004
+- name: stg_boond_resources
+  description: '**Couche/finalité** : staging technique, Collaborateurs de Boond : commerciaux, account managers,
+    direction, administratif, ainsi que les comptes robots des automatisations. Reprise de toutes les 12 colonnes,
+    sans sélection métier. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication
+    contrôlée.'
+  config:
+    tags: &id005
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_first_name
+    data_type: String
+    description: Prénom.
+  - name: src_last_name
+    data_type: String
+    description: Nom.
+  - name: src_title
+    data_type: String
+    description: Intitulé de poste.
+  - name: src_primary_email
+    data_type: String
+    description: Adresse e-mail.
+  - name: src_state_id
+    data_type: Nullable(Int64)
+    description: 'État du collaborateur (en poste, sorti). Référence documentaire : raw.dictionaries.setting.state.resource
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création de la fiche.
+  - name: src_updated_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de la dernière modification.
+  - name: src_agency_id
+    data_type: Nullable(Int64)
+    description: 'Agence du collaborateur. Référence documentaire : raw.agencies.id ; intégrité temporelle à contrôler
+      hors staging.'
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id005
+- name: stg_boond_businessunits
+  description: '**Couche/finalité** : staging technique, Business units : les équipes dans Boond, avec la liste
+    de leurs membres. Reprise de toutes les 8 colonnes, sans sélection métier. Rafraîchissement manuel à la demande.
+    Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id006
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_name
+    data_type: String
+    description: Nom de l'équipe.
+  - name: src_included_managers_json
+    data_type: String
+    description: 'Membres de l''équipe, en JSON : liste de `{"id": …, "type": "resource"}`. Référence documentaire
+      : raw.ressources.id ; intégrité temporelle à contrôler hors staging.'
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création.
+  - name: src_updated_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de la dernière modification.
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id006
+- name: stg_boond_agencies
+  description: '**Couche/finalité** : staging technique, Agences Boond : les entités juridiques et commerciales
+    (France, Espagne). Reprise de toutes les 7 colonnes, sans sélection métier. Rafraîchissement manuel à la demande.
+    Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id007
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_name
+    data_type: String
+    description: Nom de l'agence.
+  - name: src_country
+    data_type: String
+    description: Pays de l'agence.
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création.
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id007
+- name: stg_boond_poles
+  description: '**Couche/finalité** : staging technique, Pôles : la segmentation des sociétés par profil de client
+    cible. Reprise de toutes les 7 colonnes, sans sélection métier. Rafraîchissement manuel à la demande. Histoire
+    et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id008
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_name
+    data_type: String
+    description: Nom du pôle.
+  - name: src_is_active
+    data_type: Bool
+    description: Pôle actif.
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création.
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id008
+- name: stg_boond_dictionaries
+  description: '**Couche/finalité** : staging technique, Référentiels de Boond : listes de valeurs paramétrées par
+    le client (étapes, types d''action, origines…). Chaque colonne `setting.*` contient un tableau JSON d''entrées
+    `{"id", "value", …}`. Reprise de toutes les 12 colonnes, sans sélection métier. Rafraîchissement manuel à la
+    demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id009
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_language
+    data_type: String
+    description: Langue des libellés de la version.
+  - name: src_setting_state_opportunity_json
+    data_type: Nullable(String)
+    description: 'Étapes des besoins. Chaque entrée : `id`, `value` (libellé), `active` (le besoin est encore en
+      cours), `isEnabled` (étape proposée dans l''interface), `weighting` (pondération), `reason` (raisons proposées
+      quand on choisit cette étape).'
+  - name: src_setting_type_of_project_json
+    data_type: LowCardinality(String)
+    description: Types de besoin et de projet.
+  - name: src_setting_origin_json
+    data_type: String
+    description: 'Origines : canaux d''arrivée des besoins, sociétés et contacts.'
+  - name: src_setting_action_contact_json
+    data_type: String
+    description: Types d'action possibles sur un contact.
+  - name: src_setting_state_company_json
+    data_type: Nullable(String)
+    description: États des sociétés.
+  - name: src_setting_state_contact_json
+    data_type: Nullable(String)
+    description: États des contacts.
+  - name: src_setting_state_resource_json
+    data_type: Nullable(String)
+    description: États des collaborateurs.
+  - name: src_setting_state_delivery_json
+    data_type: Nullable(String)
+    description: États des livraisons.
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id009
+- name: stg_boond_projects
+  description: '**Couche/finalité** : staging technique, Projets : quand un besoin est signé, le client est équipé
+    dans Boond sous la forme d''un projet qui regroupe ses lignes d''abonnement. Reprise de toutes les 13 colonnes,
+    sans sélection métier. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication
+    contrôlée.'
+  config:
+    tags: &id010
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_reference
+    data_type: String
+    description: Référence du projet.
+  - name: src_type_id
+    data_type: Nullable(Int64)
+    description: 'Type de projet. Référence documentaire : raw.dictionaries.setting.typeOf.project ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_started_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Début du projet.
+  - name: src_ended_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Fin du projet.
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création.
+  - name: src_updated_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de la dernière modification.
+  - name: src_opportunity_id
+    data_type: Nullable(Int64)
+    description: 'Besoin d''origine du projet. Référence documentaire : raw.opportunities.id ; intégrité temporelle
+      à contrôler hors staging.'
+  - name: src_company_id
+    data_type: Nullable(Int64)
+    description: 'Société cliente. Référence documentaire : raw.companies.id ; intégrité temporelle à contrôler
+      hors staging.'
+  - name: src_main_manager_id
+    data_type: Nullable(Int64)
+    description: 'Responsable de l''enregistrement : le collaborateur qui le porte. Référence documentaire : raw.ressources.id
+      ; intégrité temporelle à contrôler hors staging.'
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id010
+- name: stg_boond_deliveries
+  description: '**Couche/finalité** : staging technique, Livraisons : les lignes d''un projet. Pour un client Boond,
+    une ligne = un abonnement facturé chaque mois sur sa période. Reprise de toutes les 13 colonnes, sans sélection
+    métier. Rafraîchissement manuel à la demande. Histoire et révisions conservées ; publication contrôlée.'
+  config:
+    tags: &id011
+    - capture
+  columns:
+  - name: src_tenant_id
+    data_type: String
+    description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant dans ce jeu.
+  - name: src_id
+    data_type: Int64
+    description: Identifiant de l'enregistrement dans Boond. Le même `id` revient à chaque version.
+  - name: src_is_deleted
+    data_type: Bool
+    description: Vrai sur la version qui enregistre la suppression de l'enregistrement dans Boond.
+  - name: src_published_at
+    data_type: DateTime64(3,'UTC')
+    description: 'Horodatage de la version : moment où la modification a été publiée par le flux CDC.'
+  - name: src_title
+    data_type: String
+    description: Intitulé de la ligne.
+  - name: src_state_id
+    data_type: Nullable(Int64)
+    description: 'État de la livraison. Référence documentaire : raw.dictionaries.setting.state.delivery ; intégrité
+      temporelle à contrôler hors staging.'
+  - name: src_started_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Début de la période facturée.
+  - name: src_ended_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Fin de la période facturée.
+  - name: src_average_daily_price_excluding_tax
+    data_type: Nullable(Float64)
+    description: Tarif de vente journalier moyen HT. Pour une ligne d'abonnement, Boond y range le prix mensuel
+      (quantité facturée × prix unitaire, détail dans `attributes`).
+  - name: src_created_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de création.
+  - name: src_updated_at
+    data_type: Nullable(DateTime64(3,'UTC'))
+    description: Date de la dernière modification.
+  - name: src_project_id
+    data_type: Nullable(Int64)
+    description: 'Projet de la ligne. Référence documentaire : raw.projects.id ; intégrité temporelle à contrôler
+      hors staging.'
+  - name: src_attributes
+    data_type: String
+    description: 'Attributs en JSON : `subscriptionQuantityCharged` (licences facturées) et `subscriptionPriceExcludingTax`
+      (prix unitaire mensuel).'
+  - name: source_identity_key
+    data_type: String
+    description: Identité qualifiée de la source, tenant et clé source sérialisés.
+  - name: source_payload_hash
+    data_type: String
+    description: Empreinte typée ordonnée des colonnes source, NULL distinct de vide.
+  - name: source_version_key
+    data_type: String
+    description: Identité de version CDC ou de changement de capture.
+  - name: imported_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant technique du premier import, figé à la tentative.
+  - name: capture_key
+    data_type: String
+    description: Identifiant durable de la tentative source.
+  - name: capture_at
+    data_type: DateTime64(3,'UTC')
+    description: Instant figé de la lecture complète source.
+  - name: is_source_present
+    data_type: Bool
+    description: Présence technique ; false seulement après une capture complète validée.
+  data_tests:
+  - case_grain:
+      arguments:
+        key: source_version_key
+        run_scoped: false
+      config:
+        tags: *id011

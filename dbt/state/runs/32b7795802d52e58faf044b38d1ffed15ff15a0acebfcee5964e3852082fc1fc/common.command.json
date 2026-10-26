@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "tag:common",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:34:34.226Z",
+  "end": "2026-10-25T21:34:47.871Z",
+  "exit_code": 0,
+  "elapsed_seconds": 13.640999999995984
+}

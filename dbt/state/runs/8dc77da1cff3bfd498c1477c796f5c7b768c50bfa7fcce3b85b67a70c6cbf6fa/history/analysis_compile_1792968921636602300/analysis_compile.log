@@ -1,0 +1,10 @@
+[0m22:53:05  Running with dbt=1.11.12
+[0m22:53:05  Registered adapter: clickhouse=1.10.1
+[0m22:53:07  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:53:07  
+[0m22:53:07  Concurrency: 1 threads (target='dev')
+[0m22:53:07  
+[0m22:53:08  Encountered an error:
+Database Error
+  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.71 GiB (attempt to allocate chunk of 0.00 B), current RSS: 1.44 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker: While executing AggregatingTransform. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+

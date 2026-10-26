@@ -1,0 +1,15 @@
+[0m22:20:24  Running with dbt=1.11.12
+[0m22:20:24  Registered adapter: clickhouse=1.10.1
+[0m22:20:26  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:20:26  
+[0m22:20:26  Concurrency: 1 threads (target='dev')
+[0m22:20:26  
+[0m22:20:27  1 of 1 START sql incremental model `dtm_common_validation_1792966639167740000`.`dim_metric`  [RUN]
+[0m22:20:28  1 of 1 OK created sql incremental model `dtm_common_validation_1792966639167740000`.`dim_metric`  [[32mOK[0m in 0.55s]
+[0m22:20:28  
+[0m22:20:28  Finished running 1 incremental model in 0 hours 0 minutes and 2.39 seconds (2.39s).
+[0m22:20:28  
+[0m22:20:28  [32mCompleted successfully[0m
+[0m22:20:28  
+[0m22:20:28  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

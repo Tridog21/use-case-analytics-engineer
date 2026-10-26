@@ -1,0 +1,11 @@
+{
+  "capture_key": "2026-10-25T215216923Z_379f1342b6",
+  "capture_at": "2026-10-25T21:52:16.923Z",
+  "cdc_full_scan": true,
+  "cdc_overlap_hours": 48,
+  "source_capture_keys": {
+    "boond.contacts": [
+      "2026-10-25T212010841Z_71ce00989b"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "parse",
+    "--no-partial-parse"
+  ],
+  "start": "2026-10-25T21:32:32.612Z",
+  "end": "2026-10-25T21:32:41.225Z",
+  "exit_code": 0,
+  "elapsed_seconds": 8.625
+}

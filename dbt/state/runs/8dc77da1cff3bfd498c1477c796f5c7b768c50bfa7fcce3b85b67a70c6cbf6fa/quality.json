@@ -1,0 +1,326 @@
+[
+  {
+    "measure_id": "objectives.mrr_signed",
+    "dataset_family": "sales_objectives_month",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "unconfirmed_amount_unit",
+    "coverage_status": "not_applicable",
+    "nb_expected": 144,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "objectives.pipeline_generated",
+    "dataset_family": "sales_objectives_month",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "unconfirmed_amount_unit",
+    "coverage_status": "not_applicable",
+    "nb_expected": 144,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "objectives.pipeline_weighted",
+    "dataset_family": "sales_objectives_month",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "unconfirmed_amount_unit",
+    "coverage_status": "not_applicable",
+    "nb_expected": 144,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "objectives.demos",
+    "dataset_family": "sales_objectives_month",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "missing_demo_completion_proof",
+    "coverage_status": "not_applicable",
+    "nb_expected": 144,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "funnel.opportunities",
+    "dataset_family": "funnel_progress",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 9158,
+    "nb_known": 3635,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "funnel.transition",
+    "dataset_family": "funnel_progress",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 9158,
+    "nb_known": 3430,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "funnel.global",
+    "dataset_family": "funnel_progress",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 9158,
+    "nb_known": 9077,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "revenue.active_mrr",
+    "dataset_family": "company_mrr_month",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": null,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z",
+    "nb_evaluated_company_months": 3090,
+    "nb_unassigned_line_months": 9147,
+    "availability_obstacles": [
+      "unresolved_company_history",
+      "incomplete_history"
+    ]
+  },
+  {
+    "measure_id": "revenue.new_mrr",
+    "dataset_family": "company_mrr_month",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": null,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z",
+    "nb_evaluated_company_months": 3090,
+    "nb_unassigned_line_months": 9147,
+    "availability_obstacles": [
+      "unresolved_company_history",
+      "incomplete_history"
+    ]
+  },
+  {
+    "measure_id": "revenue.churn_mrr",
+    "dataset_family": "company_mrr_month",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": null,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z",
+    "nb_evaluated_company_months": 3090,
+    "nb_unassigned_line_months": 9147,
+    "availability_obstacles": [
+      "unresolved_company_history",
+      "incomplete_history"
+    ]
+  },
+  {
+    "measure_id": "revenue.active_clients",
+    "dataset_family": "company_mrr_month",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": null,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z",
+    "nb_evaluated_company_months": 3090,
+    "nb_unassigned_line_months": 9147,
+    "availability_obstacles": [
+      "unresolved_company_history",
+      "incomplete_history"
+    ]
+  },
+  {
+    "measure_id": "durations.completed",
+    "dataset_family": "stage_visits",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 5778,
+    "nb_known": 4331,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "durations.current_age",
+    "dataset_family": "stage_visits",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 5778,
+    "nb_known": 1327,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "durations.threshold",
+    "dataset_family": "stage_visits",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 5778,
+    "nb_known": 5671,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "cohorts.outcomes",
+    "dataset_family": "cohort_outcomes",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 3993,
+    "nb_known": 3113,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "pipeline.open_count",
+    "dataset_family": "pipeline_periods",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 9728,
+    "nb_known": 9528,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "pipeline.open_amount",
+    "dataset_family": "pipeline_periods",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "unconfirmed_amount_unit",
+    "coverage_status": "not_applicable",
+    "nb_expected": 9728,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "pipeline.weighted_amount",
+    "dataset_family": "pipeline_periods",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "unconfirmed_amount_unit",
+    "coverage_status": "not_applicable",
+    "nb_expected": 9728,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "pipeline.coverage",
+    "dataset_family": "pipeline_periods",
+    "availability_status": "blocked_definition",
+    "availability_reason": "feature_not_activated",
+    "coverage_status": "not_applicable",
+    "nb_expected": 9728,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "pipeline.stagnation",
+    "dataset_family": "pipeline_periods",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 9728,
+    "nb_known": 9109,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "pipeline.in_demo",
+    "dataset_family": "pipeline_periods",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 9728,
+    "nb_known": 9697,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "events.generated_count",
+    "dataset_family": "sales_events",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 12437,
+    "nb_known": 1283,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "events.generated_amount",
+    "dataset_family": "sales_events",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "unconfirmed_amount_unit",
+    "coverage_status": "not_applicable",
+    "nb_expected": 12437,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "events.signed_count",
+    "dataset_family": "sales_events",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 12437,
+    "nb_known": 209,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "events.signed_mrr",
+    "dataset_family": "sales_events",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "unconfirmed_amount_unit",
+    "coverage_status": "not_applicable",
+    "nb_expected": 12437,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "events.cycle",
+    "dataset_family": "sales_events",
+    "availability_status": "partial",
+    "availability_reason": "incomplete_history",
+    "coverage_status": "partial",
+    "nb_expected": 12437,
+    "nb_known": 748,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "actions.requests",
+    "dataset_family": "sales_actions",
+    "availability_status": "available",
+    "availability_reason": null,
+    "coverage_status": "complete",
+    "nb_expected": 8864,
+    "nb_known": 8864,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "actions.realized_demos",
+    "dataset_family": "sales_actions",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "missing_demo_completion_proof",
+    "coverage_status": "not_applicable",
+    "nb_expected": 8864,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "demo_intervals.duration",
+    "dataset_family": "demo_intervals",
+    "availability_status": "blocked_evidence",
+    "availability_reason": "unproven_demo_intervals",
+    "coverage_status": "not_applicable",
+    "nb_expected": 0,
+    "nb_known": null,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  },
+  {
+    "measure_id": "timeline.detail",
+    "dataset_family": "opportunity_timeline",
+    "availability_status": "available",
+    "availability_reason": null,
+    "coverage_status": "complete",
+    "nb_expected": 37645,
+    "nb_known": 37645,
+    "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+  }
+]

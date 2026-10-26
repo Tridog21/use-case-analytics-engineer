@@ -1,0 +1,701 @@
+version: 2
+sources:
+- name: boond
+  schema: '{{ var(''boond_source_schema'',''raw'') }}'
+  description: Sources du case en lecture seule. Schéma de fixtures substituable dans
+    une cible analytique isolée.
+  tables:
+  - name: opportunities
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: state
+      description: 'Étape du besoin. Libellés et propriétés de chaque code dans le
+        référentiel des étapes. Référence documentaire : raw.dictionaries.setting.state.opportunity
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: typeOf
+      description: 'Type de besoin : nouveau client, upsell, formation… Référence
+        documentaire : raw.dictionaries.setting.typeOf.project ; intégrité temporelle
+        à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: title
+      description: Intitulé libre du besoin.
+      data_type: String
+    - name: reference
+      description: Référence lisible générée par Boond à la création.
+      data_type: String
+    - name: creationDate
+      description: Date de création du besoin dans Boond.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: updateDate
+      description: Date de la dernière modification de la fiche.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: startDate
+      description: Date de démarrage souhaitée par le prospect.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: answerDate
+      description: Date limite de réponse au prospect.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: closingDate
+      description: Date de closing saisie par le commercial sur la fiche.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: turnoverEstimatedExcludingTax
+      description: Montant estimé du besoin, hors taxes, saisi par le commercial.
+      data_type: Nullable(Float64)
+    - name: weighting
+      description: Pondération du besoin en pourcentage.
+      data_type: Nullable(Int64)
+    - name: turnoverWeightedExcludingTax
+      description: 'Montant pondéré : montant estimé × pondération.'
+      data_type: Nullable(Float64)
+    - name: exchangeRate
+      description: Taux de change entre la devise du besoin et celle de l'agence.
+      data_type: Nullable(Float64)
+    - name: origin.typeOf
+      description: 'Origine du besoin (canal par lequel il est arrivé). Référence
+        documentaire : raw.dictionaries.setting.origin ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: Nullable(Int64)
+    - name: origin.detail
+      description: Précision libre sur l'origine.
+      data_type: String
+    - name: relationships.mainManager.data.id
+      description: 'Responsable de l''enregistrement : le collaborateur qui le porte.
+        Référence documentaire : raw.ressources.id ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.createdBy.data.id
+      description: 'Collaborateur (ou robot) qui a créé l''enregistrement. Référence
+        documentaire : raw.ressources.id ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.company.data.id
+      description: 'Société prospect ou cliente du besoin. Référence documentaire
+        : raw.companies.id ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.contact.data.id
+      description: 'Contact principal du besoin. Référence documentaire : raw.contacts.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.agency.data.id
+      description: 'Agence Boond qui porte le besoin. Référence documentaire : raw.agencies.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: attributes
+      description: 'Attributs complémentaires en JSON, dont `stateReason` : la raison
+        de perte choisie dans la liste de l''étape.'
+      data_type: String
+  - name: actions
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: typeOf
+      description: 'Type d''action : appel, démo, demande de démo… Référence documentaire
+        : raw.dictionaries.setting.action.contact ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: Nullable(Int64)
+    - name: title
+      description: Intitulé de l'action.
+      data_type: String
+    - name: startDate
+      description: Début de l'action dans l'agenda.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: endDate
+      description: Fin de l'action dans l'agenda.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: creationDate
+      description: Date de création de l'action.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: updateDate
+      description: Date de la dernière modification.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: relationships.mainManager.data.id
+      description: 'Responsable de l''enregistrement : le collaborateur qui le porte.
+        Référence documentaire : raw.ressources.id ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.createdBy.data.id
+      description: 'Collaborateur (ou robot) qui a créé l''enregistrement. Référence
+        documentaire : raw.ressources.id ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.company.data.id
+      description: 'Société de la fiche à laquelle l''action est rattachée. Référence
+        documentaire : raw.companies.id ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.dependsOn.data.id
+      description: 'Identifiant de la fiche à laquelle l''action est rattachée. Le
+        type de fiche est dans la colonne suivante. Référence documentaire : raw.contacts.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.dependsOn.data.type
+      description: 'Type de la fiche rattachée : `contact`, `opportunity`, `company`…'
+      data_type: LowCardinality(String)
+    - name: attributes
+      description: 'Attributs en JSON, dont `text` : le contenu de l''action (HTML).'
+      data_type: String
+  - name: companies
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: name
+      description: Raison sociale.
+      data_type: String
+    - name: state
+      description: 'État de la société : prospect, client lancé, client en risque…
+        Référence documentaire : raw.dictionaries.setting.state.company ; intégrité
+        temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: country
+      description: Pays.
+      data_type: String
+    - name: staff
+      description: Effectif de la société.
+      data_type: Nullable(Int64)
+    - name: origin.typeOf
+      description: 'Origine de la société. Référence documentaire : raw.dictionaries.setting.origin
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: creationDate
+      description: Date de création de la fiche.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: updateDate
+      description: Date de la dernière modification.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: relationships.pole.data.id
+      description: 'Pôle de la société (profil client cible). Référence documentaire
+        : raw.poles.id ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.mainManager.data.id
+      description: 'Responsable de l''enregistrement : le collaborateur qui le porte.
+        Référence documentaire : raw.ressources.id ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.agency.data.id
+      description: 'Agence Boond de rattachement. Référence documentaire : raw.agencies.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+  - name: contacts
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: firstName
+      description: Prénom.
+      data_type: String
+    - name: lastName
+      description: Nom.
+      data_type: String
+    - name: email1
+      description: Adresse e-mail principale.
+      data_type: String
+    - name: function
+      description: Fonction du contact.
+      data_type: String
+    - name: state
+      description: 'État du contact. Référence documentaire : raw.dictionaries.setting.state.contact
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: origin.typeOf
+      description: 'Origine du contact. Référence documentaire : raw.dictionaries.setting.origin
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: creationDate
+      description: Date de création de la fiche.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: updateDate
+      description: Date de la dernière modification.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: relationships.company.data.id
+      description: 'Société du contact. Référence documentaire : raw.companies.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.mainManager.data.id
+      description: 'Responsable de l''enregistrement : le collaborateur qui le porte.
+        Référence documentaire : raw.ressources.id ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: Nullable(Int64)
+  - name: ressources
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: firstName
+      description: Prénom.
+      data_type: String
+    - name: lastName
+      description: Nom.
+      data_type: String
+    - name: title
+      description: Intitulé de poste.
+      data_type: String
+    - name: email1
+      description: Adresse e-mail.
+      data_type: String
+    - name: state
+      description: 'État du collaborateur (en poste, sorti). Référence documentaire
+        : raw.dictionaries.setting.state.resource ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: Nullable(Int64)
+    - name: creationDate
+      description: Date de création de la fiche.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: updateDate
+      description: Date de la dernière modification.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: relationships.agency.data.id
+      description: 'Agence du collaborateur. Référence documentaire : raw.agencies.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+  - name: businessunits
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: name
+      description: Nom de l'équipe.
+      data_type: String
+    - name: relationships.includedManagers.data
+      description: 'Membres de l''équipe, en JSON : liste de `{"id": …, "type": "resource"}`.
+        Référence documentaire : raw.ressources.id ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: String
+    - name: creationDate
+      description: Date de création.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: updateDate
+      description: Date de la dernière modification.
+      data_type: Nullable(DateTime64(3,'UTC'))
+  - name: agencies
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: name
+      description: Nom de l'agence.
+      data_type: String
+    - name: country
+      description: Pays de l'agence.
+      data_type: String
+    - name: creationDate
+      description: Date de création.
+      data_type: Nullable(DateTime64(3,'UTC'))
+  - name: poles
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: name
+      description: Nom du pôle.
+      data_type: String
+    - name: state
+      description: Pôle actif.
+      data_type: Bool
+    - name: creationDate
+      description: Date de création.
+      data_type: Nullable(DateTime64(3,'UTC'))
+  - name: dictionaries
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: meta.language
+      description: Langue des libellés de la version.
+      data_type: String
+    - name: setting.state.opportunity
+      description: 'Étapes des besoins. Chaque entrée : `id`, `value` (libellé), `active`
+        (le besoin est encore en cours), `isEnabled` (étape proposée dans l''interface),
+        `weighting` (pondération), `reason` (raisons proposées quand on choisit cette
+        étape).'
+      data_type: Nullable(String)
+    - name: setting.typeOf.project
+      description: Types de besoin et de projet.
+      data_type: LowCardinality(String)
+    - name: setting.origin
+      description: 'Origines : canaux d''arrivée des besoins, sociétés et contacts.'
+      data_type: String
+    - name: setting.action.contact
+      description: Types d'action possibles sur un contact.
+      data_type: String
+    - name: setting.state.company
+      description: États des sociétés.
+      data_type: Nullable(String)
+    - name: setting.state.contact
+      description: États des contacts.
+      data_type: Nullable(String)
+    - name: setting.state.resource
+      description: États des collaborateurs.
+      data_type: Nullable(String)
+    - name: setting.state.delivery
+      description: États des livraisons.
+      data_type: Nullable(String)
+  - name: projects
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: reference
+      description: Référence du projet.
+      data_type: String
+    - name: typeOf
+      description: 'Type de projet. Référence documentaire : raw.dictionaries.setting.typeOf.project
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: startDate
+      description: Début du projet.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: endDate
+      description: Fin du projet.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: creationDate
+      description: Date de création.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: updateDate
+      description: Date de la dernière modification.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: relationships.opportunity.data.id
+      description: 'Besoin d''origine du projet. Référence documentaire : raw.opportunities.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.company.data.id
+      description: 'Société cliente. Référence documentaire : raw.companies.id ; intégrité
+        temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: relationships.mainManager.data.id
+      description: 'Responsable de l''enregistrement : le collaborateur qui le porte.
+        Référence documentaire : raw.ressources.id ; intégrité temporelle à contrôler
+        hors staging.'
+      data_type: Nullable(Int64)
+  - name: deliveries
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: meta.customer
+      description: Code du client Boond (tenant) dont vient la ligne. Un seul tenant
+        dans ce jeu.
+      data_type: String
+    - name: id
+      description: Identifiant de l'enregistrement dans Boond. Le même `id` revient
+        à chaque version.
+      data_type: Int64
+    - name: meta.deleted
+      description: Vrai sur la version qui enregistre la suppression de l'enregistrement
+        dans Boond.
+      data_type: Bool
+    - name: meta.ts
+      description: 'Horodatage de la version : moment où la modification a été publiée
+        par le flux CDC.'
+      data_type: DateTime64(3,'UTC')
+    - name: title
+      description: Intitulé de la ligne.
+      data_type: String
+    - name: state
+      description: 'État de la livraison. Référence documentaire : raw.dictionaries.setting.state.delivery
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: startDate
+      description: Début de la période facturée.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: endDate
+      description: Fin de la période facturée.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: averageDailyPriceExcludingTax
+      description: Tarif de vente journalier moyen HT. Pour une ligne d'abonnement,
+        Boond y range le prix mensuel (quantité facturée × prix unitaire, détail dans
+        `attributes`).
+      data_type: Nullable(Float64)
+    - name: creationDate
+      description: Date de création.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: updateDate
+      description: Date de la dernière modification.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: relationships.project.data.id
+      description: 'Projet de la ligne. Référence documentaire : raw.projects.id ;
+        intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Int64)
+    - name: attributes
+      description: 'Attributs en JSON : `subscriptionQuantityCharged` (licences facturées)
+        et `subscriptionPriceExcludingTax` (prix unitaire mensuel).'
+      data_type: String
+- name: hubspot
+  schema: '{{ var(''hubspot_source_schema'',''hubspot'') }}'
+  description: Sources du case en lecture seule. Schéma de fixtures substituable dans
+    une cible analytique isolée.
+  tables:
+  - name: contacts
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: id
+      description: Identifiant HubSpot du contact.
+      data_type: String
+    - name: properties_email
+      description: Adresse e-mail.
+      data_type: String
+    - name: properties_createdate
+      description: Date de création du contact dans HubSpot.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: properties_lifecyclestage
+      description: 'Étape du cycle de vie HubSpot : subscriber, lead, opportunity,
+        customer, other.'
+      data_type: String
+    - name: properties_hs_latest_source
+      description: Dernière source de trafic connue (ORGANIC_SEARCH, PAID_SEARCH,
+        PAID_SOCIAL, OFFLINE…).
+      data_type: String
+    - name: properties_utm_source
+      description: Paramètre `utm_source` capté par le formulaire.
+      data_type: String
+    - name: properties_utm_campaign
+      description: Paramètre `utm_campaign` capté par le formulaire.
+      data_type: String
+    - name: properties_first_conversion_event_name
+      description: Nom du premier formulaire rempli.
+      data_type: String
+    - name: properties_first_conversion_date
+      description: Date du premier formulaire rempli.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: properties_boondid
+      description: 'Identifiant du contact dans Boond. Référence documentaire : raw.contacts.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: String
+    - name: properties_statut_boond
+      description: Code d'état du contact dans Boond.
+      data_type: String
+    - name: properties_creation_boond
+      description: Date de création du contact dans Boond.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: properties_hubspot_owner_id
+      description: Propriétaire HubSpot du contact.
+      data_type: String
+    - name: archived
+      description: Contact archivé dans HubSpot.
+      data_type: Bool
+    - name: updatedAt
+      description: Dernière modification dans HubSpot.
+      data_type: DateTime64(3,'UTC')
+  - name: deals
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: id
+      description: Identifiant HubSpot du deal.
+      data_type: String
+    - name: properties_dealname
+      description: Nom du deal.
+      data_type: String
+    - name: properties_pipeline
+      description: Pipeline HubSpot du deal.
+      data_type: String
+    - name: properties_dealstage
+      description: Étape du deal dans son pipeline HubSpot.
+      data_type: String
+    - name: properties_hs_is_closed
+      description: HubSpot considère le deal comme fermé.
+      data_type: Bool
+    - name: properties_amount
+      description: Montant du deal.
+      data_type: Nullable(Float64)
+    - name: properties_createdate
+      description: Date de création du deal dans HubSpot.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: properties_closedate
+      description: Date de fermeture du deal dans HubSpot.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: properties_boond_id_num
+      description: 'Identifiant du besoin dans Boond. Référence documentaire : raw.opportunities.id
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Nullable(Float64)
+    - name: properties_statut_boond
+      description: 'Code d''étape du besoin dans Boond. Référence documentaire : raw.dictionaries.setting.state.opportunity
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: String
+    - name: properties_provenance_boond
+      description: Code d'origine du besoin dans Boond.
+      data_type: String
+    - name: properties_creation_dans_boond
+      description: Date de création du besoin dans Boond.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: properties_date_de_fermeture_boond
+      description: Date de closing du besoin dans Boond.
+      data_type: Nullable(DateTime64(3,'UTC'))
+    - name: properties_hubspot_owner_id
+      description: Propriétaire HubSpot du deal.
+      data_type: String
+    - name: archived
+      description: Deal archivé dans HubSpot.
+      data_type: Bool
+    - name: updatedAt
+      description: Dernière modification dans HubSpot.
+      data_type: DateTime64(3,'UTC')
+- name: case_reference
+  schema: '{{ var(''case_reference_source_schema'',''ref'') }}'
+  description: Sources du case en lecture seule. Schéma de fixtures substituable dans
+    une cible analytique isolée.
+  tables:
+  - name: sales_targets
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: month
+      description: Premier jour du mois visé.
+      data_type: Date
+    - name: segment
+      description: 'Équipe : SMB, LA (Large Accounts) ou ES (Espagne).'
+      data_type: String
+    - name: indicator
+      description: 'Indicateur visé : `mrr_signed`, `pipeline_generated`, `pipeline_weighted`,
+        `demos`.'
+      data_type: String
+    - name: target
+      description: Valeur cible du mois (euros pour les montants, nombre pour les
+        démos).
+      data_type: Float64
+  - name: stage_probabilities
+    description: Source physique en lecture seule ; toutes versions et colonnes conservées.
+    columns:
+    - name: state_id
+      description: 'Code de l''étape du besoin. Référence documentaire : raw.dictionaries.setting.state.opportunity
+        ; intégrité temporelle à contrôler hors staging.'
+      data_type: Int64
+    - name: segment
+      description: 'Équipe : SMB, LA ou ES.'
+      data_type: String
+    - name: probability
+      description: Probabilité de signature, entre 0 et 1.
+      data_type: Float64

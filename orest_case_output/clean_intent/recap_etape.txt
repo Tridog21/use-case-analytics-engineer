@@ -1,0 +1,31 @@
+2. Clean intent - stabiliser les définitions et l’architecture
+
+
+Point de départ
+
+Transformer le cadrage et ses itérations en une cible lisible par un relecteur et suffisamment précise pour préparer la spécification.
+
+
+Travail réalisé
+
+Les échanges ont consolidé une version humaine et une version détaillée pour l’IA, le catalogue de KPI, les décisions et les questions ouvertes. Le candidat a demandé de repartir des champs nécessaires et de leurs sources avant de reconstruire l’architecture. L’IA a établi les correspondances ClickHouse et l’inventaire staging.
+
+
+Décisions et clarifications
+
+Deux modules, Pipeline/parcours et Revenus/performance, partagent leurs dimensions. Les données restent assez fines pour recalculer ratios et durées après filtre. L’historisation concerne toute la chaîne. Le stock de sociétés en démo est distingué des rendez-vous réellement tenus. Trois maquettes structurent la restitution : Synthèse, Durées et Cohortes.
+
+
+Valeur pour le case
+
+Le besoin devient une cible cohérente, traçable jusqu’aux sources. Les maquettes relient les indicateurs aux usages attendus ; l’architecture limite les doublons entre analyses du parcours et du revenu.
+
+
+Livrables à ouvrir
+
+intent.md ; liste_kpi_humaine.md ; catalogue_indicateurs.md ; questions_decisions.md ; correspondance_champs_clickhouse.md ; inventaire_sources_staging.md ; architecture_modele_proposition.md ; maquettes/.
+
+
+Limite de cette étape
+
+Une règle décidée pour le case n’équivaut pas à une validation par les métiers. Les conventions techniques préparées en fin de chat sont classées dans spec_technique/00_conventions.md, où elles seront utilisées.

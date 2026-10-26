@@ -1,0 +1,31 @@
+4. Implémentation - produire et rendre consultable
+
+
+Point de départ
+
+Exécuter la spécification v0.2, publier les datasets et construire les trois dashboards dans Superset.
+
+
+Travail réalisé
+
+Les modèles, macros, contrats et outils d’exécution sont dans dbt/. Un mécanisme de capture, construction, contrôle et publication a été implémenté. Après demande du candidat, les vues ont été publiées, puis les dashboards Synthèse, Durées et Cohortes construits. Une dernière itération a repris leur présentation et leur proximité avec les maquettes.
+
+
+Résultats documentés
+
+Le rapport d’exécution enregistre une publication acceptée, 73 relations contrôlées et 37 recompositions persistées comparées. Il présente notamment 13 tests unitaires et 232 tests du candidat réussis. Les documents Superset enregistrent 21 datasets, 38 graphiques et, avant la dernière refonte visuelle, 38 requêtes de graphiques et 25 contrôles ciblés réussis.
+
+
+Valeur pour le case
+
+La chaîne aboutit à des objets consultables et à des preuves d’exécution. Les indicateurs incomplets ou non calculables sont explicités ; une absence de preuve n’est pas transformée en zéro. Le générateur permet de recréer les dashboards sur une installation locale.
+
+
+Livrables à ouvrir
+
+rapport_execution.md ; decisions_techniques.md ; branchement_dashboards.md ; resultats_execution.json ; publication_validation/. Code et assets : ../../dbt/ et ../../superset/.
+
+
+Limites et étape 5
+
+Ces résultats sont des preuves historiques des contrôles effectués pendant l’implémentation. Le cycle final autonome de tests/recette prévu par le candidat n’a pas été mené. La dernière refonte visuelle n’a pas donné lieu à une nouvelle validation des données. La préparation de ce dossier ne relance aucun calcul métier ni test de données.

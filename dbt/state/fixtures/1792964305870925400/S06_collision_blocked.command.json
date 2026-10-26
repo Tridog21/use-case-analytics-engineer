@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "T03_stg_boond_opportunities",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:39:44.953Z",
+  "end": "2026-10-25T21:39:51.904Z",
+  "exit_code": 1,
+  "elapsed_seconds": 6.953000000001339
+}

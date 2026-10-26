@@ -1,0 +1,359 @@
+[
+  {
+    "n": 1,
+    "title": "Du message au formulaire",
+    "short": "Formulaire",
+    "source": "Le prospect remplit un formulaire. HubSpot crée ou met à jour le contact avec le formulaire et les paramètres de campagne.",
+    "tables": [
+      "hubspot.contacts"
+    ],
+    "chain": [
+      "Communication affichée",
+      "CTA affiché",
+      "CTA cliqué",
+      "Formulaire commencé",
+      "Formulaire envoyé",
+      "Contact créé ou mis à jour"
+    ],
+    "hypothesis": "Je décompose l’amont du formulaire en événements marketing. Ces événements ne sont pas établis comme disponibles dans le jeu fourni.",
+    "risk": "Abandon avant envoi ou contact non créé : distinguer une sortie du parcours et un échec de collecte.",
+    "kind": "Acquisition / collecte",
+    "question": "Dispose-t-on des impressions, clics et débuts de formulaire, et d’un identifiant permettant de les relier ?",
+    "measure": "Si le suivi existe : envois / débuts de formulaire, par cohorte et canal. Ne pas calculer ce taux à partir des seuls contacts.",
+    "caveat": "Un contact déjà existant peut être mis à jour : un envoi ne signifie pas forcément un nouveau contact.",
+    "funnel_labels": [
+      "Communication affichée",
+      "CTA affiché",
+      "CTA cliqué",
+      "Formulaire commencé",
+      "Formulaire envoyé",
+      "Contact créé ou mis à jour"
+    ],
+    "branches": [],
+    "visual_type": "Tunnel de conversion hypothétique",
+    "visual_note": "États candidats à définir et à rapprocher ; une progression strictement linéaire reste à vérifier.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 2,
+    "title": "La demande arrive dans Boond",
+    "short": "Arrivée dans Boond",
+    "source": "Une automatisation retrouve ou crée le contact dans Boond et ajoute une action « Demande de démo ».",
+    "tables": [
+      "hubspot.contacts",
+      "raw.contacts",
+      "raw.companies",
+      "raw.actions"
+    ],
+    "chain": [
+      "Contact HubSpot créé ou mis à jour",
+      "Demande de démo transmise",
+      "Contact Boond retrouvé ou créé",
+      "Action « Demande de démo » enregistrée"
+    ],
+    "hypothesis": "Je représente la réception comme un tunnel de transmission et de rapprochement. Le « lead créé » de mon croquis désigne ici une demande traçable, pas une nouvelle table.",
+    "risk": "Demande non reçue, doublon ou retard : hypothèses d’incident d’automatisation.",
+    "kind": "Transmission technique",
+    "question": "Quelle clé rapproche une soumission HubSpot du contact et de l’action Boond ? Quel délai de réception est acceptable ?",
+    "measure": "Si les événements sont rapprochables : demandes reçues dans le délai / demandes à transmettre, avec suivi du retard.",
+    "caveat": "Le nombre de contacts uniques ne constitue pas le dénominateur du nombre de demandes.",
+    "funnel_labels": [
+      "Contact HubSpot créé ou mis à jour",
+      "Demande de démo transmise",
+      "Contact Boond retrouvé ou créé",
+      "Action « Demande de démo » enregistrée"
+    ],
+    "branches": [],
+    "visual_type": "Entonnoir de contrôle opérationnel",
+    "visual_note": "Contrôle de passage ou de délai : la forme ne suppose pas une perte normale à chaque niveau.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 3,
+    "title": "Attribution au commercial",
+    "short": "Attribution",
+    "source": "La demande est confiée à un commercial. Un besoin est ouvert au statut « Lead à traiter ».",
+    "tables": [
+      "raw.opportunities",
+      "raw.ressources",
+      "raw.businessunits"
+    ],
+    "chain": [
+      "Demande à attribuer",
+      "En attente d’attribution",
+      "Commercial responsable identifié",
+      "Besoin « Lead à traiter » pris en charge"
+    ],
+    "hypothesis": "Je distingue la création, l’attente d’attribution et la prise en charge. Le statut intermédiaire « pending » de mon croquis reste à confirmer.",
+    "risk": "Une perte n’est pas attendue lors de la seule attribution ; un lead bloqué peut révéler un défaut de processus.",
+    "kind": "Processus / délai",
+    "question": "L’horodatage de l’attribution et celui de la première prise en charge existent-ils ? Qui traite les demandes sans responsable ?",
+    "measure": "Si les dates existent : taux d’attribution dans le délai et ancienneté des demandes non attribuées.",
+    "caveat": "Le cycle fourni ouvre déjà le besoin à cette étape. Cela ne prouve pas qu’il constitue déjà une opportunité qualifiée au sens métier.",
+    "funnel_labels": [
+      "Demande à attribuer",
+      "En attente d’attribution",
+      "Commercial responsable identifié",
+      "Besoin « Lead à traiter » pris en charge"
+    ],
+    "branches": [],
+    "visual_type": "Entonnoir de contrôle opérationnel",
+    "visual_note": "Contrôle de passage ou de délai : la forme ne suppose pas une perte normale à chaque niveau.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 4,
+    "title": "Premier contact et qualification",
+    "short": "Qualification",
+    "source": "Le commercial appelle, trace les appels aboutis, non aboutis ou manqués, et fait avancer le besoin en « Qualification ».",
+    "tables": [
+      "raw.actions",
+      "raw.opportunities"
+    ],
+    "chain": [
+      "Lead à contacter",
+      "Tentative de contact",
+      "Échange abouti",
+      "Qualification effectuée",
+      "Lead qualifié selon une règle à définir"
+    ],
+    "hypothesis": "Je sépare la joignabilité du prospect et sa qualification. « Lead froid » est un libellé exploratoire de mon croquis, pas un statut confirmé.",
+    "risk": "Coordonnées inutilisables ou prospect injoignable ; puis inadéquation du besoin ou décision de ne pas poursuivre.",
+    "kind": "Contact / qualification",
+    "question": "Quel événement prouve un contact réussi et quels critères rendent un lead qualifié ? Comment distinguer l’attente du refus ?",
+    "measure": "Prospects joints / prospects contactés ; puis qualifiés / prospects joints. Définir le grain et dédupliquer les tentatives.",
+    "caveat": "Plusieurs appels peuvent concerner le même prospect ou besoin. Compter les actions et les personnes répond à deux questions différentes.",
+    "funnel_labels": [
+      "Lead à contacter",
+      "Tentative de contact",
+      "Échange abouti",
+      "Qualification effectuée",
+      "Lead qualifié selon une règle à définir"
+    ],
+    "branches": [],
+    "visual_type": "Tunnel de conversion hypothétique",
+    "visual_note": "États candidats à définir et à rapprocher ; une progression strictement linéaire reste à vérifier.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 5,
+    "title": "Découverte et prise de rendez-vous",
+    "short": "Découverte / RDV",
+    "source": "Un rendez-vous de découverte approfondit le contexte. Le besoin passe en « RDV découverte ».",
+    "tables": [
+      "raw.opportunities"
+    ],
+    "chain": [
+      "Lead qualifié",
+      "Découverte / proposition de rendez-vous",
+      "Rendez-vous accepté et planifié",
+      "Découverte réalisée",
+      "Poursuite vers une démo"
+    ],
+    "hypothesis": "Mon dessin relie « lead qualifié → prise de RDV démo → opportunité ». Je sépare ici découverte et démo pour rendre la définition explicite.",
+    "risk": "Refus de rendez-vous ou absence de suite après découverte.",
+    "kind": "Sortie commerciale",
+    "question": "Découverte et démo sont-elles deux rendez-vous distincts ? À quel événement le métier considère-t-il une opportunité qualifiée ?",
+    "measure": "Si les rendez-vous sont traçables : RDV acceptés / leads qualifiés, puis découvertes réalisées / RDV prévus.",
+    "caveat": "Création technique du besoin en étape 3 et entrée dans le pipeline qualifié ne sont pas interchangeables. Cette frontière reste ouverte.",
+    "funnel_labels": [
+      "Lead qualifié",
+      "Découverte / proposition de rendez-vous",
+      "Rendez-vous accepté et planifié",
+      "Découverte réalisée",
+      "Poursuite vers une démo"
+    ],
+    "branches": [],
+    "visual_type": "Tunnel de conversion hypothétique",
+    "visual_note": "États candidats à définir et à rapprocher ; une progression strictement linéaire reste à vérifier.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 6,
+    "title": "De la démo prévue à la démo tenue",
+    "short": "Démo",
+    "source": "La démo est une action d’agenda « Démo 1 » ou « Démo complémentaire ». Le besoin passe en « Show Boond ».",
+    "tables": [
+      "raw.actions",
+      "raw.opportunities"
+    ],
+    "chain": [
+      "Démo programmée",
+      "Démo 1 tenue",
+      "Démo complémentaire si nécessaire",
+      "Décision de préparer une proposition"
+    ],
+    "hypothesis": "Je décompose la démo en rendez-vous prévu, tenue effective et éventuel complément. Une deuxième démo ne doit pas être considérée comme obligatoire.",
+    "risk": "No-show ; puis décision de ne pas poursuivre après la démonstration.",
+    "kind": "Rendez-vous / décision",
+    "question": "Quel champ prouve que la démo a eu lieu ? Un passage en « Show Boond » suffit-il ? Comment rattacher une action au bon besoin ?",
+    "measure": "Démos tenues / démos prévues arrivées à échéance. Séparer le volume d’actions et le nombre de besoins avec une démo tenue.",
+    "caveat": "Le statut du besoin et la présence d’une action d’agenda ne prouvent pas à eux seuls la même chose.",
+    "funnel_labels": [
+      "Démo programmée",
+      "Démo 1 tenue",
+      "Proposition envisagée"
+    ],
+    "branches": [
+      [
+        1,
+        "Démo complémentaire",
+        "Facultative, selon le besoin"
+      ],
+      [
+        0,
+        "No-show / refus",
+        "Sorties possibles à confirmer"
+      ]
+    ],
+    "visual_type": "Tunnel de conversion hypothétique",
+    "visual_note": "États candidats à définir et à rapprocher ; une progression strictement linéaire reste à vérifier.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 7,
+    "title": "Préparer et négocier la proposition",
+    "short": "Proposition",
+    "source": "Le commercial chiffre l’offre et renseigne montant estimé et signature prévue. Le besoin avance en « Proposition remise », « Projet validé », puis « Closing ».",
+    "tables": [
+      "raw.opportunities"
+    ],
+    "chain": [
+      "Proposition préparée",
+      "Proposition remise",
+      "Projet validé",
+      "Closing"
+    ],
+    "hypothesis": "Je distingue préparation, remise et négociation. L’erreur de chiffrage ou le défaut de processus évoqués sur mon dessin sont des causes possibles à investiguer.",
+    "risk": "Offre mal chiffrée, inadéquation de l’offre ou rupture dans le processus de proposition.",
+    "kind": "Offre / processus",
+    "question": "Les étapes sont-elles toujours suivies dans cet ordre ? Quelle preuve établit une proposition effectivement remise ?",
+    "measure": "Besoins avec proposition remise / besoins éligibles à une proposition, dans une cohorte comparable ; durée par étape.",
+    "caveat": "Les étapes peuvent être sautées ou revisitées. La définition du montant et du revenu mensuel n’est pas résolue par ce schéma.",
+    "funnel_labels": [
+      "Proposition préparée",
+      "Proposition remise",
+      "Projet validé",
+      "Closing"
+    ],
+    "branches": [],
+    "visual_type": "Tunnel de conversion hypothétique",
+    "visual_note": "États candidats à définir et à rapprocher ; une progression strictement linéaire reste à vérifier.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 8,
+    "title": "Distinguer les issues du deal",
+    "short": "Issue du deal",
+    "source": "Le besoin se ferme en « Signé », « Perdu » ou « Abandonné ». Un prospect pas encore prêt peut être mis en « Nurturing ».",
+    "tables": [
+      "raw.opportunities",
+      "raw.dictionaries"
+    ],
+    "chain": [
+      "Deal en négociation",
+      "Signé / Perdu / Abandonné",
+      "Ou Nurturing : mise en attente à suivre"
+    ],
+    "hypothesis": "Je représente les issues comme des branches. Le nurturing est un report possible, pas une perte définitive ni une signature.",
+    "risk": "Deal perdu ou abandonné ; motifs à qualifier. Le retour depuis nurturing reste une hypothèse à examiner.",
+    "kind": "Issue commerciale",
+    "question": "Quels statuts sont terminaux ? Les réouvertures sont-elles possibles ? Les motifs de perte sont-ils renseignés et exploitables ?",
+    "measure": "Définir le taux de gain sur les deals clos éligibles, en explicitant le traitement des abandons, des réouvertures et des cohortes.",
+    "caveat": "Ne pas placer « Signé → Perdu → Abandonné → Nurturing » dans un tunnel : ce sont des issues alternatives.",
+    "funnel_labels": [
+      "Deals en négociation",
+      "Deals signés"
+    ],
+    "branches": [
+      [
+        0,
+        "Perdu / Abandonné",
+        "Issues alternatives à la signature"
+      ],
+      [
+        1,
+        "Nurturing",
+        "Attente ; retour à examiner"
+      ]
+    ],
+    "visual_type": "Tunnel de conversion hypothétique",
+    "visual_note": "États candidats à définir et à rapprocher ; une progression strictement linéaire reste à vérifier.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 9,
+    "title": "Synchronisation vers HubSpot",
+    "short": "Synchro HubSpot",
+    "source": "L’état et les dates du besoin sont recopiés dans le pipeline des deals HubSpot.",
+    "tables": [
+      "raw.opportunities",
+      "hubspot.deals"
+    ],
+    "chain": [
+      "État et dates dans Boond",
+      "Transmission automatisée",
+      "Deal HubSpot mis à jour",
+      "Concordance vérifiée"
+    ],
+    "hypothesis": "Je traite cette étape comme un contrôle de fidélité de la synchronisation. Sa place dans le dessin ne signifie pas que seul le statut final est synchronisé.",
+    "risk": "État obsolète, deal absent ou dates incohérentes : incidents de transmission à distinguer d’une perte commerciale.",
+    "kind": "Transmission technique",
+    "question": "Quel identifiant relie le besoin au deal ? Quelle fréquence, quel délai et quelles règles de mise à jour sont attendus ?",
+    "measure": "Deals correctement synchronisés / besoins à synchroniser ; délai et écarts de statut ou de dates.",
+    "caveat": "Cette étape ne réduit pas le nombre de prospects : ce n’est pas une marche du tunnel commercial.",
+    "funnel_labels": [
+      "État et dates dans Boond",
+      "Transmission automatisée",
+      "Deal HubSpot mis à jour",
+      "Concordance vérifiée"
+    ],
+    "branches": [],
+    "visual_type": "Entonnoir de contrôle opérationnel",
+    "visual_note": "Contrôle de passage ou de délai : la forme ne suppose pas une perte normale à chaque niveau.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  },
+  {
+    "n": 10,
+    "title": "Démarrage et suivi de l’abonnement",
+    "short": "Vie client",
+    "source": "Après signature, Boond crée un projet et des lignes d’abonnement portant un montant mensuel et une période.",
+    "tables": [
+      "raw.projects",
+      "raw.deliveries"
+    ],
+    "chain": [
+      "Deal signé",
+      "Projet et lignes d’abonnement créés",
+      "Abonnement actif sur une période",
+      "Suivi du cycle d’abonnement",
+      "Éventuelle résiliation / churn"
+    ],
+    "hypothesis": "J’étends le cycle fourni avec une boucle de suivi client et une sortie « churn », comme sur mon dessin. La règle de churn n’est pas encore définie.",
+    "risk": "Anomalie de création de l’abonnement ; puis résiliation potentielle, à distinguer d’une perte avant signature.",
+    "kind": "Activation / rétention",
+    "question": "Quelle preuve atteste le démarrage ? Une fin de ligne signifie-t-elle résiliation, renouvellement ou changement d’offre ?",
+    "measure": "Si le lien existe : abonnements démarrés / deals signés arrivés à échéance. Définir ensuite séparément rétention et churn.",
+    "caveat": "Un montant de ligne mensuelle n’est pas une preuve de paiement. Plusieurs lignes peuvent appartenir à un même projet.",
+    "funnel_labels": [
+      "Deal signé",
+      "Projet et abonnement créés",
+      "Abonnement actif"
+    ],
+    "branches": [
+      [
+        1,
+        "Incident de démarrage",
+        "À distinguer du churn"
+      ],
+      [
+        2,
+        "Suivi ↺ / churn",
+        "Rétention et sortie à définir"
+      ]
+    ],
+    "visual_type": "Tunnel de conversion hypothétique",
+    "visual_note": "États candidats à définir et à rapprocher ; une progression strictement linéaire reste à vérifier.",
+    "width_warning": "Largeurs schématiques : elles ne représentent ni des volumes ni des taux mesurés."
+  }
+]

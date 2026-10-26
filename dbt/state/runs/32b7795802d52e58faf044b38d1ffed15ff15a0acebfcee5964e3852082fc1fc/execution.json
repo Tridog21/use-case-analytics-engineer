@@ -1,0 +1,81 @@
+{
+  "model_run_id": "32b7795802d52e58faf044b38d1ffed15ff15a0acebfcee5964e3852082fc1fc",
+  "status": "failed",
+  "start": "2026-10-25T21:34:15.840Z",
+  "phase": "build",
+  "commands": [
+    {
+      "command": [
+        "parse",
+        "--no-partial-parse"
+      ],
+      "start": "2026-10-25T21:34:15.846Z",
+      "end": "2026-10-25T21:34:25.429Z",
+      "exit_code": 0,
+      "elapsed_seconds": 9.593999999997322
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "tag:capture",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T21:34:25.433Z",
+      "end": "2026-10-25T21:34:34.213Z",
+      "exit_code": 0,
+      "elapsed_seconds": 8.781000000002678
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "tag:common",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:34:34.226Z",
+      "end": "2026-10-25T21:34:47.871Z",
+      "exit_code": 0,
+      "elapsed_seconds": 13.640999999995984
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "tag:pipeline tag:revenue tag:mart",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:34:47.887Z",
+      "end": "2026-10-25T21:35:21.314Z",
+      "exit_code": 0,
+      "elapsed_seconds": 33.42199999999866
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "dtr_opportunity_timeline",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T21:35:48.191Z",
+      "end": "2026-10-25T21:35:58.611Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.421000000002095,
+      "recovered_memory_attempts": 1
+    }
+  ],
+  "end": "2026-10-25T21:36:11.768Z",
+  "error": "\u001b[0m21:36:01  Running with dbt=1.11.12\n\u001b[0m21:36:01  Registered adapter: clickhouse=1.10.1\n\u001b[0m21:36:03  Found 73 models, 5 analyses, 182 data tests, 15 sources, 544 macros, 6 unit tests\n\u001b[0m21:36:03  \n\u001b[0m21:36:03  Concurrency: 1 threads (target='dev')\n\u001b[0m21:36:03  \n\u001b[0m21:36:04  1 of 6 START unit_test dim_channel::T56_inbound_outbound_other_no_marketing_fallback  [RUN]\n\u001b[0m21:36:05  1 of 6 PASS dim_channel::T56_inbound_outbound_other_no_marketing_fallback ...... [\u001b[32mPASS\u001b[0m in 0.97s]\n\u001b[0m21:36:05  2 of 6 START unit_test dim_sale_type::T54_commercial_scope_training_preserved .. [RUN]\n\u001b[0m21:36:05  2 of 6 PASS dim_sale_type::T54_commercial_scope_training_preserved ............. [\u001b[32mPASS\u001b[0m in 0.50s]\n\u001b[0m21:36:05  3 of 6 START unit_test dim_stage::T43_T57_old_states_never_infer_modern_stage .. [RUN]\n\u001b[0m21:36:06  3 of 6 PASS dim_stage::T43_T57_old_states_never_infer_modern_stage ............. [\u001b[32mPASS\u001b[0m in 0.68s]\n\u001b[0m21:36:06  4 of 6 START unit_test dim_team::T55_KAM_never_ES .............................. [RUN]\n\u001b[0m21:36:06  4 of 6 ERROR dim_team::T55_KAM_never_ES ........................................ [\u001b[31mERROR\u001b[0m in 0.08s]\n\u001b[0m21:36:06  5 of 6 START unit_test int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr .. [RUN]\n\u001b[0m21:36:07  5 of 6 PASS int_mrr_movements::T30_T31_T33_T34_T52_net_company_mrr ............. [\u001b[32mPASS\u001b[0m in 1.18s]\n\u001b[0m21:36:07  6 of 6 START unit_test int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [RUN]\n\u001b[0m21:36:10  6 of 6 PASS int_opportunity_stage_visits::T13_T37_T58_observed_visits_returns_deletion  [\u001b[32mPASS\u001b[0m in 2.74s]\n\u001b[0m21:36:10  \n\u001b[0m21:36:10  Finished running 6 unit tests in 0 hours 0 minutes and 7.60 seconds (7.60s).\n\u001b[0m21:36:10  \n\u001b[0m21:36:10  \u001b[31mCompleted with 1 error, 0 partial successes, and 0 warnings:\u001b[0m\n\u001b[0m21:36:10  \n\u001b[0m21:36:10  \u001b[31mFailure in unit_test T55_KAM_never_ES (models\\_unit_tests.yml)\u001b[0m\n\u001b[0m21:36:10    Compilation Error in unit_test T55_KAM_never_ES (models\\_unit_tests.yml)\n  Unit_Test 'unit_test.use_case.dim_team.T55_KAM_never_ES' (models\\_unit_tests.yml) depends on a node named 'stg_ref_sales_targets' which was not found\n\u001b[0m21:36:10  \n\u001b[0m21:36:10  Done. PASS=5 WARN=0 ERROR=1 SKIP=0 NO-OP=0 TOTAL=6\n"
+}

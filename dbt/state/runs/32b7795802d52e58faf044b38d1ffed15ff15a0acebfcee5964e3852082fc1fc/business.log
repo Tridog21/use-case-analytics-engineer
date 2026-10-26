@@ -1,0 +1,59 @@
+[0m21:34:50  Running with dbt=1.11.12
+[0m21:34:51  Registered adapter: clickhouse=1.10.1
+[0m21:34:52  Found 73 models, 5 analyses, 182 data tests, 15 sources, 544 macros, 6 unit tests
+[0m21:34:52  
+[0m21:34:52  Concurrency: 1 threads (target='dev')
+[0m21:34:52  
+[0m21:34:54  1 of 23 START sql incremental model `dwh_pipeline`.`int_actions_prepared` ...... [RUN]
+[0m21:34:58  1 of 23 OK created sql incremental model `dwh_pipeline`.`int_actions_prepared` . [[32mOK[0m in 4.00s]
+[0m21:34:58  2 of 23 START sql incremental model `dwh_pipeline`.`int_opportunity_stage_visits`  [RUN]
+[0m21:34:59  2 of 23 OK created sql incremental model `dwh_pipeline`.`int_opportunity_stage_visits`  [[32mOK[0m in 1.17s]
+[0m21:34:59  3 of 23 START sql incremental model `dwh_pipeline`.`int_signature_probabilities`  [RUN]
+[0m21:34:59  3 of 23 OK created sql incremental model `dwh_pipeline`.`int_signature_probabilities`  [[32mOK[0m in 0.27s]
+[0m21:34:59  4 of 23 START sql incremental model `dwh_revenue`.`int_subscription_periods` ... [RUN]
+[0m21:35:01  4 of 23 OK created sql incremental model `dwh_revenue`.`int_subscription_periods`  [[32mOK[0m in 1.79s]
+[0m21:35:01  5 of 23 START sql view model `dtm_pipeline`.`fct_action` ....................... [RUN]
+[0m21:35:01  5 of 23 OK created sql view model `dtm_pipeline`.`fct_action` .................. [[32mOK[0m in 0.10s]
+[0m21:35:01  6 of 23 START sql incremental model `dwh_pipeline`.`int_demo_intervals` ........ [RUN]
+[0m21:35:02  6 of 23 OK created sql incremental model `dwh_pipeline`.`int_demo_intervals` ... [[32mOK[0m in 0.27s]
+[0m21:35:02  7 of 23 START sql incremental model `dwh_pipeline`.`int_opportunity_periods` ... [RUN]
+[0m21:35:08  7 of 23 OK created sql incremental model `dwh_pipeline`.`int_opportunity_periods`  [[32mOK[0m in 5.97s]
+[0m21:35:08  8 of 23 START sql incremental model `dwh_revenue`.`int_subscription_changes` ... [RUN]
+[0m21:35:08  8 of 23 OK created sql incremental model `dwh_revenue`.`int_subscription_changes`  [[32mOK[0m in 0.62s]
+[0m21:35:08  9 of 23 START sql incremental model `dwh_revenue`.`int_subscription_month_end` . [RUN]
+[0m21:35:09  9 of 23 OK created sql incremental model `dwh_revenue`.`int_subscription_month_end`  [[32mOK[0m in 0.99s]
+[0m21:35:09  10 of 23 START sql view model `dtm_pipeline`.`fct_demo_interval` ............... [RUN]
+[0m21:35:09  10 of 23 OK created sql view model `dtm_pipeline`.`fct_demo_interval` .......... [[32mOK[0m in 0.08s]
+[0m21:35:09  11 of 23 START sql view model `dtm_pipeline`.`fct_opportunity_period` .......... [RUN]
+[0m21:35:09  11 of 23 OK created sql view model `dtm_pipeline`.`fct_opportunity_period` ..... [[32mOK[0m in 0.12s]
+[0m21:35:09  12 of 23 START sql view model `dtm_pipeline`.`fct_stage_visit` ................. [RUN]
+[0m21:35:09  12 of 23 OK created sql view model `dtm_pipeline`.`fct_stage_visit` ............ [[32mOK[0m in 0.12s]
+[0m21:35:09  13 of 23 START sql incremental model `dwh_pipeline`.`int_opportunity_events` ... [RUN]
+[0m21:35:12  13 of 23 OK created sql incremental model `dwh_pipeline`.`int_opportunity_events`  [[32mOK[0m in 2.09s]
+[0m21:35:12  14 of 23 START sql incremental model `dwh_pipeline`.`int_visit_responsibility` . [RUN]
+[0m21:35:12  14 of 23 OK created sql incremental model `dwh_pipeline`.`int_visit_responsibility`  [[32mOK[0m in 0.49s]
+[0m21:35:12  15 of 23 START sql view model `dtm_revenue`.`fct_subscription_month_end` ....... [RUN]
+[0m21:35:12  15 of 23 OK created sql view model `dtm_revenue`.`fct_subscription_month_end` .. [[32mOK[0m in 0.07s]
+[0m21:35:12  16 of 23 START sql incremental model `dwh_revenue`.`int_client_activity_context`  [RUN]
+[0m21:35:13  16 of 23 OK created sql incremental model `dwh_revenue`.`int_client_activity_context`  [[32mOK[0m in 0.64s]
+[0m21:35:13  17 of 23 START sql view model `dtm_pipeline`.`fct_opportunity_event` ........... [RUN]
+[0m21:35:13  17 of 23 OK created sql view model `dtm_pipeline`.`fct_opportunity_event` ...... [[32mOK[0m in 0.07s]
+[0m21:35:13  18 of 23 START sql incremental model `dwh_pipeline`.`int_opportunity_followup` . [RUN]
+[0m21:35:18  18 of 23 OK created sql incremental model `dwh_pipeline`.`int_opportunity_followup`  [[32mOK[0m in 5.09s]
+[0m21:35:18  19 of 23 START sql incremental model `dwh_revenue`.`int_mrr_movements` ......... [RUN]
+[0m21:35:19  19 of 23 OK created sql incremental model `dwh_revenue`.`int_mrr_movements` .... [[32mOK[0m in 0.56s]
+[0m21:35:19  20 of 23 START sql incremental model `dwh_revenue`.`int_sales_objectives_month`  [RUN]
+[0m21:35:19  20 of 23 OK created sql incremental model `dwh_revenue`.`int_sales_objectives_month`  [[32mOK[0m in 0.38s]
+[0m21:35:19  21 of 23 START sql view model `dtm_pipeline`.`fct_opportunity_followup` ........ [RUN]
+[0m21:35:19  21 of 23 OK created sql view model `dtm_pipeline`.`fct_opportunity_followup` ... [[32mOK[0m in 0.07s]
+[0m21:35:19  22 of 23 START sql view model `dtm_revenue`.`fct_mrr_movement` ................. [RUN]
+[0m21:35:19  22 of 23 OK created sql view model `dtm_revenue`.`fct_mrr_movement` ............ [[32mOK[0m in 0.11s]
+[0m21:35:19  23 of 23 START sql view model `dtm_revenue`.`fct_sales_objectives_month` ....... [RUN]
+[0m21:35:20  23 of 23 OK created sql view model `dtm_revenue`.`fct_sales_objectives_month` .. [[32mOK[0m in 0.11s]
+[0m21:35:20  
+[0m21:35:20  Finished running 14 incremental models, 9 view models in 0 hours 0 minutes and 27.75 seconds (27.75s).
+[0m21:35:20  
+[0m21:35:20  [32mCompleted successfully[0m
+[0m21:35:20  
+[0m21:35:20  Done. PASS=23 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=23
+

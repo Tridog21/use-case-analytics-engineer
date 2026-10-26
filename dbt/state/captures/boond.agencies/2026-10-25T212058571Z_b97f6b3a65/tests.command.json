@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "stg_boond_agencies",
+    "--exclude",
+    "tag:publication",
+    "--indirect-selection",
+    "cautious"
+  ],
+  "start": "2026-10-25T21:21:07.702Z",
+  "end": "2026-10-25T21:21:14.586Z",
+  "exit_code": 0,
+  "elapsed_seconds": 6.89100000000326
+}

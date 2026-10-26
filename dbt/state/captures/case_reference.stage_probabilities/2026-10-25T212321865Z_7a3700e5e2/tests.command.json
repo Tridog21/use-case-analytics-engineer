@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "stg_ref_stage_probabilities",
+    "--exclude",
+    "tag:publication",
+    "--indirect-selection",
+    "cautious"
+  ],
+  "start": "2026-10-25T21:23:31.933Z",
+  "end": "2026-10-25T21:23:38.373Z",
+  "exit_code": 0,
+  "elapsed_seconds": 6.436999999998079
+}

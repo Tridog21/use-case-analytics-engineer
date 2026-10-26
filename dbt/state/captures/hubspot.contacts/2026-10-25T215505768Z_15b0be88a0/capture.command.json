@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "stg_hubspot_contacts",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:55:05.861Z",
+  "end": "2026-10-25T21:55:19.802Z",
+  "exit_code": 0,
+  "elapsed_seconds": 13.937999999994645
+}

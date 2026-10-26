@@ -1,0 +1,65 @@
+[0m22:32:17  Running with dbt=1.11.12
+[0m22:32:18  Registered adapter: clickhouse=1.10.1
+[0m22:32:19  Found 73 models, 10 analyses, 297 data tests, 15 sources, 545 macros, 13 unit tests
+[0m22:32:19  
+[0m22:32:19  Concurrency: 1 threads (target='dev')
+[0m22:32:19  
+[0m22:32:21  1 of 23 START sql incremental model `dwh_pipeline`.`int_actions_prepared` ...... [RUN]
+[0m22:32:27  1 of 23 OK created sql incremental model `dwh_pipeline`.`int_actions_prepared` . [[32mOK[0m in 6.17s]
+[0m22:32:27  2 of 23 START sql incremental model `dwh_pipeline`.`int_opportunity_stage_visits`  [RUN]
+[0m22:32:28  2 of 23 OK created sql incremental model `dwh_pipeline`.`int_opportunity_stage_visits`  [[32mOK[0m in 1.10s]
+[0m22:32:28  3 of 23 START sql incremental model `dwh_pipeline`.`int_signature_probabilities`  [RUN]
+[0m22:32:29  3 of 23 OK created sql incremental model `dwh_pipeline`.`int_signature_probabilities`  [[32mOK[0m in 0.27s]
+[0m22:32:29  4 of 23 START sql incremental model `dwh_revenue`.`int_subscription_periods` ... [RUN]
+[0m22:32:30  4 of 23 OK created sql incremental model `dwh_revenue`.`int_subscription_periods`  [[32mOK[0m in 1.73s]
+[0m22:32:30  5 of 23 START sql view model `dtm_pipeline`.`fct_action` ....................... [RUN]
+[0m22:32:30  5 of 23 OK created sql view model `dtm_pipeline`.`fct_action` .................. [[32mOK[0m in 0.10s]
+[0m22:32:30  6 of 23 START sql incremental model `dwh_pipeline`.`int_demo_intervals` ........ [RUN]
+[0m22:32:31  6 of 23 OK created sql incremental model `dwh_pipeline`.`int_demo_intervals` ... [[32mOK[0m in 0.27s]
+[0m22:32:31  7 of 23 START sql incremental model `dwh_pipeline`.`int_opportunity_periods` ... [RUN]
+[0m22:32:40  7 of 23 OK created sql incremental model `dwh_pipeline`.`int_opportunity_periods`  [[32mOK[0m in 9.42s]
+[0m22:32:40  8 of 23 START sql incremental model `dwh_revenue`.`int_subscription_changes` ... [RUN]
+[0m22:32:41  8 of 23 OK created sql incremental model `dwh_revenue`.`int_subscription_changes`  [[32mOK[0m in 0.70s]
+[0m22:32:41  9 of 23 START sql incremental model `dwh_revenue`.`int_subscription_month_end` . [RUN]
+[0m22:32:42  9 of 23 OK created sql incremental model `dwh_revenue`.`int_subscription_month_end`  [[32mOK[0m in 1.21s]
+[0m22:32:42  10 of 23 START sql view model `dtm_pipeline`.`fct_demo_interval` ............... [RUN]
+[0m22:32:42  10 of 23 OK created sql view model `dtm_pipeline`.`fct_demo_interval` .......... [[32mOK[0m in 0.08s]
+[0m22:32:42  11 of 23 START sql view model `dtm_pipeline`.`fct_opportunity_period` .......... [RUN]
+[0m22:32:42  11 of 23 OK created sql view model `dtm_pipeline`.`fct_opportunity_period` ..... [[32mOK[0m in 0.11s]
+[0m22:32:42  12 of 23 START sql view model `dtm_pipeline`.`fct_stage_visit` ................. [RUN]
+[0m22:32:42  12 of 23 OK created sql view model `dtm_pipeline`.`fct_stage_visit` ............ [[32mOK[0m in 0.12s]
+[0m22:32:42  13 of 23 START sql incremental model `dwh_pipeline`.`int_opportunity_events` ... [RUN]
+[0m22:32:48  13 of 23 OK created sql incremental model `dwh_pipeline`.`int_opportunity_events`  [[32mOK[0m in 5.27s]
+[0m22:32:48  14 of 23 START sql incremental model `dwh_pipeline`.`int_visit_responsibility` . [RUN]
+[0m22:32:48  14 of 23 OK created sql incremental model `dwh_pipeline`.`int_visit_responsibility`  [[32mOK[0m in 0.49s]
+[0m22:32:48  15 of 23 START sql view model `dtm_revenue`.`fct_subscription_month_end` ....... [RUN]
+[0m22:32:48  15 of 23 OK created sql view model `dtm_revenue`.`fct_subscription_month_end` .. [[32mOK[0m in 0.08s]
+[0m22:32:48  16 of 23 START sql incremental model `dwh_revenue`.`int_client_activity_context`  [RUN]
+[0m22:32:49  16 of 23 OK created sql incremental model `dwh_revenue`.`int_client_activity_context`  [[32mOK[0m in 0.68s]
+[0m22:32:49  17 of 23 START sql view model `dtm_pipeline`.`fct_opportunity_event` ........... [RUN]
+[0m22:32:49  17 of 23 OK created sql view model `dtm_pipeline`.`fct_opportunity_event` ...... [[32mOK[0m in 0.08s]
+[0m22:32:49  18 of 23 START sql incremental model `dwh_pipeline`.`int_opportunity_followup` . [RUN]
+[0m22:32:54  18 of 23 ERROR creating sql incremental model `dwh_pipeline`.`int_opportunity_followup`  [[31mERROR[0m in 5.07s]
+[0m22:32:54  19 of 23 START sql incremental model `dwh_revenue`.`int_mrr_movements` ......... [RUN]
+[0m22:32:55  19 of 23 OK created sql incremental model `dwh_revenue`.`int_mrr_movements` .... [[32mOK[0m in 0.53s]
+[0m22:32:55  20 of 23 START sql incremental model `dwh_revenue`.`int_sales_objectives_month`  [RUN]
+[0m22:32:55  20 of 23 OK created sql incremental model `dwh_revenue`.`int_sales_objectives_month`  [[32mOK[0m in 0.82s]
+[0m22:32:55  21 of 23 SKIP relation dtm_pipeline.fct_opportunity_followup ................... [[33mSKIP[0m]
+[0m22:32:55  22 of 23 START sql view model `dtm_revenue`.`fct_mrr_movement` ................. [RUN]
+[0m22:32:55  22 of 23 OK created sql view model `dtm_revenue`.`fct_mrr_movement` ............ [[32mOK[0m in 0.08s]
+[0m22:32:55  23 of 23 START sql view model `dtm_revenue`.`fct_sales_objectives_month` ....... [RUN]
+[0m22:32:56  23 of 23 OK created sql view model `dtm_revenue`.`fct_sales_objectives_month` .. [[32mOK[0m in 0.11s]
+[0m22:32:56  
+[0m22:32:56  Finished running 14 incremental models, 9 view models in 0 hours 0 minutes and 36.58 seconds (36.58s).
+[0m22:32:56  
+[0m22:32:56  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m22:32:56  
+[0m22:32:56  [31mFailure in model int_opportunity_followup (models\intermediate\pipeline\int_opportunity_followup.sql)[0m
+[0m22:32:56    Database Error in model int_opportunity_followup (models\intermediate\pipeline\int_opportunity_followup.sql)
+  Received ClickHouse exception, code: 241, server response: Code: 241. DB::Exception: (total) memory limit exceeded: would use 6.71 GiB (attempt to allocate chunk of 4.00 MiB), current RSS: 1.52 GiB, maximum: 6.71 GiB. OvercommitTracker decision: Query was selected to stop by OvercommitTracker. (MEMORY_LIMIT_EXCEEDED) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+  compiled code at target\run\use_case\models\intermediate\pipeline\int_opportunity_followup.sql
+[0m22:32:56  
+[0m22:32:56    compiled code at target\compiled\use_case\models\intermediate\pipeline\int_opportunity_followup.sql
+[0m22:32:56  
+[0m22:32:56  Done. PASS=21 WARN=0 ERROR=1 SKIP=1 NO-OP=0 TOTAL=23
+

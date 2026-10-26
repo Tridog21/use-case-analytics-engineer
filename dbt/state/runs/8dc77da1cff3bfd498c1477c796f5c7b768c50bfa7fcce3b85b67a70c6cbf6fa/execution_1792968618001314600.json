@@ -1,0 +1,134 @@
+{
+  "model_run_id": "8dc77da1cff3bfd498c1477c796f5c7b768c50bfa7fcce3b85b67a70c6cbf6fa",
+  "status": "success",
+  "start": "2026-10-25T22:39:26.123Z",
+  "phase": "build",
+  "commands": [
+    {
+      "command": [
+        "parse",
+        "--no-partial-parse"
+      ],
+      "start": "2026-10-25T22:39:26.218Z",
+      "end": "2026-10-25T22:39:36.272Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.06199999999808
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "tag:capture",
+        "--exclude",
+        "tag:publication",
+        "--indirect-selection",
+        "cautious"
+      ],
+      "start": "2026-10-25T22:39:36.383Z",
+      "end": "2026-10-25T22:39:46.795Z",
+      "exit_code": 0,
+      "elapsed_seconds": 10.405999999995402
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "tag:common",
+        "--exclude",
+        "tag:publication",
+        "--threads",
+        "1"
+      ],
+      "start": "2026-10-25T22:39:46.900Z",
+      "end": "2026-10-25T22:40:02.374Z",
+      "exit_code": 0,
+      "elapsed_seconds": 15.468999999997322
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "int_opportunity_followup fct_opportunity_followup",
+        "--threads",
+        "1",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:40:59.424Z",
+      "end": "2026-10-25T22:41:16.857Z",
+      "exit_code": 0,
+      "elapsed_seconds": 17.437000000005355,
+      "recovered_memory_attempts": 1
+    },
+    {
+      "command": [
+        "run",
+        "--select",
+        "dtr_sales_events",
+        "--threads",
+        "1",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:41:40.554Z",
+      "end": "2026-10-25T22:41:49.730Z",
+      "exit_code": 0,
+      "elapsed_seconds": 9.171000000002095,
+      "recovered_memory_attempts": 1
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "test_type:unit",
+        "--exclude",
+        "tag:publication"
+      ],
+      "start": "2026-10-25T22:45:37.546Z",
+      "end": "2026-10-25T22:47:42.591Z",
+      "exit_code": 0,
+      "elapsed_seconds": 125.04700000000594
+    },
+    {
+      "command": [
+        "test",
+        "--select",
+        "T07_content_dtr_opportunity_timeline",
+        "--threads",
+        "1",
+        "--exclude",
+        "tag:publication test_type:unit"
+      ],
+      "start": "2026-10-25T22:48:24.631Z",
+      "end": "2026-10-25T22:48:32.459Z",
+      "exit_code": 0,
+      "elapsed_seconds": 7.828000000001339,
+      "recovered_memory_attempts": 1
+    }
+  ],
+  "code_hash": "16fcbbbfb5c76a2d113cacb3c151a556a60a2ab63948029f54f443a906d1e4f2",
+  "rule_version": "9a4959fdc3a421eddf06b2667182588d6648793334f2a6b212ef982c50048468",
+  "vars_hash": "deffbf2154d617ea88093b95afabc0df179eaab94458a7dcaaeadb900592e2b2",
+  "input_cutoff_at": "2026-10-25T22:39:26.119Z",
+  "source_capture_keys": {
+    "hubspot.contacts": [
+      "2026-10-25T212226410Z_eab3f87bca",
+      "2026-10-25T215505768Z_15b0be88a0"
+    ],
+    "hubspot.deals": [
+      "2026-10-25T212244007Z_e3e0997104",
+      "2026-10-25T215529103Z_13205891e0"
+    ],
+    "case_reference.sales_targets": [
+      "2026-10-25T212301870Z_8b72bc74c8",
+      "2026-10-25T215550309Z_e4bfe66e4e"
+    ],
+    "case_reference.stage_probabilities": [
+      "2026-10-25T212321865Z_7a3700e5e2",
+      "2026-10-25T215611097Z_452d38a5b6"
+    ]
+  },
+  "fixture_code_hash": "3ed51dadfc91a2c6573d4984d9748d1076009958084b23d09a60305610ee0f0c",
+  "candidate_tests_passed": true,
+  "end": "2026-10-25T22:49:13.586Z"
+}

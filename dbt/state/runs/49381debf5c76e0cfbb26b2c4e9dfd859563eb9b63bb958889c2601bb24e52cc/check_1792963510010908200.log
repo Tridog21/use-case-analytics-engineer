@@ -1,0 +1,119 @@
+[0m21:25:12  Running with dbt=1.11.12
+[0m21:25:13  Registered adapter: clickhouse=1.10.1
+[0m21:25:13  Unable to do partial parsing because config vars, config profile, or config target have changed
+[0m21:25:15  [[33mWARNING[0m]: Did not find matching node for patch with name 'int_publication' in the 'models' section of file 'models\intermediate\common\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_sales_objectives_month' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_funnel_progress' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_company_mrr_month' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_stage_visits' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_cohort_outcomes' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_opportunity_timeline' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_pipeline_periods' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_sales_events' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_sales_actions' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_demo_intervals' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dataset_publication_status' in the 'models' section of file 'models\reporting\datasets\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_company_mrr_month' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Did not find matching node for patch with name 'dtr_opportunity_timeline' in the 'models' section of file 'models\reporting\dtr\_models.yml'
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_int_publication_publication_key__False.df11d202ab' (models\intermediate\common\_models.yml) depends on a node named 'int_publication' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_sales_objectives_month_record_version_key__True.c2849f38ae' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_sales_objectives_month' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_funnel_progress_record_version_key__True.9ec60eb91a' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_funnel_progress' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_company_mrr_month_record_version_key__True.219a3bc3a1' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_company_mrr_month' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_stage_visits_record_version_key__True.3c11933adb' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_stage_visits' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_cohort_outcomes_record_version_key__True.8c50d98fa8' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_cohort_outcomes' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_opportunity_timeline_record_version_key__True.6b1e904abc' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_opportunity_timeline' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_pipeline_periods_record_version_key__True.c100606b6a' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_pipeline_periods' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_sales_events_record_version_key__True.3a5269b3e7' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_sales_events' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_sales_actions_record_version_key__True.125c1ca805' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_sales_actions' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dataset_demo_intervals_record_version_key__True.30a4eddf13' (models\reporting\datasets\_models.yml) depends on a node named 'dataset_demo_intervals' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_company_mrr_month_record_version_key__True.4beaa1a33c' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_company_mrr_month' in package '' which was not found
+[0m21:25:16  [[33mWARNING[0m]: Test 'test.use_case.case_grain_dtr_opportunity_timeline_record_version_key__True.3b8fd7440d' (models\reporting\dtr\_models.yml) depends on a node named 'dtr_opportunity_timeline' in package '' which was not found
+[0m21:25:17  Found 59 models, 59 data tests, 15 sources, 542 macros
+[0m21:25:17  The selection criterion 'tag:publication' does not match any enabled nodes
+[0m21:25:17  
+[0m21:25:17  Concurrency: 1 threads (target='dev')
+[0m21:25:17  
+[0m21:25:19  1 of 36 START sql incremental model `dtm_common`.`dim_action_type` ............. [RUN]
+[0m21:25:20  1 of 36 OK created sql incremental model `dtm_common`.`dim_action_type` ........ [[32mOK[0m in 0.85s]
+[0m21:25:20  2 of 36 START sql incremental model `dtm_common`.`dim_channel` ................. [RUN]
+[0m21:25:20  2 of 36 OK created sql incremental model `dtm_common`.`dim_channel` ............ [[32mOK[0m in 0.56s]
+[0m21:25:20  3 of 36 START sql incremental model `dtm_common`.`dim_country` ................. [RUN]
+[0m21:25:21  3 of 36 OK created sql incremental model `dtm_common`.`dim_country` ............ [[32mOK[0m in 0.24s]
+[0m21:25:21  4 of 36 START sql incremental model `dtm_common`.`dim_date` .................... [RUN]
+[0m21:25:21  4 of 36 OK created sql incremental model `dtm_common`.`dim_date` ............... [[32mOK[0m in 0.30s]
+[0m21:25:21  5 of 36 START sql incremental model `dtm_common`.`dim_employee` ................ [RUN]
+[0m21:25:21  5 of 36 OK created sql incremental model `dtm_common`.`dim_employee` ........... [[32mOK[0m in 0.35s]
+[0m21:25:21  6 of 36 START sql incremental model `dtm_common`.`dim_followup_definition` ..... [RUN]
+[0m21:25:22  6 of 36 OK created sql incremental model `dtm_common`.`dim_followup_definition`  [[32mOK[0m in 0.89s]
+[0m21:25:22  7 of 36 START sql incremental model `dtm_common`.`dim_metric` .................. [RUN]
+[0m21:25:22  7 of 36 OK created sql incremental model `dtm_common`.`dim_metric` ............. [[32mOK[0m in 0.26s]
+[0m21:25:22  8 of 36 START sql incremental model `dtm_common`.`dim_sale_type` ............... [RUN]
+[0m21:25:23  8 of 36 OK created sql incremental model `dtm_common`.`dim_sale_type` .......... [[32mOK[0m in 0.51s]
+[0m21:25:23  9 of 36 START sql incremental model `dtm_common`.`dim_stage` ................... [RUN]
+[0m21:25:24  9 of 36 OK created sql incremental model `dtm_common`.`dim_stage` .............. [[32mOK[0m in 0.67s]
+[0m21:25:24  10 of 36 START sql incremental model `dtm_common`.`dim_team` ................... [RUN]
+[0m21:25:24  10 of 36 OK created sql incremental model `dtm_common`.`dim_team` .............. [[32mOK[0m in 0.32s]
+[0m21:25:24  11 of 36 START sql incremental model `dwh_common`.`int_crm_identity_links` ..... [RUN]
+[0m21:25:25  11 of 36 OK created sql incremental model `dwh_common`.`int_crm_identity_links`  [[32mOK[0m in 1.53s]
+[0m21:25:25  12 of 36 START sql incremental model `dwh_pipeline`.`int_demo_intervals` ....... [RUN]
+[0m21:25:26  12 of 36 OK created sql incremental model `dwh_pipeline`.`int_demo_intervals` .. [[32mOK[0m in 0.18s]
+[0m21:25:26  13 of 36 START sql incremental model `dwh_pipeline`.`int_opportunity_stage_visits`  [RUN]
+[0m21:25:27  13 of 36 OK created sql incremental model `dwh_pipeline`.`int_opportunity_stage_visits`  [[32mOK[0m in 0.87s]
+[0m21:25:27  14 of 36 START sql incremental model `dwh_pipeline`.`int_signature_probabilities`  [RUN]
+[0m21:25:27  14 of 36 OK created sql incremental model `dwh_pipeline`.`int_signature_probabilities`  [[32mOK[0m in 0.19s]
+[0m21:25:27  15 of 36 START sql incremental model `dtm_common`.`dim_company` ................ [RUN]
+[0m21:25:28  15 of 36 OK created sql incremental model `dtm_common`.`dim_company` ........... [[32mOK[0m in 1.00s]
+[0m21:25:28  16 of 36 START sql incremental model `dwh_revenue`.`int_sales_objectives_month`  [RUN]
+[0m21:25:28  16 of 36 OK created sql incremental model `dwh_revenue`.`int_sales_objectives_month`  [[32mOK[0m in 0.25s]
+[0m21:25:28  17 of 36 START sql incremental model `dwh_common`.`int_team_membership_periods`  [RUN]
+[0m21:25:29  17 of 36 OK created sql incremental model `dwh_common`.`int_team_membership_periods`  [[32mOK[0m in 1.12s]
+[0m21:25:29  18 of 36 START sql view model `dtm_pipeline`.`fct_demo_interval` ............... [RUN]
+[0m21:25:29  18 of 36 OK created sql view model `dtm_pipeline`.`fct_demo_interval` .......... [[32mOK[0m in 0.04s]
+[0m21:25:29  19 of 36 START sql incremental model `dwh_revenue`.`int_subscription_periods` .. [RUN]
+[0m21:25:31  19 of 36 OK created sql incremental model `dwh_revenue`.`int_subscription_periods`  [[32mOK[0m in 1.41s]
+[0m21:25:31  20 of 36 START sql view model `dtm_revenue`.`fct_sales_objectives_month` ....... [RUN]
+[0m21:25:31  20 of 36 OK created sql view model `dtm_revenue`.`fct_sales_objectives_month` .. [[32mOK[0m in 0.03s]
+[0m21:25:31  21 of 36 START sql incremental model `dwh_pipeline`.`int_actions_prepared` ..... [RUN]
+[0m21:25:31  21 of 36 OK created sql incremental model `dwh_pipeline`.`int_actions_prepared`  [[32mOK[0m in 0.66s]
+[0m21:25:31  22 of 36 START sql incremental model `dwh_pipeline`.`int_opportunity_periods` .. [RUN]
+[0m21:25:36  22 of 36 OK created sql incremental model `dwh_pipeline`.`int_opportunity_periods`  [[32mOK[0m in 4.16s]
+[0m21:25:36  23 of 36 START sql incremental model `dwh_revenue`.`int_subscription_changes` .. [RUN]
+[0m21:25:36  23 of 36 OK created sql incremental model `dwh_revenue`.`int_subscription_changes`  [[32mOK[0m in 0.42s]
+[0m21:25:36  24 of 36 START sql incremental model `dwh_revenue`.`int_subscription_month_end`  [RUN]
+[0m21:25:37  24 of 36 OK created sql incremental model `dwh_revenue`.`int_subscription_month_end`  [[32mOK[0m in 0.90s]
+[0m21:25:37  25 of 36 START sql view model `dtm_pipeline`.`fct_action` ...................... [RUN]
+[0m21:25:37  25 of 36 OK created sql view model `dtm_pipeline`.`fct_action` ................. [[32mOK[0m in 0.03s]
+[0m21:25:37  26 of 36 START sql view model `dtm_pipeline`.`fct_opportunity_period` .......... [RUN]
+[0m21:25:37  26 of 36 OK created sql view model `dtm_pipeline`.`fct_opportunity_period` ..... [[32mOK[0m in 0.07s]
+[0m21:25:37  27 of 36 START sql view model `dtm_pipeline`.`fct_stage_visit` ................. [RUN]
+[0m21:25:37  27 of 36 OK created sql view model `dtm_pipeline`.`fct_stage_visit` ............ [[32mOK[0m in 0.07s]
+[0m21:25:37  28 of 36 START sql incremental model `dwh_pipeline`.`int_opportunity_events` ... [RUN]
+[0m21:25:39  28 of 36 OK created sql incremental model `dwh_pipeline`.`int_opportunity_events`  [[32mOK[0m in 1.49s]
+[0m21:25:39  29 of 36 START sql incremental model `dwh_pipeline`.`int_opportunity_followup` . [RUN]
+[0m21:25:39  29 of 36 ERROR creating sql incremental model `dwh_pipeline`.`int_opportunity_followup`  [[31mERROR[0m in 0.15s]
+[0m21:25:39  30 of 36 START sql incremental model `dwh_pipeline`.`int_visit_responsibility` . [RUN]
+[0m21:25:39  30 of 36 OK created sql incremental model `dwh_pipeline`.`int_visit_responsibility`  [[32mOK[0m in 0.37s]
+[0m21:25:39  31 of 36 START sql view model `dtm_revenue`.`fct_subscription_month_end` ....... [RUN]
+[0m21:25:40  31 of 36 OK created sql view model `dtm_revenue`.`fct_subscription_month_end` .. [[32mOK[0m in 0.01s]
+[0m21:25:40  32 of 36 START sql incremental model `dwh_revenue`.`int_client_activity_context`  [RUN]
+[0m21:25:40  32 of 36 OK created sql incremental model `dwh_revenue`.`int_client_activity_context`  [[32mOK[0m in 0.49s]
+[0m21:25:40  33 of 36 START sql view model `dtm_pipeline`.`fct_opportunity_event` ........... [RUN]
+[0m21:25:40  33 of 36 OK created sql view model `dtm_pipeline`.`fct_opportunity_event` ...... [[32mOK[0m in 0.03s]
+[0m21:25:40  34 of 36 SKIP relation dtm_pipeline.fct_opportunity_followup ................... [[33mSKIP[0m]
+[0m21:25:40  35 of 36 START sql incremental model `dwh_revenue`.`int_mrr_movements` ......... [RUN]
+[0m21:25:40  35 of 36 OK created sql incremental model `dwh_revenue`.`int_mrr_movements` .... [[32mOK[0m in 0.42s]
+[0m21:25:40  36 of 36 START sql view model `dtm_revenue`.`fct_mrr_movement` ................. [RUN]
+[0m21:25:40  36 of 36 OK created sql view model `dtm_revenue`.`fct_mrr_movement` ............ [[32mOK[0m in 0.03s]
+[0m21:25:40  
+[0m21:25:40  Finished running 27 incremental models, 9 view models in 0 hours 0 minutes and 23.79 seconds (23.79s).
+[0m21:25:41  
+[0m21:25:41  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m21:25:41  
+[0m21:25:41  [31mFailure in model int_opportunity_followup (models\intermediate\pipeline\int_opportunity_followup.sql)[0m
+[0m21:25:41    Database Error in model int_opportunity_followup (models\intermediate\pipeline\int_opportunity_followup.sql)
+  Received ClickHouse exception, code: 47, server response: Code: 47. DB::Exception: Unknown expression or function identifier `x.tenant_id` in scope  horizons. Maybe you meant: ['o.tenant_id']. (UNKNOWN_IDENTIFIER) (version 25.11.9.34 (official build)) (for url http://localhost:8123)
+[0m21:25:41  
+[0m21:25:41    compiled code at target\compiled\use_case\models\intermediate\pipeline\int_opportunity_followup.sql
+[0m21:25:41  
+[0m21:25:41  Done. PASS=34 WARN=0 ERROR=1 SKIP=1 NO-OP=0 TOTAL=36
+

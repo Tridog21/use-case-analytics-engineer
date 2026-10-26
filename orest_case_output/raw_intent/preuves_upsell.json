@@ -1,0 +1,1099 @@
+{
+  "verification_date": "2026-10-25",
+  "population": "Opportunites actuelles non supprimees, toutes dates; parcours observes sur toutes leurs versions",
+  "queries": [
+    {
+      "query": "Q1",
+      "rows": [
+        {
+          "typeOf": 2,
+          "nb_opportunites": 57,
+          "nb_versions": 259,
+          "une_seule_version": 3,
+          "horodatages_ex_aequo": 0,
+          "type_modifie": 0,
+          "suppression_historique": 0,
+          "premiere_observation_apres_creation": 4,
+          "premiere_observation_differe_creation": 4,
+          "premiere_creation": "2021-11-15 09:03:45.532",
+          "derniere_creation": "2026-09-24 15:14:09.878"
+        },
+        {
+          "typeOf": 4,
+          "nb_opportunites": 1267,
+          "nb_versions": 6323,
+          "une_seule_version": 59,
+          "horodatages_ex_aequo": 0,
+          "type_modifie": 0,
+          "suppression_historique": 0,
+          "premiere_observation_apres_creation": 102,
+          "premiere_observation_differe_creation": 102,
+          "premiere_creation": "2021-09-06 12:15:48.029",
+          "derniere_creation": "2026-09-28 18:47:46.352"
+        },
+        {
+          "typeOf": 7,
+          "nb_opportunites": 52,
+          "nb_versions": 364,
+          "une_seule_version": 0,
+          "horodatages_ex_aequo": 0,
+          "type_modifie": 0,
+          "suppression_historique": 0,
+          "premiere_observation_apres_creation": 0,
+          "premiere_observation_differe_creation": 0,
+          "premiere_creation": "2024-02-19 14:53:44.250",
+          "derniere_creation": "2026-09-28 18:30:19.960"
+        }
+      ]
+    },
+    {
+      "query": "Q2",
+      "rows": [
+        {
+          "state": 0,
+          "nb_upsells": 5,
+          "ids": [
+            201341,
+            201358,
+            201347,
+            201366,
+            201348
+          ]
+        },
+        {
+          "state": 1,
+          "nb_upsells": 5,
+          "ids": [
+            201352,
+            201374,
+            201346,
+            201372,
+            201363
+          ]
+        },
+        {
+          "state": 2,
+          "nb_upsells": 1,
+          "ids": [
+            201356
+          ]
+        },
+        {
+          "state": 3,
+          "nb_upsells": 3,
+          "ids": [
+            201381,
+            201343,
+            201342
+          ]
+        },
+        {
+          "state": 13,
+          "nb_upsells": 7,
+          "ids": [
+            201340,
+            201380,
+            201385,
+            201351,
+            201357,
+            201389,
+            201359
+          ]
+        },
+        {
+          "state": 14,
+          "nb_upsells": 21,
+          "ids": [
+            201377,
+            201384,
+            201369,
+            201365,
+            201373,
+            201339,
+            201382,
+            201345,
+            201353,
+            201370,
+            201355,
+            201350,
+            201364,
+            201344,
+            201388,
+            201349,
+            201378,
+            201360,
+            201361,
+            201390,
+            201375
+          ]
+        },
+        {
+          "state": 21,
+          "nb_upsells": 4,
+          "ids": [
+            201386,
+            201387,
+            201376,
+            201367
+          ]
+        },
+        {
+          "state": 25,
+          "nb_upsells": 1,
+          "ids": [
+            201379
+          ]
+        },
+        {
+          "state": 26,
+          "nb_upsells": 4,
+          "ids": [
+            201371,
+            201362,
+            201338,
+            201383
+          ]
+        },
+        {
+          "state": 28,
+          "nb_upsells": 1,
+          "ids": [
+            201368
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Q3",
+      "rows": [
+        {
+          "states": [
+            0,
+            21,
+            25,
+            26,
+            28,
+            1,
+            14
+          ],
+          "nb_upsells": 21,
+          "ids": [
+            201377,
+            201384,
+            201369,
+            201365,
+            201373,
+            201339,
+            201382,
+            201345,
+            201353,
+            201370,
+            201355,
+            201350,
+            201364,
+            201344,
+            201388,
+            201349,
+            201378,
+            201360,
+            201361,
+            201390,
+            201375
+          ]
+        },
+        {
+          "states": [
+            0
+          ],
+          "nb_upsells": 5,
+          "ids": [
+            201341,
+            201358,
+            201347,
+            201366,
+            201348
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            25,
+            26,
+            28,
+            1
+          ],
+          "nb_upsells": 5,
+          "ids": [
+            201352,
+            201374,
+            201346,
+            201372,
+            201363
+          ]
+        },
+        {
+          "states": [
+            0,
+            21
+          ],
+          "nb_upsells": 4,
+          "ids": [
+            201386,
+            201387,
+            201376,
+            201367
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            25,
+            26
+          ],
+          "nb_upsells": 4,
+          "ids": [
+            201371,
+            201362,
+            201338,
+            201383
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            13
+          ],
+          "nb_upsells": 3,
+          "ids": [
+            201351,
+            201357,
+            201359
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            25,
+            26,
+            13
+          ],
+          "nb_upsells": 3,
+          "ids": [
+            201340,
+            201385,
+            201389
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            25,
+            26,
+            3
+          ],
+          "nb_upsells": 2,
+          "ids": [
+            201381,
+            201343
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            3
+          ],
+          "nb_upsells": 1,
+          "ids": [
+            201342
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            25
+          ],
+          "nb_upsells": 1,
+          "ids": [
+            201379
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            25,
+            13
+          ],
+          "nb_upsells": 1,
+          "ids": [
+            201380
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            25,
+            26,
+            3,
+            2
+          ],
+          "nb_upsells": 1,
+          "ids": [
+            201356
+          ]
+        },
+        {
+          "states": [
+            0,
+            21,
+            25,
+            26,
+            28
+          ],
+          "nb_upsells": 1,
+          "ids": [
+            201368
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Q4",
+      "rows": [
+        {
+          "typeOf": 4,
+          "state": 0,
+          "nb_opportunites_ayant_etat_observe": 1166
+        },
+        {
+          "typeOf": 4,
+          "state": 1,
+          "nb_opportunites_ayant_etat_observe": 178
+        },
+        {
+          "typeOf": 4,
+          "state": 2,
+          "nb_opportunites_ayant_etat_observe": 157
+        },
+        {
+          "typeOf": 4,
+          "state": 3,
+          "nb_opportunites_ayant_etat_observe": 175
+        },
+        {
+          "typeOf": 4,
+          "state": 7,
+          "nb_opportunites_ayant_etat_observe": 19
+        },
+        {
+          "typeOf": 4,
+          "state": 9,
+          "nb_opportunites_ayant_etat_observe": 22
+        },
+        {
+          "typeOf": 4,
+          "state": 10,
+          "nb_opportunites_ayant_etat_observe": 25
+        },
+        {
+          "typeOf": 4,
+          "state": 13,
+          "nb_opportunites_ayant_etat_observe": 243
+        },
+        {
+          "typeOf": 4,
+          "state": 14,
+          "nb_opportunites_ayant_etat_observe": 161
+        },
+        {
+          "typeOf": 4,
+          "state": 19,
+          "nb_opportunites_ayant_etat_observe": 25
+        },
+        {
+          "typeOf": 4,
+          "state": 20,
+          "nb_opportunites_ayant_etat_observe": 336
+        },
+        {
+          "typeOf": 4,
+          "state": 21,
+          "nb_opportunites_ayant_etat_observe": 197
+        },
+        {
+          "typeOf": 4,
+          "state": 22,
+          "nb_opportunites_ayant_etat_observe": 897
+        },
+        {
+          "typeOf": 4,
+          "state": 23,
+          "nb_opportunites_ayant_etat_observe": 497
+        },
+        {
+          "typeOf": 4,
+          "state": 24,
+          "nb_opportunites_ayant_etat_observe": 304
+        },
+        {
+          "typeOf": 4,
+          "state": 25,
+          "nb_opportunites_ayant_etat_observe": 161
+        },
+        {
+          "typeOf": 4,
+          "state": 26,
+          "nb_opportunites_ayant_etat_observe": 142
+        },
+        {
+          "typeOf": 4,
+          "state": 27,
+          "nb_opportunites_ayant_etat_observe": 3
+        },
+        {
+          "typeOf": 4,
+          "state": 28,
+          "nb_opportunites_ayant_etat_observe": 115
+        },
+        {
+          "typeOf": 4,
+          "state": 30,
+          "nb_opportunites_ayant_etat_observe": 117
+        },
+        {
+          "typeOf": 4,
+          "state": 31,
+          "nb_opportunites_ayant_etat_observe": 127
+        },
+        {
+          "typeOf": 4,
+          "state": 32,
+          "nb_opportunites_ayant_etat_observe": 123
+        },
+        {
+          "typeOf": 4,
+          "state": 33,
+          "nb_opportunites_ayant_etat_observe": 18
+        },
+        {
+          "typeOf": 4,
+          "state": 34,
+          "nb_opportunites_ayant_etat_observe": 12
+        },
+        {
+          "typeOf": 4,
+          "state": 35,
+          "nb_opportunites_ayant_etat_observe": 11
+        },
+        {
+          "typeOf": 7,
+          "state": 0,
+          "nb_opportunites_ayant_etat_observe": 52
+        },
+        {
+          "typeOf": 7,
+          "state": 1,
+          "nb_opportunites_ayant_etat_observe": 26
+        },
+        {
+          "typeOf": 7,
+          "state": 2,
+          "nb_opportunites_ayant_etat_observe": 1
+        },
+        {
+          "typeOf": 7,
+          "state": 3,
+          "nb_opportunites_ayant_etat_observe": 4
+        },
+        {
+          "typeOf": 7,
+          "state": 13,
+          "nb_opportunites_ayant_etat_observe": 7
+        },
+        {
+          "typeOf": 7,
+          "state": 14,
+          "nb_opportunites_ayant_etat_observe": 21
+        },
+        {
+          "typeOf": 7,
+          "state": 21,
+          "nb_opportunites_ayant_etat_observe": 47
+        },
+        {
+          "typeOf": 7,
+          "state": 25,
+          "nb_opportunites_ayant_etat_observe": 39
+        },
+        {
+          "typeOf": 7,
+          "state": 26,
+          "nb_opportunites_ayant_etat_observe": 37
+        },
+        {
+          "typeOf": 7,
+          "state": 28,
+          "nb_opportunites_ayant_etat_observe": 27
+        }
+      ]
+    },
+    {
+      "query": "Q5",
+      "rows": [
+        {
+          "nb_upsells": 52,
+          "nb_societes": 51,
+          "sans_societe_id": 0,
+          "sans_contact_principal": 0,
+          "avec_signature_new_client_observee_avant_creation": 52,
+          "avec_demo_sur_contact_principal": 33,
+          "avec_deal_hubspot": 0,
+          "nb_deals_hubspot_lies": 0
+        }
+      ]
+    },
+    {
+      "query": "Q6",
+      "rows": [
+        {
+          "upsell_id": 201338,
+          "state": 26,
+          "creationDate": "2026-08-17 18:11:27.626",
+          "company_id": 10007,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201339,
+          "state": 14,
+          "creationDate": "2026-02-16 18:41:17.876",
+          "company_id": 10010,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201340,
+          "state": 13,
+          "creationDate": "2026-06-29 18:33:54.260",
+          "company_id": 10025,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201341,
+          "state": 0,
+          "creationDate": "2026-09-28 18:30:19.960",
+          "company_id": 10038,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201342,
+          "state": 3,
+          "creationDate": "2025-10-06 14:31:30.152",
+          "company_id": 10043,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201343,
+          "state": 3,
+          "creationDate": "2026-02-24 17:24:32.822",
+          "company_id": 10054,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201344,
+          "state": 14,
+          "creationDate": "2025-09-29 14:53:19.069",
+          "company_id": 10060,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201345,
+          "state": 14,
+          "creationDate": "2026-02-13 14:19:42.603",
+          "company_id": 10076,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201346,
+          "state": 1,
+          "creationDate": "2025-09-22 12:09:46.206",
+          "company_id": 10076,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201347,
+          "state": 0,
+          "creationDate": "2026-09-15 16:50:33.265",
+          "company_id": 10079,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201348,
+          "state": 0,
+          "creationDate": "2026-08-25 11:34:59.354",
+          "company_id": 10081,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201349,
+          "state": 14,
+          "creationDate": "2025-08-21 14:41:42.463",
+          "company_id": 10165,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201350,
+          "state": 14,
+          "creationDate": "2025-10-10 17:08:03.519",
+          "company_id": 10166,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201351,
+          "state": 13,
+          "creationDate": "2026-01-19 12:08:36.668",
+          "company_id": 10196,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201352,
+          "state": 1,
+          "creationDate": "2026-06-29 13:23:05.499",
+          "company_id": 10257,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201353,
+          "state": 14,
+          "creationDate": "2026-02-11 10:53:40.385",
+          "company_id": 10281,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201355,
+          "state": 14,
+          "creationDate": "2024-02-19 14:53:44.250",
+          "company_id": 10338,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201356,
+          "state": 2,
+          "creationDate": "2025-04-10 17:56:41.023",
+          "company_id": 10349,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201357,
+          "state": 13,
+          "creationDate": "2025-11-21 18:21:06.454",
+          "company_id": 10373,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201358,
+          "state": 0,
+          "creationDate": "2026-09-23 15:03:20.294",
+          "company_id": 10402,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201359,
+          "state": 13,
+          "creationDate": "2024-05-01 14:16:46.160",
+          "company_id": 10403,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201360,
+          "state": 14,
+          "creationDate": "2025-03-11 10:52:20.451",
+          "company_id": 10465,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201361,
+          "state": 14,
+          "creationDate": "2024-10-15 11:52:42.348",
+          "company_id": 10469,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201362,
+          "state": 26,
+          "creationDate": "2026-09-14 15:53:13.636",
+          "company_id": 10520,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201363,
+          "state": 1,
+          "creationDate": "2024-06-21 11:19:24.233",
+          "company_id": 10538,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201364,
+          "state": 14,
+          "creationDate": "2025-10-29 15:00:56.728",
+          "company_id": 10547,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201365,
+          "state": 14,
+          "creationDate": "2026-05-25 15:10:53.525",
+          "company_id": 10566,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201366,
+          "state": 0,
+          "creationDate": "2026-09-14 17:29:31.505",
+          "company_id": 10593,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201367,
+          "state": 21,
+          "creationDate": "2026-08-10 17:09:34.200",
+          "company_id": 10617,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201368,
+          "state": 28,
+          "creationDate": "2026-08-10 12:54:26.549",
+          "company_id": 10682,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201369,
+          "state": 14,
+          "creationDate": "2026-04-28 13:47:52.643",
+          "company_id": 10708,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201370,
+          "state": 14,
+          "creationDate": "2026-01-01 18:35:07.625",
+          "company_id": 10743,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201371,
+          "state": 26,
+          "creationDate": "2026-09-21 11:24:26.829",
+          "company_id": 10808,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201372,
+          "state": 1,
+          "creationDate": "2024-08-12 12:47:18.576",
+          "company_id": 10833,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201373,
+          "state": 14,
+          "creationDate": "2026-04-20 18:17:04.900",
+          "company_id": 10854,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201374,
+          "state": 1,
+          "creationDate": "2026-03-09 09:17:56.119",
+          "company_id": 10859,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201375,
+          "state": 14,
+          "creationDate": "2024-05-06 09:29:33.901",
+          "company_id": 10898,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201376,
+          "state": 21,
+          "creationDate": "2026-08-28 17:48:56.570",
+          "company_id": 10915,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201377,
+          "state": 14,
+          "creationDate": "2026-06-17 14:00:56.505",
+          "company_id": 10924,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201378,
+          "state": 14,
+          "creationDate": "2025-03-03 08:38:42.486",
+          "company_id": 10929,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201379,
+          "state": 25,
+          "creationDate": "2026-08-27 15:05:08.497",
+          "company_id": 10959,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201380,
+          "state": 13,
+          "creationDate": "2026-05-22 16:07:54.122",
+          "company_id": 10973,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201381,
+          "state": 3,
+          "creationDate": "2026-02-23 15:35:48.605",
+          "company_id": 10977,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201382,
+          "state": 14,
+          "creationDate": "2026-02-18 14:40:48.542",
+          "company_id": 10990,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201383,
+          "state": 26,
+          "creationDate": "2026-08-12 12:56:55.032",
+          "company_id": 11005,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201384,
+          "state": 14,
+          "creationDate": "2026-06-26 08:52:51.301",
+          "company_id": 11089,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201385,
+          "state": 13,
+          "creationDate": "2026-01-09 16:05:28.643",
+          "company_id": 11097,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201386,
+          "state": 21,
+          "creationDate": "2026-09-23 15:48:38.996",
+          "company_id": 11133,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201387,
+          "state": 21,
+          "creationDate": "2026-09-18 13:30:29.068",
+          "company_id": 11178,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201388,
+          "state": 14,
+          "creationDate": "2025-08-20 11:15:22.613",
+          "company_id": 11207,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201389,
+          "state": 13,
+          "creationDate": "2025-07-18 17:29:01.531",
+          "company_id": 11218,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        },
+        {
+          "upsell_id": 201390,
+          "state": 14,
+          "creationDate": "2024-06-10 09:03:17.843",
+          "company_id": 11226,
+          "nb_projets_lies": 0,
+          "project_ids": [],
+          "nb_lignes_abonnement_liees": 0,
+          "montant_mensuel_lignes": null
+        }
+      ]
+    }
+  ],
+  "tests": {
+    "parcours_couvrent_population": true,
+    "pas_horodatage_ex_aequo": true,
+    "pas_changement_type": true,
+    "historique_commence_a_creation": true,
+    "tous_parcours_commencent_etat_0": true,
+    "premier_passage_apres_0_est_21": true,
+    "aucun_etat_qualification_decouverte_demo": true,
+    "aucune_liaison_projet_explicite": true
+  }
+}

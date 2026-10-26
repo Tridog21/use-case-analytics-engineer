@@ -1,0 +1,15 @@
+[0m21:38:40  Running with dbt=1.11.12
+[0m21:38:40  Registered adapter: clickhouse=1.10.1
+[0m21:38:42  Found 73 models, 5 analyses, 182 data tests, 15 sources, 544 macros, 7 unit tests
+[0m21:38:42  
+[0m21:38:42  Concurrency: 1 threads (target='dev')
+[0m21:38:42  
+[0m21:38:43  1 of 1 START sql incremental model `stg_boond_validation_1792964305870925400`.`stg_boond_opportunities`  [RUN]
+[0m21:38:44  1 of 1 OK created sql incremental model `stg_boond_validation_1792964305870925400`.`stg_boond_opportunities`  [[32mOK[0m in 0.64s]
+[0m21:38:44  
+[0m21:38:44  Finished running 1 incremental model in 0 hours 0 minutes and 2.37 seconds (2.37s).
+[0m21:38:44  
+[0m21:38:44  [32mCompleted successfully[0m
+[0m21:38:44  
+[0m21:38:44  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+

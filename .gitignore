@@ -4,3 +4,11 @@ dbt/logs/
 dbt/dbt_packages/
 .DS_Store
 dbt/.user.yml
+.env.superset
+superset/exports/
+
+__pycache__/
+*.pyc
+*.pyo
+*.tmp
+dbt/state/writer.lock

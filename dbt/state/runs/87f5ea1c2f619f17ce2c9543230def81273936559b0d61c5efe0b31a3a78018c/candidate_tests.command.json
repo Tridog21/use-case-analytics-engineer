@@ -1,0 +1,15 @@
+{
+  "command": [
+    "test",
+    "--select",
+    "T07_content_dim_company",
+    "--threads",
+    "1",
+    "--exclude",
+    "tag:publication test_type:unit"
+  ],
+  "start": "2026-10-25T22:23:07.900Z",
+  "end": "2026-10-25T22:23:15.392Z",
+  "exit_code": 0,
+  "elapsed_seconds": 7.485000000000582
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "etape": "raw_intent",
+    "chat": "1.Case raw intent",
+    "id": "01a16a59-30a9-7ce1-992b-fcbcdbee954d",
+    "messages": 70,
+    "utilisateur": 16,
+    "ia": 51,
+    "questionnaires": 1,
+    "images": 0,
+    "pieces_textuelles": 1,
+    "pages": 38,
+    "sha256_source": "239a825cb4a86b58bcff786a74d607f7bf045da6198aefc1628178f417be5843"
+  },
+  {
+    "etape": "clean_intent",
+    "chat": "2.Consolider le clean intent",
+    "id": "01a16eec-c897-7590-aead-9d69c2996eed",
+    "messages": 134,
+    "utilisateur": 30,
+    "ia": 100,
+    "questionnaires": 2,
+    "images": 1,
+    "pieces_textuelles": 0,
+    "pages": 38,
+    "sha256_source": "e53a7475f0581b979bd402231e0197a0539493c78160bf07642787bd4af2bfb6"
+  },
+  {
+    "etape": "spec_technique",
+    "chat": "3.Préparer la spécification technique",
+    "id": "01a17493-20c6-7322-94e0-56947a1486c8",
+    "messages": 31,
+    "utilisateur": 6,
+    "ia": 19,
+    "questionnaires": 3,
+    "images": 0,
+    "pieces_textuelles": 0,
+    "pages": 13,
+    "sha256_source": "e04260f391c41f70883b4e92a07673f9ad330ad18621f046ee0f81c3d9e40db1"
+  },
+  {
+    "etape": "implementation",
+    "chat": "4.Implémenter la spécification v0.2",
+    "id": "01a174eb-f8be-79f0-ae99-b54095f0bd48",
+    "messages": 62,
+    "utilisateur": 8,
+    "ia": 54,
+    "questionnaires": 0,
+    "images": 0,
+    "pieces_textuelles": 0,
+    "pages": 9,
+    "sha256_source": "4782492a88b994dcfc35e0502ec6e7d4c6c2620450038b78ed40345ece430658"
+  }
+]

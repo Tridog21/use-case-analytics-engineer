@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "stg_ref_stage_probabilities",
+    "--exclude",
+    "tag:publication",
+    "--threads",
+    "1"
+  ],
+  "start": "2026-10-25T21:56:11.190Z",
+  "end": "2026-10-25T21:56:23.825Z",
+  "exit_code": 0,
+  "elapsed_seconds": 12.639999999999418
+}

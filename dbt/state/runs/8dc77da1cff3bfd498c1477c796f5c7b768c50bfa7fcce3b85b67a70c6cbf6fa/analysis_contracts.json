@@ -1,0 +1,52 @@
+{
+  "cohort_outcomes": {
+    "status": "success",
+    "nb_rows": 246,
+    "elapsed_seconds": 0.046999999998661224
+  },
+  "demo_intervals": {
+    "status": "success",
+    "nb_rows": 0,
+    "elapsed_seconds": 0.0
+  },
+  "funnel_progress": {
+    "status": "success",
+    "nb_rows": 20,
+    "elapsed_seconds": 0.11000000000058208
+  },
+  "objective_attainment": {
+    "status": "success",
+    "nb_rows": 48,
+    "elapsed_seconds": 0.0
+  },
+  "opportunity_timeline": {
+    "status": "success",
+    "nb_rows": 0,
+    "elapsed_seconds": 0.06199999999807915
+  },
+  "pipeline_snapshot": {
+    "status": "success",
+    "nb_rows": 1,
+    "elapsed_seconds": 0.06300000000192085
+  },
+  "portfolio_month": {
+    "status": "success",
+    "nb_rows": 40,
+    "elapsed_seconds": 0.06199999999807915
+  },
+  "sales_actions": {
+    "status": "success",
+    "nb_rows": 8809,
+    "elapsed_seconds": 0.125
+  },
+  "sales_events": {
+    "status": "success",
+    "nb_rows": 15,
+    "elapsed_seconds": 0.01600000000325963
+  },
+  "stage_durations": {
+    "status": "success",
+    "nb_rows": 3,
+    "elapsed_seconds": 0.07899999999790452
+  }
+}

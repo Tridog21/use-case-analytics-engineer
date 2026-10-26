@@ -1,0 +1,15 @@
+{
+  "command": [
+    "run",
+    "--select",
+    "int_crm_identity_links",
+    "--threads",
+    "1",
+    "--exclude",
+    "tag:publication"
+  ],
+  "start": "2026-10-25T22:32:04.068Z",
+  "end": "2026-10-25T22:32:14.409Z",
+  "exit_code": 0,
+  "elapsed_seconds": 10.343000000000757
+}

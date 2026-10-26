@@ -1,0 +1,4 @@
+select model_run_id,action_key,action_id,action_type_label,company_name,employee_display_name,team_name,
+request_counting_at,demo_counting_at,nb_demo_request_contribution,nb_realized_demo_contribution,realization_status,status_reason
+from {{ ref('dataset_sales_actions') }}
+where not is_source_deleted

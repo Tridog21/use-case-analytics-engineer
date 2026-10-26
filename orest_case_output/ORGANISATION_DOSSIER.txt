@@ -1,0 +1,18 @@
+Organisation vérifiée le 26 octobre 2026
+
+raw_intent/ : contexte, questions, diagnostic SQL et preuves de cadrage.
+clean_intent/ : définitions, catalogues, sources, architecture et maquettes.
+spec_technique/ : conventions, spécification, catalogue des modèles, tests prévus et prompts.
+implementation/ : rapports, décisions, résultats et preuves de publication.
+
+Ajouts : historique_discussion.pdf/.txt et recap_etape.pdf/.txt dans chacune des quatre étapes ; START_HERE.pdf/.txt et PREPARATION_RECRUTEUR.pdf/.txt à la racine.
+
+Le journal synthétique initial a été copié dans raw_intent/. L’original à la racine reste disponible : les anciens prompts et liens le citent. L’ancien how_to_read.md est archivé ; le guide actif référence les quatre étapes.
+
+dbt/, superset/, scripts/, docker/, seed/ et les fichiers Compose restent à la racine du dépôt. Les déplacer casserait les chemins des outils, montages Docker et commandes de reproduction. Les conventions issues du chat 2 restent dans spec_technique/, leur destination fonctionnelle.
+
+Les historiques sont limités aux quatre chats numérotés. Les documents déjà référencés dans ces chats sont conservés même lorsqu’ils citent une analyse préparée ailleurs. Aucun historique d’un chat non numéroté n’a été ajouté. Aucun fichier source de l’entreprise, modèle dbt ou paramètre Superset n’a été modifié par cette préparation.
+
+Les rapports techniques sont des preuves datées : leur formulation décrit leur état d’alors. Par exemple, le rapport dbt indique qu’aucune interface Superset n’a été démarrée à cette étape ; les échanges suivants et superset/README.md documentent ensuite la construction des dashboards.
+
+Livrable de communication opérationnelle : aucun document autonome avec messages, destinataires et calendrier n’a été retrouvé dans les quatre étapes. Ce point est signalé dans la restitution sans inventer un travail antérieur.

@@ -1,0 +1,827 @@
+{
+  "status": "success",
+  "model_run_id": "8dc77da1cff3bfd498c1477c796f5c7b768c50bfa7fcce3b85b67a70c6cbf6fa",
+  "publication_key": "3eb9e7b9fd1d7c77d71db25ea96c59a7073ee1716e8c469e5c3abece2205223e",
+  "published_at": "2026-10-25 22:55:30.299000",
+  "nb_models": 73,
+  "nb_recompositions": 37,
+  "quality": [
+    {
+      "measure_id": "objectives.mrr_signed",
+      "dataset_family": "sales_objectives_month",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "unconfirmed_amount_unit",
+      "coverage_status": "not_applicable",
+      "nb_expected": 144,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "objectives.pipeline_generated",
+      "dataset_family": "sales_objectives_month",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "unconfirmed_amount_unit",
+      "coverage_status": "not_applicable",
+      "nb_expected": 144,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "objectives.pipeline_weighted",
+      "dataset_family": "sales_objectives_month",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "unconfirmed_amount_unit",
+      "coverage_status": "not_applicable",
+      "nb_expected": 144,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "objectives.demos",
+      "dataset_family": "sales_objectives_month",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "missing_demo_completion_proof",
+      "coverage_status": "not_applicable",
+      "nb_expected": 144,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "funnel.opportunities",
+      "dataset_family": "funnel_progress",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 9158,
+      "nb_known": 3635,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "funnel.transition",
+      "dataset_family": "funnel_progress",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 9158,
+      "nb_known": 3430,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "funnel.global",
+      "dataset_family": "funnel_progress",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 9158,
+      "nb_known": 9077,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "revenue.active_mrr",
+      "dataset_family": "company_mrr_month",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": null,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z",
+      "nb_evaluated_company_months": 3090,
+      "nb_unassigned_line_months": 9147,
+      "availability_obstacles": [
+        "unresolved_company_history",
+        "incomplete_history"
+      ]
+    },
+    {
+      "measure_id": "revenue.new_mrr",
+      "dataset_family": "company_mrr_month",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": null,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z",
+      "nb_evaluated_company_months": 3090,
+      "nb_unassigned_line_months": 9147,
+      "availability_obstacles": [
+        "unresolved_company_history",
+        "incomplete_history"
+      ]
+    },
+    {
+      "measure_id": "revenue.churn_mrr",
+      "dataset_family": "company_mrr_month",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": null,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z",
+      "nb_evaluated_company_months": 3090,
+      "nb_unassigned_line_months": 9147,
+      "availability_obstacles": [
+        "unresolved_company_history",
+        "incomplete_history"
+      ]
+    },
+    {
+      "measure_id": "revenue.active_clients",
+      "dataset_family": "company_mrr_month",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": null,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z",
+      "nb_evaluated_company_months": 3090,
+      "nb_unassigned_line_months": 9147,
+      "availability_obstacles": [
+        "unresolved_company_history",
+        "incomplete_history"
+      ]
+    },
+    {
+      "measure_id": "durations.completed",
+      "dataset_family": "stage_visits",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 5778,
+      "nb_known": 4331,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "durations.current_age",
+      "dataset_family": "stage_visits",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 5778,
+      "nb_known": 1327,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "durations.threshold",
+      "dataset_family": "stage_visits",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 5778,
+      "nb_known": 5671,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "cohorts.outcomes",
+      "dataset_family": "cohort_outcomes",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 3993,
+      "nb_known": 3113,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "pipeline.open_count",
+      "dataset_family": "pipeline_periods",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 9728,
+      "nb_known": 9528,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "pipeline.open_amount",
+      "dataset_family": "pipeline_periods",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "unconfirmed_amount_unit",
+      "coverage_status": "not_applicable",
+      "nb_expected": 9728,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "pipeline.weighted_amount",
+      "dataset_family": "pipeline_periods",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "unconfirmed_amount_unit",
+      "coverage_status": "not_applicable",
+      "nb_expected": 9728,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "pipeline.coverage",
+      "dataset_family": "pipeline_periods",
+      "availability_status": "blocked_definition",
+      "availability_reason": "feature_not_activated",
+      "coverage_status": "not_applicable",
+      "nb_expected": 9728,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "pipeline.stagnation",
+      "dataset_family": "pipeline_periods",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 9728,
+      "nb_known": 9109,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "pipeline.in_demo",
+      "dataset_family": "pipeline_periods",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 9728,
+      "nb_known": 9697,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "events.generated_count",
+      "dataset_family": "sales_events",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 12437,
+      "nb_known": 1283,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "events.generated_amount",
+      "dataset_family": "sales_events",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "unconfirmed_amount_unit",
+      "coverage_status": "not_applicable",
+      "nb_expected": 12437,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "events.signed_count",
+      "dataset_family": "sales_events",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 12437,
+      "nb_known": 209,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "events.signed_mrr",
+      "dataset_family": "sales_events",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "unconfirmed_amount_unit",
+      "coverage_status": "not_applicable",
+      "nb_expected": 12437,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "events.cycle",
+      "dataset_family": "sales_events",
+      "availability_status": "partial",
+      "availability_reason": "incomplete_history",
+      "coverage_status": "partial",
+      "nb_expected": 12437,
+      "nb_known": 748,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "actions.requests",
+      "dataset_family": "sales_actions",
+      "availability_status": "available",
+      "availability_reason": null,
+      "coverage_status": "complete",
+      "nb_expected": 8864,
+      "nb_known": 8864,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "actions.realized_demos",
+      "dataset_family": "sales_actions",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "missing_demo_completion_proof",
+      "coverage_status": "not_applicable",
+      "nb_expected": 8864,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "demo_intervals.duration",
+      "dataset_family": "demo_intervals",
+      "availability_status": "blocked_evidence",
+      "availability_reason": "unproven_demo_intervals",
+      "coverage_status": "not_applicable",
+      "nb_expected": 0,
+      "nb_known": null,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    },
+    {
+      "measure_id": "timeline.detail",
+      "dataset_family": "opportunity_timeline",
+      "availability_status": "available",
+      "availability_reason": null,
+      "coverage_status": "complete",
+      "nb_expected": 37645,
+      "nb_known": 37645,
+      "data_coverage_end_at": "2026-09-30T22:00:00.000Z"
+    }
+  ],
+  "phase_results": [
+    [
+      "capture_tests",
+      {
+        "pass": 51
+      },
+      4.925424814224243
+    ],
+    [
+      "common",
+      {
+        "success": 13
+      },
+      9.949130296707153
+    ],
+    [
+      "business",
+      {
+        "success": 23
+      },
+      62.93058633804321
+    ],
+    [
+      "dtr",
+      {
+        "success": 10
+      },
+      21.258349895477295
+    ],
+    [
+      "unit_tests",
+      {
+        "pass": 13
+      },
+      113.69781756401062
+    ],
+    [
+      "candidate_tests",
+      {
+        "pass": 232
+      },
+      33.845404863357544
+    ],
+    [
+      "dataset_contracts",
+      {
+        "pass": 1
+      },
+      1.7833733558654785
+    ],
+    [
+      "quality_candidate",
+      {
+        "pass": 1
+      },
+      0.92620849609375
+    ],
+    [
+      "publish",
+      {
+        "success": 1
+      },
+      1.5966076850891113
+    ],
+    [
+      "published_tests",
+      {
+        "pass": 1
+      },
+      1.0313220024108887
+    ]
+  ],
+  "partitioned_completions": [],
+  "fixtures": [
+    {
+      "path": "dbt\\state\\fixtures\\1792964305870925400\\complete.json",
+      "status": "success",
+      "schema": "stg_validation_1792964305870925400",
+      "at": "2026-10-25T21:40:58.526Z",
+      "nb_assertions": 12
+    },
+    {
+      "path": "dbt\\state\\fixtures\\1792965524266112200\\complete.json",
+      "status": "success",
+      "schema": "stg_validation_1792965524266112200",
+      "at": "2026-10-25T22:02:29.903Z",
+      "nb_assertions": 17,
+      "fixture_code_hash": "e056d4233a4981c090f1b55b0181b380a29f63e6f7197fc1e51ac8413a297940"
+    },
+    {
+      "path": "dbt\\state\\fixtures\\1792966064788707200\\complete.json",
+      "status": "success",
+      "schema": "stg_validation_1792966064788707200",
+      "at": "2026-10-25T22:11:30.266Z",
+      "nb_assertions": 17,
+      "fixture_code_hash": "1c564177e9467547ef189c4e6f30c0bda216a06defc41b596d880e190f51a85b"
+    },
+    {
+      "path": "dbt\\state\\fixtures\\1792966639167740000\\complete.json",
+      "status": "success",
+      "schema": "stg_validation_1792966639167740000",
+      "at": "2026-10-25T22:21:08.584Z",
+      "nb_assertions": 17,
+      "fixture_code_hash": "74d1979b987a19cc4d1936823f38b20292c2fc00ce024b0e783f952053253e70"
+    },
+    {
+      "path": "dbt\\state\\fixtures\\1792968109882690500\\complete.json",
+      "status": "success",
+      "schema": "stg_validation_1792968109882690500",
+      "at": "2026-10-25T22:45:37.445Z",
+      "nb_assertions": 17,
+      "fixture_code_hash": "3ed51dadfc91a2c6573d4984d9748d1076009958084b23d09a60305610ee0f0c"
+    }
+  ],
+  "publication_faults": [
+    {
+      "path": "orest_case_output\\implementation\\publication_validation\\cd7dd7146eaf\\complete.json",
+      "status": "success",
+      "at": "2026-10-25T22:27:31.206Z",
+      "nb_assertions": 8,
+      "nb_atomic_read_samples": 71,
+      "fixture_relation": "dwh_common_validation_fault_cd7dd7146eaf.int_publication",
+      "source_model": "dbt/models/intermediate/common/int_publication.sql",
+      "scope": "synthetic fixture only; no source or live publication changed"
+    }
+  ],
+  "contracts": {
+    "stg_boond_opportunities": {
+      "nb_columns": 32,
+      "nb_rows": 7020,
+      "evaluation_checksum": 10711818776523043683
+    },
+    "stg_boond_actions": {
+      "nb_columns": 23,
+      "nb_rows": 8980,
+      "evaluation_checksum": 10817248693340870716
+    },
+    "stg_boond_companies": {
+      "nb_columns": 21,
+      "nb_rows": 1464,
+      "evaluation_checksum": 725886519417930745
+    },
+    "stg_boond_contacts": {
+      "nb_columns": 21,
+      "nb_rows": 2391,
+      "evaluation_checksum": 1123128234483704119
+    },
+    "stg_boond_resources": {
+      "nb_columns": 19,
+      "nb_rows": 22,
+      "evaluation_checksum": 9781834988995894124
+    },
+    "stg_boond_businessunits": {
+      "nb_columns": 15,
+      "nb_rows": 9,
+      "evaluation_checksum": 5814006450315276672
+    },
+    "stg_boond_agencies": {
+      "nb_columns": 14,
+      "nb_rows": 2,
+      "evaluation_checksum": 12823931168981666231
+    },
+    "stg_boond_poles": {
+      "nb_columns": 14,
+      "nb_rows": 6,
+      "evaluation_checksum": 17794114545292614786
+    },
+    "stg_boond_dictionaries": {
+      "nb_columns": 19,
+      "nb_rows": 6,
+      "evaluation_checksum": 5145545834317168934
+    },
+    "stg_boond_projects": {
+      "nb_columns": 20,
+      "nb_rows": 171,
+      "evaluation_checksum": 4459613818619510436
+    },
+    "stg_boond_deliveries": {
+      "nb_columns": 20,
+      "nb_rows": 326,
+      "evaluation_checksum": 7085414050318680128
+    },
+    "stg_hubspot_contacts": {
+      "nb_columns": 22,
+      "nb_rows": 2254,
+      "evaluation_checksum": 6477501025931682756
+    },
+    "stg_hubspot_deals": {
+      "nb_columns": 23,
+      "nb_rows": 1190,
+      "evaluation_checksum": 5704049994000077282
+    },
+    "stg_ref_sales_targets": {
+      "nb_columns": 11,
+      "nb_rows": 144,
+      "evaluation_checksum": 12751257026080311766
+    },
+    "stg_ref_stage_probabilities": {
+      "nb_columns": 10,
+      "nb_rows": 33,
+      "evaluation_checksum": 14381244462988825702
+    },
+    "dim_date": {
+      "nb_columns": 24,
+      "nb_rows": 2039,
+      "evaluation_checksum": 7759923166328004721
+    },
+    "dim_country": {
+      "nb_columns": 14,
+      "nb_rows": 4,
+      "evaluation_checksum": 6176109045993422314
+    },
+    "dim_company": {
+      "nb_columns": 26,
+      "nb_rows": 1546,
+      "evaluation_checksum": 10524726308981405590
+    },
+    "dim_employee": {
+      "nb_columns": 24,
+      "nb_rows": 22,
+      "evaluation_checksum": 9460515771744050830
+    },
+    "dim_team": {
+      "nb_columns": 20,
+      "nb_rows": 9,
+      "evaluation_checksum": 15138034642927885525
+    },
+    "dim_stage": {
+      "nb_columns": 27,
+      "nb_rows": 68,
+      "evaluation_checksum": 135478581383609198
+    },
+    "dim_sale_type": {
+      "nb_columns": 23,
+      "nb_rows": 9,
+      "evaluation_checksum": 11111870032771584800
+    },
+    "dim_channel": {
+      "nb_columns": 25,
+      "nb_rows": 33,
+      "evaluation_checksum": 11489318275170298978
+    },
+    "dim_action_type": {
+      "nb_columns": 24,
+      "nb_rows": 33,
+      "evaluation_checksum": 2752001121819107371
+    },
+    "dim_followup_definition": {
+      "nb_columns": 27,
+      "nb_rows": 26,
+      "evaluation_checksum": 15587454039479393029
+    },
+    "dim_metric": {
+      "nb_columns": 20,
+      "nb_rows": 4,
+      "evaluation_checksum": 13682533977232143309
+    },
+    "int_crm_identity_links": {
+      "nb_columns": 25,
+      "nb_rows": 38177,
+      "evaluation_checksum": 9166236921492359114
+    },
+    "int_team_membership_periods": {
+      "nb_columns": 25,
+      "nb_rows": 35,
+      "evaluation_checksum": 1544033745909233596
+    },
+    "int_signature_probabilities": {
+      "nb_columns": 23,
+      "nb_rows": 33,
+      "evaluation_checksum": 7909042600188316112
+    },
+    "int_opportunity_stage_visits": {
+      "nb_columns": 36,
+      "nb_rows": 5778,
+      "evaluation_checksum": 12492024046527172220
+    },
+    "int_opportunity_periods": {
+      "nb_columns": 63,
+      "nb_rows": 9728,
+      "evaluation_checksum": 3695923401726859846
+    },
+    "int_opportunity_events": {
+      "nb_columns": 58,
+      "nb_rows": 12437,
+      "evaluation_checksum": 15340046925374394378
+    },
+    "int_opportunity_followup": {
+      "nb_columns": 73,
+      "nb_rows": 20978,
+      "evaluation_checksum": 17985367506308544229
+    },
+    "int_actions_prepared": {
+      "nb_columns": 47,
+      "nb_rows": 27659,
+      "evaluation_checksum": 18064832968999541949
+    },
+    "int_demo_intervals": {
+      "nb_columns": 36,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "int_visit_responsibility": {
+      "nb_columns": 25,
+      "nb_rows": 9702,
+      "evaluation_checksum": 12252949792364402776
+    },
+    "int_subscription_periods": {
+      "nb_columns": 48,
+      "nb_rows": 362,
+      "evaluation_checksum": 9469334916929393950
+    },
+    "int_subscription_changes": {
+      "nb_columns": 29,
+      "nb_rows": 593,
+      "evaluation_checksum": 869849450067990110
+    },
+    "int_subscription_month_end": {
+      "nb_columns": 37,
+      "nb_rows": 13268,
+      "evaluation_checksum": 13109824935459731650
+    },
+    "int_client_activity_context": {
+      "nb_columns": 39,
+      "nb_rows": 3090,
+      "evaluation_checksum": 14092523854860175626
+    },
+    "int_mrr_movements": {
+      "nb_columns": 37,
+      "nb_rows": 3090,
+      "evaluation_checksum": 8099537947045995782
+    },
+    "int_sales_objectives_month": {
+      "nb_columns": 37,
+      "nb_rows": 144,
+      "evaluation_checksum": 14163268233780753140
+    },
+    "fct_opportunity_period": {
+      "nb_columns": 67,
+      "nb_rows": 9728,
+      "evaluation_checksum": 12952900210323710332
+    },
+    "fct_stage_visit": {
+      "nb_columns": 56,
+      "nb_rows": 5778,
+      "evaluation_checksum": 685178620999892323
+    },
+    "fct_opportunity_event": {
+      "nb_columns": 61,
+      "nb_rows": 12437,
+      "evaluation_checksum": 13565507324434816921
+    },
+    "fct_opportunity_followup": {
+      "nb_columns": 78,
+      "nb_rows": 20978,
+      "evaluation_checksum": 6358443433009901458
+    },
+    "fct_action": {
+      "nb_columns": 50,
+      "nb_rows": 27659,
+      "evaluation_checksum": 14418187940192894291
+    },
+    "fct_demo_interval": {
+      "nb_columns": 38,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "fct_mrr_movement": {
+      "nb_columns": 40,
+      "nb_rows": 3090,
+      "evaluation_checksum": 9709733051450162975
+    },
+    "fct_subscription_month_end": {
+      "nb_columns": 38,
+      "nb_rows": 13268,
+      "evaluation_checksum": 16410525506503438121
+    },
+    "fct_sales_objectives_month": {
+      "nb_columns": 39,
+      "nb_rows": 144,
+      "evaluation_checksum": 15703740985790851567
+    },
+    "dtr_sales_objectives_month": {
+      "nb_columns": 27,
+      "nb_rows": 144,
+      "evaluation_checksum": 16017309366061431301
+    },
+    "dataset_sales_objectives_month": {
+      "nb_columns": 27,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_funnel_progress": {
+      "nb_columns": 57,
+      "nb_rows": 9158,
+      "evaluation_checksum": 9681074938629001415
+    },
+    "dataset_funnel_progress": {
+      "nb_columns": 57,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_company_mrr_month": {
+      "nb_columns": 36,
+      "nb_rows": 3090,
+      "evaluation_checksum": 6314663144096918325
+    },
+    "dataset_company_mrr_month": {
+      "nb_columns": 36,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_stage_visits": {
+      "nb_columns": 50,
+      "nb_rows": 5778,
+      "evaluation_checksum": 10214988090710706134
+    },
+    "dataset_stage_visits": {
+      "nb_columns": 50,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_cohort_outcomes": {
+      "nb_columns": 58,
+      "nb_rows": 3993,
+      "evaluation_checksum": 17835224935840502809
+    },
+    "dataset_cohort_outcomes": {
+      "nb_columns": 58,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_opportunity_timeline": {
+      "nb_columns": 44,
+      "nb_rows": 37645,
+      "evaluation_checksum": 2180566322511263418
+    },
+    "dataset_opportunity_timeline": {
+      "nb_columns": 44,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_pipeline_periods": {
+      "nb_columns": 56,
+      "nb_rows": 9728,
+      "evaluation_checksum": 5542029121515240778
+    },
+    "dataset_pipeline_periods": {
+      "nb_columns": 56,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_sales_events": {
+      "nb_columns": 56,
+      "nb_rows": 12437,
+      "evaluation_checksum": 8846865059840700077
+    },
+    "dataset_sales_events": {
+      "nb_columns": 56,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_sales_actions": {
+      "nb_columns": 51,
+      "nb_rows": 8864,
+      "evaluation_checksum": 16240808331110642862
+    },
+    "dataset_sales_actions": {
+      "nb_columns": 51,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dtr_demo_intervals": {
+      "nb_columns": 38,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dataset_demo_intervals": {
+      "nb_columns": 38,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "int_publication": {
+      "nb_columns": 6,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    },
+    "dataset_publication_status": {
+      "nb_columns": 13,
+      "nb_rows": 0,
+      "evaluation_checksum": 0
+    }
+  }
+}
